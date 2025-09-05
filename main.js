@@ -5,14 +5,16 @@ const allowedSports = ["football", "baseball", "amfootball"];
 
 const sportIcons = {
   football: "fas fa-futbol",
-  baseball: "fas fa-baseball-ball",
   amfootball: "fas fa-football-ball",
+  baseball: "fas fa-baseball-ball",
+  
 };
 
 const sportDisplayNames = {
   football: "Football",
-  baseball: "Baseball",
   amfootball: "American Football",
+  baseball: "Baseball",
+  
 };
 
 function capitalizeSportName(sport) {
