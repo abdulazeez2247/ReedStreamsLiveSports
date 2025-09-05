@@ -1728,6 +1728,11 @@ header {
     transition: all 0.3s ease;
 }
 
+button.mobile-menu-btn i.fas.fa-bars {
+    display: inline-block !important;
+    font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 900 !important;
+}
 /* Focus states for accessibility */
 .video-player:focus {
     outline: 2px solid #4ecdc4;
