@@ -1,5 +1,5 @@
 // const BASE_URL = "http://localhost:7000/api/matches";
-const BASE_URL = "https://reedstreamsbackend1.onrender.com/api/matches";
+const BASE_URL = "https://reedstreams-backend.onrender.com";
 
 const allowedSports = ["football", "baseball", "amfootball"];
 
