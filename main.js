@@ -11,8 +11,8 @@ const sportIcons = {
 };
 
 const sportDisplayNames = {
-  football: "Football",
-  amfootball: "American Football",
+  football: "Soccer",
+  amfootball: "NFL",
   baseball: "Baseball",
   
 };
