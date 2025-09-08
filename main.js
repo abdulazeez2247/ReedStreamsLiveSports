@@ -1,20 +1,22 @@
 // const BASE_URL = "http://localhost:7000/api/matches";
 const BASE_URL = "https://reedstreams-backend.onrender.com/api/matches";
 
-const allowedSports = ["football", "baseball", "amfootball"];
+const allowedSports = ["football", "baseball", "amfootball", "ufc"];
 
 const sportIcons = {
   football: "fas fa-futbol",
   amfootball: "fas fa-football-ball",
   baseball: "fas fa-baseball-ball",
+  ufc: "fas fa-fist-raised",
   
 };
 
 const sportDisplayNames = {
   football: "Soccer",
-  amfootball: "NFL",
+  amfootball: "NFL/NCAAF",
   baseball: "Baseball",
-  
+  ufc: "UFC",
+
 };
 
 function capitalizeSportName(sport) {
