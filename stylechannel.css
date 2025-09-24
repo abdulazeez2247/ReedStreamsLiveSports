@@ -1,18 +1,19 @@
 /* ====== BASE STYLES ====== */
 :root {
-  --primary: #d4201a; /* Thunderbird */
-  --primary-dark: #822625; /* Crown of Thorns */
+  /* Color Variables */
+  --primary: #d4201a;
+  --primary-dark: #b31a15;
   --primary-light: rgba(212, 32, 26, 0.1);
-  --dark: #1c1b1c; /* Thunder */
-  --darker: #3c3c3c; /* Mine Shaft */
-  --darkest: #121212;
+  --dark: #1c1b1c;
+  --darker: #141314;
+  --darkest: #000000;
   --light: #ffffff;
-  --light-gray: #e2d7d5; /* Swiss Coffee */
-  --gray: #8c8c94; /* Manatee */
-  --gray-dark: #54545c; /* Scarpa Flow */
+  --light-gray: #e2d7d5;
+  --gray: #8c8c94;
+  --gray-dark: #54545c;
   --card-bg: #2a2a2a;
   --card-hover: #333333;
-  --card-border: #482323; /* Crater Brown */
+  --card-border: #482323;
   --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   --success: #28a745;
   --danger: #dc3545;
@@ -24,7 +25,19 @@
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --box-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.2);
   --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --content-margin: clamp(2rem, 5vw, 4rem);
+  --content-margin: clamp(1rem, 5vw, 4rem);
+  
+  /* Sports-specific colors */
+  --sport-football: #4CAF50;
+  --sport-nfl: #FF9800;
+  --sport-baseball: #2196F3;
+  --sport-cricket: #9C27B0;
+  --sport-f1: #F44336;
+  --sport-basketball: #E91E63;
+  --sport-hockey: #00BCD4;
+  --sport-tennis: #FFEB3B;
+  --sport-golf: #4CAF50;
+  --sport-boxing: #F44336;
 }
 
 * {
