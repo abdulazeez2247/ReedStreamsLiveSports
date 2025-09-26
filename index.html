@@ -29,9 +29,8 @@
         
         <div class="mobile-menu-links">
             <a href="index.html" style="text-decoration: underline;" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=amfootball"><i class="fas fa-futbol"></i> NFL</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=football"><i class="fas fa-futbol"></i> FootBall</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=baseball"><i class="fas fa-baseball-ball"></i> Baseball</a>
+            <a href="#sports-container"><i class="fas fa-futbol"></i> Football/NFL</a>
+            <a href="#sports-container"><i class="fas fa-baseball-ball"></i> Baseball</a>
             <a href="channels/Sky-Sports-Cricket.html"><i class="fas fa-table-tennis"></i> Cricekt</a>
             <a href="channels/Sky-Sports-Tennis.html"><i class="fas fa-flag-checkered"></i> Formula 1</a>
         </div>
@@ -46,7 +45,7 @@
                 <button class="mobile-menu-btn" id="openMenuBtn">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="https://reedstreams.live/" class="logo">
+                <a href="#" class="logo">
                     <i class="fas fa-play-circle"></i>
                     <span>Reedstreams</span>
                 </a>
@@ -54,9 +53,8 @@
             
             <div class="nav-links">
                 <a href="./index.html" class="active"> Home</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=football"> Football</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=amfootball"> NFL</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=baseball"> Baseball</a>
+                <a href="#sports-container"> Football/NFL</a>
+                <a href="#sports-container"> Baseball</a>
                 <a href="channels/Sky-Sports-Cricket.html">Cricket</a>
                 <a href="channels/Sky-Sports-Tennis.html"> F1</a>
             </div>
@@ -69,81 +67,43 @@
             </div>
         </nav>
     </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>HD sports streaming. Smooth & reliable.</h1>
+            <p>"Access top-tier sports action with seamless streaming, powered by trusted hosts. Stay in the game with smooth playback and premium coverage—whenever, wherever."</p>
+            <div class="hero-buttons">
+                <a href="#sports-container"><button class="btn btn-primary btn-lg">
+                    <i class="fas fa-play"></i> Popular Sports
+                </button></a>
+                <a href="./Terms.html"><button class="btn btn-secondary btn-lg">
+                    <i class="ri-article-fill"></i> Terms Of Services
+                </button></a>
+            </div>
+        </div>
+    </section>
 
     <!-- Sports Categories -->
     <section class="sports-categories">
         <div class="section-header">
-            <h2 class="section-title"><i>ALL SPORTS</i> <i style="color: #d4201a;" class="ri-gallery-view-2"></i></h2>
+            <h2 class="section-title">Popular Sports</h2>
         </div>
-        
-        <div class="lll">
-
         <div id="sports-container" class="sports-grid"></div>
         <div id="match-list" class="match-list"></div>
+        
+
+    </section>
+
         <!-- Sports Streaming Categories -->
-</div>
-
-
     <section class="sports-categories">
         <div class="sports-grid">
-            <!-- NFL Card -->
-<div class="category-card">
-    <div class="hot-badge sport-nfl">HOT</div>
-    <div class="category-icon">
-        <i class="fas fa-football-ball"></i>
-    </div>
-    <h3 class="category-name"><i>NFL</i></h3>
-    <a href="https://reedstreams.live/live-matches.html?sport=amfootball" class="btn btn-primary btn-sm">
-        <i class="fas fa-play"></i>
-        Watch Now
-    </a>
-</div>
-
-<!-- Soccer Card -->
-<div class="category-card">
-        <div class="hot-badge sport-nfl">HOT</div>
-
-    <div class="category-icon">
-        <i class="fas fa-futbol"></i>
-    </div>
-    <h3 class="category-name"><i>Soccer</i></h3>
-    <a href="https://reedstreams.live/live-matches.html?sport=football" class="btn btn-primary btn-sm">
-        <i class="fas fa-play"></i>
-        Watch Now
-    </a>
-</div>
-
-<!-- Baseball Card -->
-<div class="category-card">
-        <div class="hot-badge sport-nfl">HOT</div>
-    <div class="category-icon">
-        <i class="fas fa-baseball-ball"></i>
-    </div>
-    <h3 class="category-name"><i>Baseball</i></h3>
-    <a href="https://reedstreams.live/live-matches.html?sport=baseball" class="btn btn-primary btn-sm">
-        <i class="fas fa-play"></i>
-        Watch Now
-    </a>
-</div>
-
-<!-- MMA Card -->
-<div class="category-card">
-    <div class="category-icon">
-        <i class="fas fa-hand-fist"></i>
-    </div>
-    <h3 class="category-name"><i>MMA</i></h3>
-    <a href="https://reedstreams.live/live-matches.html?sport=ufc" class="btn btn-primary btn-sm">
-        <i class="fas fa-play"></i>
-        Watch Now
-    </a>
-</div>
-
             <!-- Cricket Card -->
             <div class="category-card">
                 <div class="category-icon">
                     <i class="fas fa-baseball-ball"></i>
                 </div>
-                <h3 class="category-name"><i>Cricket</i></h3>
+                <h3 class="category-name">Cricket</h3>
+                <p class="category-matches">International matches</p>
                 <a href="channels/Sky-Sports-Cricket.html" class="btn btn-primary btn-sm">
                     <i class="fas fa-play"></i>
                     Watch Now
@@ -155,7 +115,8 @@
                 <div class="category-icon">
                     <i class="fas fa-table-tennis"></i>
                 </div>
-                <h3 class="category-name"><i>Tennis</i></h3>
+                <h3 class="category-name">Tennis</h3>
+                <p class="category-matches">Grand Slam events</p>
                 <a href="channels/Sky-Sports-F1.html" class="btn btn-primary btn-sm">
                     <i class="fas fa-play"></i>
                     Watch Now
@@ -167,16 +128,28 @@
                 <div class="category-icon">
                     <i class="fas fa-flag-checkered"></i>
                 </div>
-                <h3 class="category-name"><i>Formula 1</i></h3>
+                <h3 class="category-name">Formula 1</h3>
+                <p class="category-matches">Races & Qualifying</p>
                 <a href="channels/Sky-Sports-Tennis.html" class="btn btn-primary btn-sm">
                     <i class="fas fa-play"></i>
                     Watch Now
                 </a>
             </div>
-    </section>
-    </section>
 
-        
+            <!-- Cricket Card -->
+            <!-- <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-baseball-ball"></i>
+                </div>
+                <h3 class="category-name">Cricket 2</h3>
+                <p class="category-matches">International matches</p>
+                <a href="channels/willow.html" class="btn btn-primary btn-sm">
+                    <i class="fas fa-play"></i>
+                    Watch Now
+                </a>
+            </div> -->
+        </div>
+    </section>
 
     <!-- About Section -->
     <section class="about-section">
@@ -210,7 +183,14 @@
                     <h3 class="point-title">Updated Schedule</h3>
                     <p class="point-text">The schedule is always being checked and updated. And most games have multiple links so you have lots of choices. Want to watch PPVs free? You got it.</p>
                 </div>
-            
+                
+                <div class="about-point">
+                    <div class="point-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="point-title">All Major Events</h3>
+                    <p class="point-text">From the golf Majors to the Grand Prix to the tennis Opens and every competition and cup imaginable. Did we forget rugby? Of course we didn't forget.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -221,9 +201,8 @@
             <div class="footer-column">
                 <h3>Reedstreams</h3>
                 <ul class="footer-links">
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=football">Football <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=amfootball">NFL <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=baseball">Baseball <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="#sports-container">Football/NFL <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="#sports-container">Baseball <i class="fas fa-chevron-right"></i></a></li>
                     <li><a href="channels/Sky-Sports-Tennis.html">F1 <i class="fas fa-chevron-right"></i></a></li>
                     <li><a href="channels/Sky-Sports-Cricket.html">Cricket <i class="fas fa-chevron-right"></i></a></li>
                     <li><a href="channels/Sky-Sports-F1.html">Tennis <i class="fas fa-chevron-right"></i></a></li>
@@ -425,21 +404,7 @@
                 clockElement.textContent = dateTime;
             }
         }
-
-
     </script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1LLX3T93LK"></script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-1LLX3T93LK');
-</script>
-
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="./main.js"></script>
 </body>
