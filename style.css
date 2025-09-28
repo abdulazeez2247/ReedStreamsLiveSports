@@ -760,7 +760,7 @@ header {
 .btn-primary {
   background: var(--primary);
   color: white;
-  min-width: 160px;
+  max-width: 150px;
   box-shadow: 0 4px 15px rgba(212, 32, 26, 0.4);
 }
 
@@ -1176,7 +1176,7 @@ header {
 
 /* ====== SPORTS CATEGORIES ====== */
 .sports-categories {
-  
+  padding: ;
   margin-top: 5vh;
   position: relative;
 }
@@ -1187,7 +1187,7 @@ header {
   gap: clamp(0.5rem, 1.5vw, 1rem);
   padding: 1rem 0;
   margin: 0 auto;
-  margin-top: -10vh;
+  margin-top: vh;
   max-width: 1200px;
 }
 
@@ -1198,8 +1198,8 @@ header {
   padding-top: 3v;
   padding-bottom: 3vh;
   overflow: hidden;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
   text-align: center;
   transition: var(--transition);
   cursor: pointer;
@@ -1235,7 +1235,7 @@ header {
 }
 
 .category-card:hover::before {
-  transform: scaleX(1);
+  transform: scaleX();
 }
 
 .category-icon {
@@ -2231,6 +2231,9 @@ footer {
     gap: 0.75rem;
   }
 
+  .di {
+    margin-top: 0.75rem;
+  }
   .channels-grid {
     grid-template-columns: 1fr;
     gap: 0.8rem;
@@ -2483,18 +2486,20 @@ input:focus {
     transform: translateX(-50%);
   }
   .sports-grid {
-  margin-top: -5vh;
+  margin-top: -2.25rem;
 }
 .sports-categories {
-  
-  margin-top: 1vh;
+  margin-top: 0.75rem;
   position: relative;
 }
 }
-
+/*
 .lll {
   opacity: 0;
-}
+  position: absolute;
+  max-width: 1px !important;
+  max-height: 1px !important;
+}*/
 /* HOT Badge Styles */
 .hot-badge {
     position: absolute;

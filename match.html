@@ -3,195 +3,763 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Match</title>
+    <title>Live Match - Reedstreams</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<!-- <style>
-    
-    /* Match Container Styles */
-    .container {
-        width: 100%;
-        max-width: 100%;
-        margin: 80px auto 20px;
-        padding: 0 15px;
-        box-sizing: border-box;
-    }
-
-    #match-title {
-        font-size: 1.4rem;
-        text-align: center;
-        margin-bottom: 15px;
-        color: var(--light);
-        position: relative;
-        padding-bottom: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    #match-title::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: var(--primary);
-    }
-
-    /* Live Indicator Badge */
-    .live-badge {
-        display: inline-flex;
-        align-items: center;
-        background: var(--primary);
-        color: white;
-        padding: 4px 10px;
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .live-badge::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--primary);
-        opacity: 0.6;
-        animation: pulse 2s infinite;
-        border-radius: 50px;
-        z-index: 0;
-    }
-
-    .live-badge span {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .live-badge i {
-        font-size: 0.6rem;
-        animation: blink 1.5s infinite;
-    }
-
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-            opacity: 0.6;
+    <style>
+        /* ====== CSS RESET & BASE STYLES ====== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        50% {
+
+        :root {
+            /* Color Variables */
+            --primary: #d4201a;
+            --primary-dark: #b31a15;
+            --primary-light: rgba(212, 32, 26, 0.1);
+            --dark: #1c1b1c;
+            --darker: #141314;
+            --darkest: #000000;
+            --light: #ffffff;
+            --light-gray: #e2d7d5;
+            --gray: #8c8c94;
+            --gray-dark: #54545c;
+            --card-bg: #2a2a2a;
+            --card-hover: #333333;
+            --card-border: #482323;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.2);
+            --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --content-margin: clamp(1rem, 5vw, 4rem);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(212, 32, 26, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(212, 32, 26, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ====== HEADER & NAVIGATION ====== */
+        header {
+            background: rgba(28, 27, 28, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(212, 32, 26, 0.2);
+            animation: slideInFromTop 0.5s ease-out;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--content-margin);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Oxanium', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
             transform: scale(1.05);
-            opacity: 0.8;
         }
-        100% {
-            transform: scale(1);
-            opacity: 0.6;
-        }
-    }
 
-    @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-
-    /* Video Player Styles */
-    .video-player {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-        background-color: #000;
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-    }
-
-    /* Match Details Container */
-    .match-details-container {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: var(--border-radius);
-        padding: 15px;
-        margin-top: 15px;
-        min-height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Desktop Styles */
-    @media (min-width: 769px) {
-        .container {
-            width: 70vw;
-            max-width: 1200px;
-            margin: 100px auto 40px;
+        .logo i {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary);
         }
-        
-        #match-title {
-            font-size: 1.8rem;
-        }
-        
-        .video-player {
-            border-radius: 16px;
-        }
-    }
 
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-        .container {
-            margin:  auto ;
-            padding: 0 10px;
+        .nav-links {
+            display: flex;
+            gap: clamp(1rem, 3vw, 2rem);
         }
-        
-        #match-title {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
+
+        .nav-links a {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--light);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: clamp(200px, 25vw, 300px);
+        }
+
+        .search-container input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem 0.8rem 3rem;
+            color: var(--light);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(212, 32, 26, 0.3);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 1.25rem;
+            color: var(--gray);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            transition: var(--transition);
+        }
+
+        .search-container input:focus + i {
+            color: var(--primary);
+        }
+
+        /* ====== MOBILE MENU ====== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: clamp(1.5rem, 4vw, 1.75rem);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 50%;
+            z-index: 1200;
+            position: relative;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: clamp(250px, 80vw, 350px);
+            height: 100vh;
+            background: var(--darkest);
+            z-index: 1100;
+            transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            padding: clamp(1.5rem, 5vw, 2rem);
+            border-right: 1px solid var(--card-border);
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+            display: flex;
             flex-direction: column;
-            gap: 8px;
+            overflow-y: auto;
         }
-        
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            flex-grow: 1;
+        }
+
+        .mobile-menu-links a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            border-left: 3px solid transparent;
+        }
+
+        .mobile-menu-links a:hover,
+        .mobile-menu-links a.active {
+            background: rgba(212, 32, 26, 0.15);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .mobile-menu-links a i {
+            width: 24px;
+            text-align: center;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1099;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ====== MAIN CONTENT WRAPPER ====== */
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 80px auto 20px;
+            padding: 0 15px;
+            gap: 20px;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* ====== EXISTING CONTAINER (UNCHANGED) ====== */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            flex: 1;
+        }
+
+        #match-title {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--light);
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #match-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        /* Live Indicator Badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .live-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0.6;
+            animation: pulse 2s infinite;
+            border-radius: 50px;
+            z-index: 0;
+        }
+
+        .live-badge span {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .live-badge i {
+            font-size: 0.6rem;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Video Player Styles */
+        .video-player {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        /* Match Details Container */
         .match-details-container {
-            padding: 12px;
-            min-height: 80px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-    }
 
-    /* Fullscreen video adjustment */
-    .video-player:-webkit-full-screen {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-    }
+        /* ====== CHAT SECTION ====== */
+        .chat-section {
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-    .video-player:-moz-full-screen {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-    }
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            border: 1px solid var(--card-border);
+            border-bottom: none;
+        }
 
-    .video-player:-ms-fullscreen {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-    }
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--light);
+        }
 
-    .video-player:fullscreen {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-    }
-</style> -->
+        .chat-toggle {
+            display: none;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 950;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
 
+        .chat-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .chat-container {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #Wchat {
+            width: 100%;
+            height: 500px;
+            border: none;
+            flex: 1;
+        }
+
+        /* ====== FOOTER ====== */
+        footer {
+            background: var(--darkest);
+            padding: clamp(2rem, 5vw, 3rem) 0 1rem;
+            border-top: 1px solid var(--card-border);
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 2rem;
+            padding: 0 var(--content-margin);
+        }
+
+        .footer-column h3 {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.3rem 0;
+            position: relative;
+        }
+
+        .footer-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 0.5rem;
+        }
+
+        .footer-links a:hover::before {
+            width: 20px;
+        }
+
+        .footer-links a i {
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover i {
+            color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--light-gray);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem var(--content-margin) 0;
+        }
+
+        .footer-bottom a {
+            color: var(--light-gray);
+            transition: var(--transition);
+        }
+
+        .footer-bottom a:hover {
+            color: var(--primary);
+        }
+
+        .datetime {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .datetime i {
+            color: var(--primary);
+        }
+
+        .disclaimer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--light-gray);
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            text-align: center;
+            line-height: 1.7;
+            padding: 1.5rem var(--content-margin) 0;
+        }
+
+        /* ====== ANIMATIONS ====== */
+        @keyframes slideInFromTop {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ====== RESPONSIVE STYLES ====== */
+        @media (max-width: 1200px) {
+            .chat-section {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-container {
+                display: none;
+            }
+
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+
+            .chat-section {
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                height: 70vh;
+                z-index: 900;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                background: var(--dark);
+                border-radius: 15px 15px 0 0;
+                box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+            }
+
+            .chat-section.active {
+                transform: translateY(0);
+            }
+
+            .chat-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .chat-header {
+                border-radius: 15px 15px 0 0;
+            }
+
+            .chat-container {
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content-wrapper {
+                margin: 70px auto 15px;
+                padding: 0 10px;
+            }
+
+            #match-title {
+                font-size: 1.2rem;
+                margin-bottom: 12px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .match-details-container {
+                padding: 12px;
+                min-height: 80px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0 clamp(0.75rem, 2.5vw, 1rem);
+            }
+
+            .logo {
+                font-size: clamp(1.25rem, 3vw, 1.5rem);
+            }
+
+            .logo i {
+                font-size: clamp(1.25rem, 3vw, 1.5rem);
+            }
+
+            #match-title {
+                font-size: 1.2rem;
+            }
+
+            .chat-section {
+                height: 60vh;
+            }
+        }
+
+        /* Fullscreen video adjustment */
+        .video-player:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .video-player:fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        /* Focus states for accessibility */
+        .video-player:focus,
+        button:focus,
+        a:focus,
+        input:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
 <body>
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
@@ -212,9 +780,10 @@
         
         <div class="mobile-menu-links">
             <a href="index.html" style="text-decoration: underline;" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="#sports-container"><i class="fas fa-futbol"></i> Football/NFL</a>
-            <a href="#sports-container"><i class="fas fa-baseball-ball"></i> Baseball</a>
-            <a href="channels/Sky-Sports-Cricket.html"><i class="fas fa-table-tennis"></i> Cricekt</a>
+            <a href="https://reedstreams.live/live-matches.html?sport=amfootball"><i class="fas fa-futbol"></i> NFL</a>
+            <a href="https://reedstreams.live/live-matches.html?sport=football"><i class="fas fa-futbol"></i> FootBall</a>
+            <a href="https://reedstreams.live/live-matches.html?sport=baseball"><i class="fas fa-baseball-ball"></i> Baseball</a>
+            <a href="channels/Sky-Sports-Cricket.html"><i class="fas fa-table-tennis"></i> Cricket</a>
             <a href="channels/Sky-Sports-Tennis.html"><i class="fas fa-flag-checkered"></i> Formula 1</a>
         </div>
     </div>
@@ -228,7 +797,7 @@
                 <button class="mobile-menu-btn" id="openMenuBtn">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="#" class="logo">
+                <a href="https://reedstreams.live/" class="logo">
                     <i class="fas fa-play-circle"></i>
                     <span>Reedstreams</span>
                 </a>
@@ -236,8 +805,9 @@
             
             <div class="nav-links">
                 <a href="./index.html" class="active"> Home</a>
-                <a href="#sports-container"> Football/NFL</a>
-                <a href="#sports-container"> Baseball</a>
+                <a href="https://reedstreams.live/live-matches.html?sport=football"> Football</a>
+                <a href="https://reedstreams.live/live-matches.html?sport=amfootball"> NFL</a>
+                <a href="https://reedstreams.live/live-matches.html?sport=baseball"> Baseball</a>
                 <a href="channels/Sky-Sports-Cricket.html">Cricket</a>
                 <a href="channels/Sky-Sports-Tennis.html"> F1</a>
             </div>
@@ -250,56 +820,36 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <h1 id="match-title">Loading Match...</h1>
-        <video id="video-player" class="video-player" controls autoplay></video>
-        <div id="match-details-container" class="match-details-container">
-            Loading match details...
-        </div>
-    </div>
-    <!-- About Section -->
-    <section class="about-section">
-        <div class="about-content">
-            <h2 class="about-title">Free Live Sports Streaming</h2>
-            <p class="about-text">
-                There are <span class="highlight">hundreds of sports</span> and millions of people play sport every day all around the world. Even more love to watch sport and here you can watch sport <span class="highlight">free online</span> on Reedstreams.
-            </p>
-            
-            <p class="about-text">
-                Let's start with football. We cover the <span class="highlight">NCAAF</span> so you get to see the next generation. And, of course we cover all the <span class="highlight">NFL</span>. Regular season? Check. Play-offs? Check. Bowls? Check. Superbowl? Check. And it's the same for <span class="highlight">MLB, NHL, NBA</span>, etc, etc. Think of a sport… we cover it. Have you ever wanted to watch a big game but you spent ages looking for a working stream? Or worse, that live sport streaming kept buffering or stopping? The search is over, you have arrived at your destination. <span class="highlight">Reliability and quality. Guaranteed.</span>
-            </p>
-            
-            <p class="about-text">
-                Soccer is played everywhere and now you can watch it anywhere. From north to south and east to west we collect the largest number of soccer streams from every league and competition. Let's do the check test again. <span class="highlight">EPL? Check. La Liga? Check. Champions League? Check.</span> Oh boy, this is going to be a very long check list because we just cover everything.
-            </p>
-            
-            <div class="about-points">
-                <div class="about-point">
-                    <div class="point-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3 class="point-title">Worldwide Coverage</h3>
-                    <p class="point-text">From ball sports to motorsports to combat sports, you can see it all on live streams. You are really going to need more time to watch everything we offer.</p>
-                </div>
-                
-                <div class="about-point">
-                    <div class="point-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <h3 class="point-title">Updated Schedule</h3>
-                    <p class="point-text">The schedule is always being checked and updated. And most games have multiple links so you have lots of choices. Want to watch PPVs free? You got it.</p>
-                </div>
-                
-                <div class="about-point">
-                    <div class="point-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <h3 class="point-title">All Major Events</h3>
-                    <p class="point-text">From the golf Majors to the Grand Prix to the tennis Opens and every competition and cup imaginable. Did we forget rugby? Of course we didn't forget.</p>
-                </div>
+  
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper">
+        <!-- Your existing container (completely unchanged) -->
+        <div class="container">
+            <h1 id="match-title">Loading Match...</h1>
+            <video id="video-player" class="video-player" controls autoplay></video>
+            <div id="match-details-container" class="match-details-container">
+                Loading match details...
             </div>
         </div>
-    </section>
+        
+        <!-- Chat Section -->
+        <div class="chat-section" id="chatSection">
+            <div class="chat-header">
+                <h3><i class="fas fa-comments"></i> Live Chat</h3>
+                <button class="chat-toggle" id="closeChatBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-container">
+                <iframe id="Wchat" src="http://reedstreamsv2.chatango.com/"></iframe>
+            </div>
+        </div>
+        
+        <!-- Chat Toggle Button (Mobile Only) -->
+        <button class="chat-toggle" id="openChatBtn">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -307,14 +857,14 @@
             <div class="footer-column">
                 <h3>Reedstreams</h3>
                 <ul class="footer-links">
-                    <li><a href="#sports-container">Football/NFL <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="#sports-container">Baseball <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="https://reedstreams.live/live-matches.html?sport=football">Football <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="https://reedstreams.live/live-matches.html?sport=amfootball">NFL <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="https://reedstreams.live/live-matches.html?sport=baseball">Baseball <i class="fas fa-chevron-right"></i></a></li>
                     <li><a href="channels/Sky-Sports-Tennis.html">F1 <i class="fas fa-chevron-right"></i></a></li>
                     <li><a href="channels/Sky-Sports-Cricket.html">Cricket <i class="fas fa-chevron-right"></i></a></li>
                     <li><a href="channels/Sky-Sports-F1.html">Tennis <i class="fas fa-chevron-right"></i></a></li>
                 </ul>
             </div>
-            
             
             <div class="footer-column">
                 <h3>Legal</h3>
@@ -342,10 +892,9 @@
             Reedstreams does not host any of the live stream videos playing on this site. All videos are hosted on external streaming sites that are freely available online. Please contact video hosting providers or media posters for takedown or any DMCA complaints.
         </div>
     </footer>
-    <script src="match-page.js"></script>
-</body>
-<script>
-    // Mobile Menu Toggle
+
+    <script>
+        // Mobile Menu Toggle
         const mobileMenu = document.getElementById('mobileMenu');
         const openMenuBtn = document.getElementById('openMenuBtn');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -369,129 +918,30 @@
             document.body.style.overflow = '';
         });
 
-        // Enhanced Search Functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            setupSearch();
-            setupTuneInButtons();
-            updateClock();
-            setInterval(updateClock, 1000);
+        // Chat Toggle Functionality
+        const chatSection = document.getElementById('chatSection');
+        const openChatBtn = document.getElementById('openChatBtn');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+
+        openChatBtn.addEventListener('click', () => {
+            chatSection.classList.add('active');
+            openChatBtn.style.display = 'none';
         });
 
-        function setupSearch() {
-            const searchInputs = document.querySelectorAll('.search-container input, .mobile-search input');
-            const categoryCards = document.querySelectorAll('.category-card');
-            const channelCards = document.querySelectorAll('.channel-card');
+        closeChatBtn.addEventListener('click', () => {
+            chatSection.classList.remove('active');
+            openChatBtn.style.display = 'flex';
+        });
 
-            // Create search results title if it doesn't exist
-            let resultsTitle = document.getElementById('search-results-title');
-            if (!resultsTitle) {
-                resultsTitle = document.createElement('h2');
-                resultsTitle.id = 'search-results-title';
-                resultsTitle.style.display = 'none';
-                document.querySelector('.sports-categories').parentNode.insertBefore(resultsTitle, document.querySelector('.sports-categories'));
+        // Close chat when clicking outside on mobile
+        overlay.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                chatSection.classList.remove('active');
+                openChatBtn.style.display = 'flex';
             }
+        });
 
-            // Add clear buttons to search inputs
-            searchInputs.forEach(input => {
-                const container = input.closest('.search-container, .mobile-search');
-                const clearBtn = document.createElement('button');
-                clearBtn.innerHTML = '<i class="fas fa-times"></i>';
-                clearBtn.className = 'clear-search';
-                clearBtn.style.display = 'none';
-                container.appendChild(clearBtn);
-
-                input.addEventListener('input', (e) => {
-                    clearBtn.style.display = e.target.value ? 'block' : 'none';
-                    filterContent(e.target.value, categoryCards, channelCards, resultsTitle);
-                });
-
-                clearBtn.addEventListener('click', () => {
-                    input.value = '';
-                    clearBtn.style.display = 'none';
-                    filterContent('', categoryCards, channelCards, resultsTitle);
-                    input.focus();
-                });
-            });
-        }
-
-        function filterContent(query, categoryCards, channelCards, resultsTitle) {
-            const normalizedQuery = query.toLowerCase().trim();
-            let resultCount = 0;
-
-            // Reset all cards and remove highlights
-            categoryCards.forEach(card => {
-                card.style.display = 'block';
-                const nameEl = card.querySelector('.category-name');
-                nameEl.innerHTML = nameEl.textContent;
-            });
-
-            channelCards.forEach(card => {
-                card.style.display = 'block';
-                const nameEl = card.querySelector('.channel-name');
-                nameEl.innerHTML = nameEl.textContent;
-            });
-
-            if (normalizedQuery.length === 0) {
-                resultsTitle.style.display = 'none';
-                return;
-            }
-
-            // Filter and highlight category cards
-            categoryCards.forEach(card => {
-                const nameEl = card.querySelector('.category-name');
-                const name = nameEl.textContent.toLowerCase();
-
-                if (name.includes(normalizedQuery)) {
-                    resultCount++;
-                    highlightText(nameEl, normalizedQuery);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Filter and highlight channel cards
-            channelCards.forEach(card => {
-                const nameEl = card.querySelector('.channel-name');
-                const name = nameEl.textContent.toLowerCase();
-
-                if (name.includes(normalizedQuery)) {
-                    resultCount++;
-                    highlightText(nameEl, normalizedQuery);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Update results title
-            if (resultCount > 0) {
-                resultsTitle.style.display = 'block';
-                resultsTitle.innerHTML = `Found ${resultCount} results for "${query}"`;
-                resultsTitle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } else {
-                resultsTitle.style.display = 'block';
-                resultsTitle.innerHTML = `No results found for "${query}"`;
-            }
-        }
-
-        function highlightText(element, searchText) {
-            const text = element.textContent;
-            const regex = new RegExp(searchText, 'gi');
-            element.innerHTML = text.replace(regex, match => `<span class="highlight-match">${match}</span>`);
-        }
-
-        function setupTuneInButtons() {
-            document.querySelectorAll('.btn-tune-in').forEach(button => {
-                button.addEventListener('click', () => {
-                    const url = button.getAttribute('data-url');
-                    if (url) {
-                        window.location.href = url;
-                    } else {
-                        console.warn('No data-url attribute found for Tune In button:', button);
-                    }
-                });
-            });
-        }
-
+        // Update clock
         function updateClock() {
             const now = new Date();
             const options = {
@@ -511,6 +961,31 @@
                 clockElement.textContent = dateTime;
             }
         }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // Hide chat toggle button on desktop
+            if (window.innerWidth > 992) {
+                openChatBtn.style.display = 'none';
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                openChatBtn.style.display = 'none';
+                chatSection.classList.remove('active');
+            } else {
+                openChatBtn.style.display = 'flex';
+            }
+        });
+    </script>
+
+    <script id="cid0020000419729012923" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 250px;height: 350px;">{"handle":"reedstreamsv2","arch":"js","styles":{"a":"d4201a","c":"000000","d":"000000","f":0,"i":0,"k":"d4201a","l":"d4201a","m":"d4201a","n":"FFFFFF","p":"10.08","q":"d4201a","cnrs":"1","fwtickm":1}}</script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</body>
 </html>
