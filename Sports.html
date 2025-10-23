@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DMCA Policy - ReedStreams</title>
+    <title>Sports - ReedStreams</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -136,21 +136,21 @@
             box-shadow: 0 6px 20px rgba(141, 185, 2, 0.4);
         }
 
-        /* DMCA Hero Section */
-        .dmca-hero {
+        /* Sports Hero Section */
+        .sports-hero {
             background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 0.9)), 
-                        url('https://getwallpapers.com/wallpaper/full/5/6/0/461507.jpg') no-repeat center center/cover;
+                        url('https://images.unsplash.com/photo-1459865264687-595d652de67e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
             padding: 12rem 2rem 6rem;
             text-align: center;
             position: relative;
         }
 
-        .dmca-hero-content {
+        .sports-hero-content {
             max-width: 800px;
             margin: 0 auto;
         }
 
-        .dmca-hero h1 {
+        .sports-hero h1 {
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
@@ -159,25 +159,26 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .dmca-hero p {
+        .sports-hero p {
             font-size: 1.2rem;
             color: var(--text-muted);
             margin-bottom: 2rem;
         }
 
-        /* DMCA Content Section */
-        .dmca-section {
+        /* Sports Grid Section with Premium Gradient */
+        .sports-section {
             padding: 5rem 2rem;
             background: 
                 linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0a0e17 100%),
                 radial-gradient(circle at 20% 80%, rgba(141, 185, 2, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
-            background-blend-mode: overlay, screen, screen;
+                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(231, 76, 60, 0.08) 0%, transparent 50%);
+            background-blend-mode: overlay, screen, screen, screen;
             position: relative;
             overflow: hidden;
         }
 
-        .dmca-section::before {
+        .sports-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -189,178 +190,150 @@
             z-index: 0;
         }
 
-        .dmca-container {
-            max-width: 1000px;
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Premium YouTube Style Sports Grid */
+        .sports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        .dmca-card {
+        .sport-card {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
-            padding: 3rem;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--box-shadow);
+            overflow: hidden;
             transition: var(--transition);
-        }
-
-        .dmca-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .last-updated {
-            text-align: center;
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .dmca-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .policy-section {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .policy-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-number {
-            background: var(--primary-color);
-            color: var(--secondary-color);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-            margin-top: 0.2rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-content {
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        .section-content p {
-            margin-bottom: 1rem;
-        }
-
-        .notice-box {
-            background: rgba(141, 185, 2, 0.1);
-            border: 1px solid rgba(141, 185, 2, 0.2);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .notice-title {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .requirements-list {
-            list-style: none;
-            margin: 1rem 0;
-        }
-
-        .requirements-list li {
-            padding: 0.5rem 0;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
-            padding-left: 1.5rem;
         }
 
-        .requirements-list li::before {
-            content: '•';
-            color: var(--primary-color);
-            font-weight: bold;
+        .sport-card::before {
+            content: '';
             position: absolute;
+            top: 0;
             left: 0;
-        }
-
-        .contact-link {
-            color: var(--primary-color);
-            font-weight: 600;
-            text-decoration: none;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(141, 185, 2, 0.1) 0%, transparent 50%);
+            opacity: 0;
             transition: var(--transition);
+            z-index: 1;
         }
 
-        .contact-link:hover {
-            text-decoration: underline;
+        .sport-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(141, 185, 2, 0.2),
+                0 0 20px rgba(141, 185, 2, 0.1);
         }
 
-        .legal-box {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid rgba(231, 76, 60, 0.3);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-top: 2rem;
+        .sport-card:hover::before {
+            opacity: 1;
         }
 
-        .legal-title {
-            color: #e74c3c;
+        .sport-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .sport-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            filter: brightness(0.9);
+        }
+
+        .sport-card:hover .sport-thumbnail img {
+            transform: scale(1.08);
+            filter: brightness(1);
+        }
+
+        .sport-info {
+            padding: 1.2rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(10, 14, 23, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .sport-name {
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .action-buttons {
+        .sport-meta {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
-        .action-btn {
-            background: rgba(141, 185, 2, 0.1);
-            border: 1px solid var(--primary-color);
+        .live-count {
             color: var(--primary-color);
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
             font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
 
-        .action-btn:hover {
+        .live-count::before {
+            content: '';
+            width: 8px;
+            height: 8px;
             background: var(--primary-color);
-            color: var(--secondary-color);
-            transform: translateY(-2px);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
         }
 
-        /* Gradient Accent */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(141, 185, 2, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 5px rgba(141, 185, 2, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(141, 185, 2, 0);
+            }
+        }
+
+        /* Premium Gradient Accent */
         .gradient-accent {
             position: absolute;
             width: 300px;
@@ -588,6 +561,18 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sports-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sports-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             .header {
                 padding: 1rem 1.5rem;
@@ -601,25 +586,17 @@
                 display: none;
             }
             
-            .dmca-hero {
+            .sports-hero {
                 padding: 10rem 1.5rem 4rem;
             }
             
-            .dmca-hero h1 {
+            .sports-hero h1 {
                 font-size: 2.5rem;
             }
             
-            .dmca-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
+            .sports-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
             }
             
             .footer-main {
@@ -639,8 +616,12 @@
         }
 
         @media (max-width: 480px) {
-            .dmca-hero h1 {
+            .sports-hero h1 {
                 font-size: 2rem;
+            }
+            
+            .sports-grid {
+                grid-template-columns: 1fr;
             }
             
             .footer-links {
@@ -668,8 +649,7 @@
                 <ul class="nav-links">
                     <li><a href="#">Live</a></li>
                     <li><a href="#">Upcoming</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#" style="color: var(--primary-color);">DMCA</a></li>
+                    <li><a href="#" style="color: var(--primary-color);">Sports</a></li>
                 </ul>
             </nav>
             
@@ -681,126 +661,126 @@
         </div>
     </header>
 
-    <!-- DMCA Hero Section -->
-    <section class="dmca-hero">
-        <div class="dmca-hero-content">
-            <h1>DMCA Policy</h1>
-            <p>Digital Millennium Copyright Act compliance and copyright infringement procedures</p>
+    <!-- Sports Hero Section -->
+    <section class="sports-hero">
+        <div class="sports-hero-content">
+            <h1>All Sports</h1>
+            <p>Choose your favorite sport and dive into live matches, upcoming games, and premium streaming experience</p>
         </div>
     </section>
 
-    <!-- DMCA Content Section -->
-    <section class="dmca-section">
+    <!-- Sports Grid Section -->
+    <section class="sports-section">
         <!-- Gradient Accents -->
         <div class="gradient-accent accent-1"></div>
         <div class="gradient-accent accent-2"></div>
         
-        <div class="dmca-container">
-            <div class="dmca-card">
-                <div class="last-updated">Last Updated: OCT 19, 2025</div>
-                
-                <div class="dmca-content">
-                    <!-- Section 1: DMCA Compliance -->
-                    <div class="policy-section">
-                        <div class="section-header">
-                            <div class="section-number">1</div>
-                            <div>
-                                <h2 class="section-title">DMCA Compliance</h2>
-                            </div>
-                        </div>
-                        <div class="section-content">
-                            <p>Reedstreams ("we," "us," or "our") respects the intellectual property rights of others and complies with the provisions of the Digital Millennium Copyright Act (DMCA). This DMCA Policy outlines our procedures for handling copyright infringement claims related to our website (the "Service").</p>
-                            <p>Reedstreams does not host, upload, or store any streaming content on our servers. Our Service acts solely as an aggregator of links to live sports streams hosted by third-party providers. All videos and streams accessible through our Service are hosted on external platforms that are freely available online. As such, we do not control the content, quality, or availability of these streams.</p>
-                        </div>
+        <div class="section-header">
+            <h2 class="section-title">Choose Your Sport</h2>
+            <p class="section-subtitle">Select from our wide range of sports and start watching live matches instantly</p>
+        </div>
+        
+        <div class="sports-grid">
+            <!-- Soccer Card -->
+            <div class="sport-card" onclick="navigateToSport('soccer')">
+                <div class="sport-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Soccer">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">Soccer</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">12 matches live</span>
                     </div>
-
-                    <!-- Section 2: Submitting a DMCA Takedown Notice -->
-                    <div class="policy-section">
-                        <div class="section-header">
-                            <div class="section-number">2</div>
-                            <div>
-                                <h2 class="section-title">Submitting a DMCA Takedown Notice</h2>
-                            </div>
-                        </div>
-                        <div class="section-content">
-                            <p>If you believe that content linked through Reedstreams infringes your copyright, we encourage you to contact the third-party hosting provider directly, as they are responsible for the content. However, if you wish to submit a DMCA takedown notice to Reedstreams to remove a link to allegedly infringing content, please provide a written notification containing the following information, as required by 17 U.S.C. § 512(c)(3):</p>
-                            
-                            <ul class="requirements-list">
-                                <li>A physical or electronic signature of the copyright owner or a person authorized to act on their behalf.</li>
-                                <li>Identification of the copyrighted work claimed to have been infringed, or, if multiple works are covered, a representative list of such works.</li>
-                                <li>Identification of the material claimed to be infringing, including the specific URL(s) of the link(s) on Reedstreams, to enable us to locate the material.</li>
-                                <li>Your contact information, including your name, address, telephone number, and email address.</li>
-                                <li>A statement that you have a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law.</li>
-                                <li>A statement, made under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf.</li>
-                            </ul>
-                            
-                            <div class="notice-box">
-                                <div class="notice-title">Send DMCA Notices To</div>
-                                <p>Please send your DMCA takedown notice to our designated agent at: <a href="mailto:Reedstreams000@gmail.com" class="contact-link">Reedstreams000@gmail.com</a></p>
-                            </div>
-                            
-                            <p>Upon receiving a valid DMCA notice, we will promptly remove or disable access to the identified link(s) and notify the third-party provider, if applicable. Please note that we may not have control over the actual content hosted by third-party platforms.</p>
-                        </div>
+                </div>
+            </div>
+            
+            <!-- Basketball Card -->
+            <div class="sport-card" onclick="navigateToSport('basketball')">
+                <div class="sport-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2090&q=80" alt="Basketball">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">Basketball</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">8 matches live</span>
                     </div>
-
-                    <!-- Section 3: Counter-Notification -->
-                    <div class="policy-section">
-                        <div class="section-header">
-                            <div class="section-number">3</div>
-                            <div>
-                                <h2 class="section-title">Counter-Notification</h2>
-                            </div>
-                        </div>
-                        <div class="section-content">
-                            <p>If you believe that a link was removed or disabled as a result of a DMCA takedown notice in error, you may submit a counter-notification in accordance with 17 U.S.C. § 512(g). Your counter-notification must include:</p>
-                            
-                            <ul class="requirements-list">
-                                <li>Your physical or electronic signature.</li>
-                                <li>Identification of the material that was removed or disabled, including the URL(s) where it appeared on Reedstreams.</li>
-                                <li>A statement, under penalty of perjury, that you have a good-faith belief that the material was removed or disabled as a result of mistake or misidentification.</li>
-                                <li>Your name, address, telephone number, and email address.</li>
-                                <li>A statement that you consent to the jurisdiction of the federal district court for the judicial district in which your address is located (or Delaware, USA if you are outside the U.S.), and that you will accept service of process from the person who submitted the original DMCA notice.</li>
-                            </ul>
-                            
-                            <div class="notice-box">
-                                <div class="notice-title">Send Counter-Notifications To</div>
-                                <p>Please send your counter-notification to: <a href="mailto:Reedstreams000@gmail.com" class="contact-link">Reedstreams000@gmail.com</a></p>
-                            </div>
-                            
-                            <p>Upon receiving a valid counter-notification, we may restore the removed link(s) within 10-14 business days, unless the original complainant notifies us of a court action seeking to restrain the restoration.</p>
-                        </div>
+                </div>
+            </div>
+            
+            <!-- American Football Card -->
+            <div class="sport-card" onclick="navigateToSport('football')">
+                <div class="sport-thumbnail">
+                    <img src="https://tse1.mm.bing.net/th/id/OIP.xi1GfZz-wPVVclzxlmnQpwHaEK?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="American Football">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">NFL</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">5 matches live</span>
                     </div>
-
-                    <!-- Section 4: Repeat Infringers -->
-                    <div class="policy-section">
-                        <div class="section-header">
-                            <div class="section-number">4</div>
-                            <div>
-                                <h2 class="section-title">Repeat Infringers</h2>
-                            </div>
-                        </div>
-                        <div class="section-content">
-                            <p>Reedstreams reserves the right to terminate access to our Service for users or third-party providers who are repeat infringers of copyright, as determined in our sole discretion.</p>
-                        </div>
+                </div>
+            </div>
+            
+            <!-- Baseball Card -->
+            <div class="sport-card" onclick="navigateToSport('baseball')">
+                <div class="sport-thumbnail">
+                    <img src="https://media.istockphoto.com/photos/used-baseball-laid-on-fresh-green-grass-picture-id164751326?k=6&m=164751326&s=612x612&w=0&h=U8VTbUe1BoRcxAes2mgnjMmYqP8-91uHfuc5G5aiMDU=" alt="Baseball">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">Baseball</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">3 matches live</span>
                     </div>
-
-                    <!-- Section 5: Limitations -->
-                    <div class="policy-section">
-                        <div class="section-header">
-                            <div class="section-number">5</div>
-                            <div>
-                                <h2 class="section-title">Limitations</h2>
-                            </div>
-                        </div>
-                        <div class="section-content">
-                            <p>Reedstreams is not responsible for the content hosted by third-party providers. We act only as a conduit for linking to external streams and cannot guarantee the legality or accuracy of such content. Any disputes regarding the content itself should be directed to the hosting provider.</p>
-                        </div>
+                </div>
+            </div>
+            
+            <!-- Hockey Card -->
+            <div class="sport-card" onclick="navigateToSport('hockey')">
+                <div class="sport-thumbnail">
+                    <img src="https://sportspodiatry.melbourne/wp-content/uploads/2021/07/hockey-msp.jpg" alt="Hockey">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">Hockey</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">7 matches live</span>
                     </div>
-
-                    <!-- Disclaimer -->
-                    <div class="legal-box">
-                        <div class="legal-title">Disclaimer</div>
-                        <p>Reedstreams does not host any streaming content. All streams are provided by external third-party services. We are not responsible for the content, quality, or legality of the streams linked on our platform. For copyright concerns, please contact the third-party hosting provider directly or submit a DMCA notice as outlined above.</p>
+                </div>
+            </div>
+            
+            <!-- MMA Card -->
+            <div class="sport-card" onclick="navigateToSport('mma')">
+                <div class="sport-thumbnail">
+                    <img src="https://th.bing.com/th/id/OIP.ceTFmGse0tMyTG55iEOPlAHaEK?o=7&cb=12rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="MMA">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">MMA</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">2 matches live</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tennis Card -->
+            <div class="sport-card" onclick="navigateToSport('tennis')">
+                <div class="sport-thumbnail">
+                    <img src="https://tse1.mm.bing.net/th/id/OIP.OVh6Zc4ePmSObly8ClT1YQHaE7?cb=12&w=626&h=417&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Tennis">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">Tennis</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">4 matches live</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cricket Card -->
+            <div class="sport-card" onclick="navigateToSport('cricket')">
+                <div class="sport-thumbnail">
+                    <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2067&q=80" alt="Cricket">
+                </div>
+                <div class="sport-info">
+                    <h3 class="sport-name">Cricket</h3>
+                    <div class="sport-meta">
+                        <span class="live-count">6 matches live</span>
                     </div>
                 </div>
             </div>
@@ -895,6 +875,13 @@
                 lastScrollTop = scrollTop;
             }
         });
+
+        // Navigation function for sport cards
+        function navigateToSport(sport) {
+            alert(`Navigating to ${sport} leagues page - This would show leagues for ${sport} in the next page`);
+            // In a real implementation, this would route to the specific sport's leagues page
+            // window.location.href = `/sports/${sport}`;
+        }
     </script>
 </body>
 </html>
