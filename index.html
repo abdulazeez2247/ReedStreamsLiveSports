@@ -3,664 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReedStreams - Your Home for Free Live Sports</title>
+    <title>Reedstreams - Free Live Sports Streaming</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #8db902;
-            --secondary-color: #0a0e17;
-            --accent-color: #1a2332;
-            --text-light: #ffffff;
-            --text-muted: #a0aec0;
-            --transition: all 0.3s ease;
-            --border-radius: 8px;
-            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --gradient: linear-gradient(135deg, rgba(13, 18, 29, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .landing-section {
-            min-height: 100vh;
-            background: url('BG.jpg') no-repeat center center/cover;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .landing-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient);
-            z-index: 1;
-        }
-
-        /* Transparent Top Bar */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 3rem;
-            position: relative;
-            z-index: 10;
-            transition: var(--transition);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo-text {
-            color: var(--text-light);
-        }
-
-        .logo-accent {
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: var(--transition);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .watch-now-btn {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(141, 185, 2, 0.3);
-        }
-
-        .watch-now-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(141, 185, 2, 0.4);
-        }
-
-        /* Hero Content */
-        .hero-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 3rem;
-            max-width: 650px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #ffffff, #e0e0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-            max-width: 500px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .primary-cta {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--box-shadow);
-        }
-
-        .primary-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(141, 185, 2, 0.4);
-        }
-
-        .secondary-cta {
-            background-color: transparent;
-            color: var(--text-light);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .secondary-cta:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Stats Section */
-        .stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* Footer Styles */
-        .footer {
-            background: linear-gradient(to bottom, #0a0e17, #070a12);
-            padding: 3rem 0 1.5rem;
-            border-top: 1px solid rgba(141, 185, 2, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-        }
-
-        .footer-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .footer-brand {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .footer-tagline {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            max-width: 400px;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .footer-heading {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-heading::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 30px;
-            height: 2px;
-            background-color: var(--primary-color);
-        }
-
-        .footer-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-link:hover {
-            color: var(--primary-color);
-            transform: translateX(5px);
-        }
-
-        .legal-notice {
-            background: rgba(141, 185, 2, 0.1);
-            border: 1px solid rgba(141, 185, 2, 0.2);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 1rem;
-            position: relative;
-        }
-
-        .legal-notice::before {
-            content: '⚠️';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--secondary-color);
-            padding: 0 10px;
-            font-size: 1.2rem;
-        }
-
-        .legal-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .legal-highlight {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .copyright {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-legal-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-legal-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .footer-legal-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .footer-legal-link:hover {
-            color: var(--primary-color);
-        }
-
-        .footer-legal-link:hover::after {
-            width: 100%;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background: var(--primary-color);
-            color: var(--secondary-color);
-            transform: translateY(-3px);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero-title {
-                font-size: 2.8rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .top-bar {
-                padding: 1rem 1.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .hero-content {
-                padding: 0 1.5rem;
-            }
-            
-            .hero-title {
-                font-size: 2.2rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-            }
-            
-            .stats {
-                flex-wrap: wrap;
-                gap: 1.5rem;
-            }
-            
-            .footer-main {
-                flex-direction: column;
-                gap: 2.5rem;
-            }
-            
-            .footer-links {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-links {
-                flex-direction: column;
-                gap: 2rem;
-            }
-            
-            .footer-legal-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fadeInUp {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section class="landing-section">
-        <!-- Transparent Top Bar -->
-        <header class="top-bar">
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
             <div class="logo">
-                <span class="logo-text">Reed</span>
-                <span class="logo-accent">Streams</span>
+                <i class="fas fa-play-circle"></i>
+                <span>Reedstreams</span>
             </div>
-            
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#">Live</a></li>
-                    <li><a href="#">Upcoming</a></li>
-                    <li><a href="#">Sports</a></li>
-                </ul>
-            </nav>
-            
-            <div class="nav-actions">
-                <button class="watch-now-btn">
-                    <i class="fas fa-play-circle"></i> Watch Now
-                </button>
-            </div>
-        </header>
+            <button class="mobile-menu-btn" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
         
-        <!-- Hero Content -->
-        <div class="hero-content">
-            <h1 class="hero-title animate-fadeInUp">Welcome to ReedStreams</h1>
-            <p class="hero-subtitle animate-fadeInUp delay-1">Your Home for Free Live Sports. Stream your favorite games, matches, and tournaments in high definition without any subscription fees.</p>
-            
-            <div class="cta-buttons animate-fadeInUp delay-2">
-                <button class="primary-cta">
-                    <i class="fas fa-broadcast-tower"></i> Start Watching
+        <div class="mobile-search search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search matches...">
+        </div>
+        
+        <div class="mobile-menu-links">
+            <a href="index.html" style="text-decoration: underline;" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="https://reedstreams.live/live-matches.html?sport=amfootball"><i class="fas fa-futbol"></i> NFL</a>
+            <a href="https://reedstreams.live/live-matches.html?sport=football"><i class="fas fa-futbol"></i> FootBall</a>
+            <a href="https://reedstreams.live/live-matches.html?sport=baseball"><i class="fas fa-baseball-ball"></i> Baseball</a>
+            <a href="channels/Sky-Sports-Cricket.html"><i class="fas fa-table-tennis"></i> Cricekt</a>
+            <a href="channels/Sky-Sports-Tennis.html"><i class="fas fa-flag-checkered"></i> Formula 1</a>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <button class="mobile-menu-btn" id="openMenuBtn">
+                    <i class="fas fa-bars"></i>
                 </button>
-                <button class="secondary-cta">
-                    <i class="fas fa-list"></i> Browse Sports
-                </button>
+                <a href="https://reedstreams.live/" class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Reedstreams</span>
+                </a>
             </div>
             
-            <div class="stats animate-fadeInUp delay-3">
-                <div class="stat-item">
-                    <span class="stat-value">23+</span>
-                    <span class="stat-label">Live Matches</span>
+            <div class="nav-links">
+                <a href="./index.html" class="active"> Home</a>
+                <a href="https://reedstreams.live/live-matches.html?sport=football"> Football</a>
+                <a href="https://reedstreams.live/live-matches.html?sport=amfootball"> NFL</a>
+                <a href="https://reedstreams.live/live-matches.html?sport=baseball"> Baseball</a>
+                <a href="channels/Sky-Sports-Cricket.html">Cricket</a>
+                <a href="channels/Sky-Sports-Tennis.html"> F1</a>
+            </div>
+            
+            <div class="user-actions">
+                <div class="search-container">
+                     <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Enter team name to search...">
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">HD</span>
-                    <span class="stat-label">Quality Streams</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sports Categories -->
+    <section class="sports-categories">
+        <div class="section-header">
+            <h2 class="section-title"><i>ALL SPORTS</i> <i style="color: #d4201a;" class="ri-gallery-view-2"></i></h2>
+        </div>
+        
+        <div id="sports-container" class="sports-grid"></div>
+        <div id="match-list" class="match-list"></div>
+        <!-- Sports Streaming Categories -->
+        <div class="di">
+    <div class="sports-categories">
+  <div class="sports-grid">
+    <div class="category-card" data-sport="cricket" onclick="window.location.href='channels/Sky-Sports-Cricket.html'">
+      <div class="category-icon"><i class="fas fa-baseball-ball"></i></div>
+      <h3 class="category-name">Cricket</h3>
+      <div class="category-matches">Live Channel HD</div>
+    </div>
+
+    <div class="category-card" data-sport="tennis" onclick="window.location.href='channels/Sky-Sports-F1.html'">
+      <div class="category-icon"><i class="fas fa-table-tennis"></i></div>
+      <h3 class="category-name">Tennis</h3>
+      <div class="category-matches">Live Channel HD</div>
+    </div>
+
+    <div class="category-card" data-sport="formula1" onclick="window.location.href='channels/Sky-Sports-Tennis.html'">
+      <div class="category-icon"><i class="fas fa-flag-checkered"></i></div>
+      <h3 class="category-name">Formula 1</h3>
+      <div class="category-matches">Live Channel HD</div>
+    </div>
+</div>
+</div>
+</div>
+</section>
+        
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="about-content">
+            <h2 class="about-title">Free Live Sports Streaming</h2>
+            <p class="about-text">
+                There are <span class="highlight">hundreds of sports</span> and millions of people play sport every day all around the world. Even more love to watch sport and here you can watch sport <span class="highlight">free online</span> on Reedstreams.
+            </p>
+            
+            <p class="about-text">
+                Let's start with football. We cover the <span class="highlight">NCAAF</span> so you get to see the next generation. And, of course we cover all the <span class="highlight">NFL</span>. Regular season? Check. Play-offs? Check. Bowls? Check. Superbowl? Check. And it's the same for <span class="highlight">MLB, NHL, NBA</span>, etc, etc. Think of a sport… we cover it. Have you ever wanted to watch a big game but you spent ages looking for a working stream? Or worse, that live sport streaming kept buffering or stopping? The search is over, you have arrived at your destination. <span class="highlight">Reliability and quality. Guaranteed.</span>
+            </p>
+            
+            <p class="about-text">
+                Soccer is played everywhere and now you can watch it anywhere. From north to south and east to west we collect the largest number of soccer streams from every league and competition. Let's do the check test again. <span class="highlight">EPL? Check. La Liga? Check. Champions League? Check.</span> Oh boy, this is going to be a very long check list because we just cover everything.
+            </p>
+            
+            <div class="about-points">
+                <div class="about-point">
+                    <div class="point-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="point-title">Worldwide Coverage</h3>
+                    <p class="point-text">From ball sports to motorsports to combat sports, you can see it all on live streams. You are really going to need more time to watch everything we offer.</p>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">24/7</span>
-                    <span class="stat-label">Available</span>
+                
+                <div class="about-point">
+                    <div class="point-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="point-title">Updated Schedule</h3>
+                    <p class="point-text">The schedule is always being checked and updated. And most games have multiple links so you have lots of choices. Want to watch PPVs free? You got it.</p>
                 </div>
+            
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <div class="footer-content">
-            <div class="footer-main">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <span class="logo-text">Reed</span>
-                        <span class="logo-accent">Streams</span>
-                    </div>
-                    <p class="footer-tagline">
-                        Your ultimate destination for free live sports streaming. Experience the thrill of the game without the subscription fees.
-                    </p>
-                </div>
-                
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h3 class="footer-heading">Navigation</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-home"></i> Home</a>
-                        <a href="#" class="footer-link"><i class="fas fa-broadcast-tower"></i> Live Now</a>
-                        <a href="#" class="footer-link"><i class="fas fa-calendar-alt"></i> Upcoming</a>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3 class="footer-heading">Sports</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-futbol"></i> Football</a>
-                        <a href="#" class="footer-link"><i class="fas fa-basketball-ball"></i> Basketball</a>
-                        <a href="#" class="footer-link"><i class="fas fa-baseball-ball"></i> Baseball</a>
-                        <a href="#" class="footer-link"><i class="fas fa-hockey-puck"></i> Hockey</a>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3 class="footer-heading">Support</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a>
-                        <a href="#" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
-                    </div>
-                </div>
+            <div class="footer-column">
+                <h3>Reedstreams</h3>
+                <ul class="footer-links">
+                    <li><a href="https://reedstreams.live/live-matches.html?sport=football">Football <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="https://reedstreams.live/live-matches.html?sport=amfootball">NFL <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="https://reedstreams.live/live-matches.html?sport=baseball">Baseball <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="channels/Sky-Sports-Tennis.html">F1 <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="channels/Sky-Sports-Cricket.html">Cricket <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="channels/Sky-Sports-F1.html">Tennis <i class="fas fa-chevron-right"></i></a></li>
+                </ul>
             </div>
             
-            <div class="legal-notice">
-                <p class="legal-text">
-                    <span class="legal-highlight">Important Notice:</span> ReedStreams does not host any of the streams displayed on this platform. All streams are sourced from third-party providers. For any takedown requests, please contact the content hosts directly.
-                </p>
-            </div>
             
-            <div class="footer-bottom">
-                <div class="copyright">
-                    © 2025 ReedStreams. All rights reserved.
-                </div>
-                
-                <div class="footer-legal-links">
-                    <a href="#" class="footer-legal-link">Privacy Policy</a>
-                    <a href="#" class="footer-legal-link">Terms of Service</a>
-                    <a href="#" class="footer-legal-link">DMCA</a>
-                </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="./Terms.html">Terms of Service <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="./PrivacyPolicy.html">Privacy Policy <i class="fas fa-chevron-right"></i></a></li>
+                    <li><a href="./DMCA.html">DMCA <i class="fas fa-chevron-right"></i></a></li>
+                </ul>
             </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div>
+                © 2025 Reedstreams. All rights reserved. | 
+                <a href="./PrivacyPolicy.html">Privacy</a> | 
+                <a href="./Terms.html">Terms</a> | 
+            </div>
+            <div class="datetime">
+                <i class="far fa-clock"></i>
+                <span id="clock">Sunday, May 25, 2025 | 03:30:52 PM PKT</span>
+            </div>
+        </div>
+        
+        <div class="disclaimer">
+            Reedstreams does not host any of the live stream videos playing on this site. All videos are hosted on external streaming sites that are freely available online. Please contact video hosting providers or media posters for takedown or any DMCA complaints.
         </div>
     </footer>
 
     <script>
-        // Add scroll effect to top bar
-        window.addEventListener('scroll', function() {
-            const topBar = document.querySelector('.top-bar');
-            if (window.scrollY > 50) {
-                topBar.style.background = 'rgba(10, 14, 23, 0.9)';
-                topBar.style.backdropFilter = 'blur(10px)';
-                topBar.style.padding = '1rem 3rem';
-            } else {
-                topBar.style.background = 'transparent';
-                topBar.style.backdropFilter = 'none';
-                topBar.style.padding = '1.5rem 3rem';
-            }
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const openMenuBtn = document.getElementById('openMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const overlay = document.getElementById('overlay');
+
+        openMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Enhanced Search Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            setupSearch();
+            setupTuneInButtons();
+            updateClock();
+            setInterval(updateClock, 1000);
+        });
+
+        function setupSearch() {
+            const searchInputs = document.querySelectorAll('.search-container input, .mobile-search input');
+            const categoryCards = document.querySelectorAll('.category-card');
+            const channelCards = document.querySelectorAll('.channel-card');
+
+            // Create search results title if it doesn't exist
+            let resultsTitle = document.getElementById('search-results-title');
+            if (!resultsTitle) {
+                resultsTitle = document.createElement('h2');
+                resultsTitle.id = 'search-results-title';
+                resultsTitle.style.display = 'none';
+                document.querySelector('.sports-categories').parentNode.insertBefore(resultsTitle, document.querySelector('.sports-categories'));
+            }
+
+            // Add clear buttons to search inputs
+            searchInputs.forEach(input => {
+                const container = input.closest('.search-container, .mobile-search');
+                const clearBtn = document.createElement('button');
+                clearBtn.innerHTML = '<i class="fas fa-times"></i>';
+                clearBtn.className = 'clear-search';
+                clearBtn.style.display = 'none';
+                container.appendChild(clearBtn);
+
+                input.addEventListener('input', (e) => {
+                    clearBtn.style.display = e.target.value ? 'block' : 'none';
+                    filterContent(e.target.value, categoryCards, channelCards, resultsTitle);
+                });
+
+                clearBtn.addEventListener('click', () => {
+                    input.value = '';
+                    clearBtn.style.display = 'none';
+                    filterContent('', categoryCards, channelCards, resultsTitle);
+                    input.focus();
+                });
+            });
+        }
+
+        function filterContent(query, categoryCards, channelCards, resultsTitle) {
+            const normalizedQuery = query.toLowerCase().trim();
+            let resultCount = 0;
+
+            // Reset all cards and remove highlights
+            categoryCards.forEach(card => {
+                card.style.display = 'block';
+                const nameEl = card.querySelector('.category-name');
+                nameEl.innerHTML = nameEl.textContent;
+            });
+
+            channelCards.forEach(card => {
+                card.style.display = 'block';
+                const nameEl = card.querySelector('.channel-name');
+                nameEl.innerHTML = nameEl.textContent;
+            });
+
+            if (normalizedQuery.length === 0) {
+                resultsTitle.style.display = 'none';
+                return;
+            }
+
+            // Filter and highlight category cards
+            categoryCards.forEach(card => {
+                const nameEl = card.querySelector('.category-name');
+                const name = nameEl.textContent.toLowerCase();
+
+                if (name.includes(normalizedQuery)) {
+                    resultCount++;
+                    highlightText(nameEl, normalizedQuery);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Filter and highlight channel cards
+            channelCards.forEach(card => {
+                const nameEl = card.querySelector('.channel-name');
+                const name = nameEl.textContent.toLowerCase();
+
+                if (name.includes(normalizedQuery)) {
+                    resultCount++;
+                    highlightText(nameEl, normalizedQuery);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update results title
+            if (resultCount > 0) {
+                resultsTitle.style.display = 'block';
+                resultsTitle.innerHTML = `Found ${resultCount} results for "${query}"`;
+                resultsTitle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                resultsTitle.style.display = 'block';
+                resultsTitle.innerHTML = `No results found for "${query}"`;
+            }
+        }
+
+        function highlightText(element, searchText) {
+            const text = element.textContent;
+            const regex = new RegExp(searchText, 'gi');
+            element.innerHTML = text.replace(regex, match => `<span class="highlight-match">${match}</span>`);
+        }
+
+        function setupTuneInButtons() {
+            document.querySelectorAll('.btn-tune-in').forEach(button => {
+                button.addEventListener('click', () => {
+                    const url = button.getAttribute('data-url');
+                    if (url) {
+                        window.location.href = url;
+                    } else {
+                        console.warn('No data-url attribute found for Tune In button:', button);
+                    }
+                });
+            });
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Karachi',
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const dateTime = now.toLocaleString('en-US', options).replace(',', '');
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                clockElement.textContent = dateTime;
+            }
+        }
+
+
     </script>
-    <script src="hidebar.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1LLX3T93LK"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1LLX3T93LK');
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="./main.js"></script>
 </body>
 </html>
