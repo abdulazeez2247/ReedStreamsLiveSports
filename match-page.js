@@ -1,130 +1,324 @@
-// const BASE_URL = "http://localhost:7000/api/matches";
-const BASE_URL = "https://reedstreams-backend.onrender.com/api/matches";
+// Streamed.pk API Base URL
+const STREAMED_API_BASE = "https://streamed.pk/api";
 
-function formatMatchTime(timestamp) {
-  if (!timestamp) return null;
-
+function formatMatchTime(dateString) {
   try {
-    if (/^\d+$/.test(timestamp)) {
-      const date = new Date(parseInt(timestamp) * 1000);
-      return date.toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-    }
-
-    const date = new Date(timestamp);
-    if (!isNaN(date)) {
-      return date.toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-    }
-
-    return null;
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    if (isNaN(date)) return null;
+    
+    return date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
   } catch {
     return null;
   }
 }
 
+// Function to get team badge image URL
+function getTeamBadgeUrl(badgeId) {
+  if (!badgeId) return null;
+  return `${STREAMED_API_BASE}/images/badge/${badgeId}.webp`;
+}
+
+// Function to render detailed match information
 function renderMatchDetails(matchData) {
   const detailsContainer = document.getElementById("match-details-container");
   const titleElement = document.getElementById("match-title");
 
   if (!detailsContainer || !titleElement) return;
 
-  titleElement.textContent = `${matchData.home_name || "Home"} vs ${matchData.away_name || "Away"}`;
-
-  const startTimeFormatted = formatMatchTime(matchData.match_time || matchData.start_time);
-
-  let detailsHtml = `
-    <div class="match-diary-header">
-      <h4>${matchData.competition_name || "N/A"}</h4>
-      <span class="match-status ${(matchData.status || "Live").toLowerCase()}">
-        ${matchData.status || "Live"}
-      </span>
-    </div>
-    <p class="team-names">
-      <strong>${matchData.home_name || "Home"}</strong>
-      <span class="vs-separator">vs</span>
-      <strong>${matchData.away_name || "Away"}</strong>
-    </p>
+  const homeTeam = matchData.teams?.home;
+  const awayTeam = matchData.teams?.away;
+  
+  titleElement.innerHTML = `
+    ${matchData.title || `${homeTeam?.name || "Home"} vs ${awayTeam?.name || "Away"}`}
+    <span class="live-badge"><span><i class="fas fa-circle"></i> LIVE</span></span>
   `;
 
-  if (startTimeFormatted) {
-    detailsHtml += `<p class="start-time">Started: ${startTimeFormatted}</p>`;
-  }
+  const startTimeFormatted = formatMatchTime(matchData.date);
+
+  let detailsHtml = `
+    <div class="match-details-wrapper">
+      <div class="match-teams-display">
+        <div class="team-detail home">
+          ${homeTeam && homeTeam.badge ? `
+            <img src="${getTeamBadgeUrl(homeTeam.badge)}" alt="${homeTeam.name}" class="team-badge-large" onerror="this.style.display='none'">
+          ` : ''}
+          <h3 class="team-name-large">${homeTeam?.name || "Home Team"}</h3>
+        </div>
+        
+        <div class="match-vs">
+          <span class="vs-text">VS</span>
+        </div>
+        
+        <div class="team-detail away">
+          ${awayTeam && awayTeam.badge ? `
+            <img src="${getTeamBadgeUrl(awayTeam.badge)}" alt="${awayTeam.name}" class="team-badge-large" onerror="this.style.display='none'">
+          ` : ''}
+          <h3 class="team-name-large">${awayTeam?.name || "Away Team"}</h3>
+        </div>
+      </div>
+      
+      <div class="match-info-section">
+        ${startTimeFormatted ? `<p class="match-date"><i class="far fa-calendar"></i> ${startTimeFormatted}</p>` : ''}
+        ${matchData.competition ? `<p class="match-competition"><i class="fas fa-trophy"></i> ${matchData.competition}</p>` : ''}
+        ${matchData.stadium ? `<p class="match-stadium"><i class="fas fa-map-marker-alt"></i> ${matchData.stadium}</p>` : ''}
+      </div>
+
+      ${matchData.lineup ? renderLineup(matchData.lineup) : ''}
+    </div>
+  `;
 
   detailsContainer.innerHTML = detailsHtml;
 }
 
-function playStream(streamUrl, videoElement) {
-  if (!streamUrl || !videoElement) return;
+// Function to render team lineups if available
+function renderLineup(lineup) {
+  if (!lineup) return '';
+  
+  let lineupHtml = '<div class="lineup-section">';
+  lineupHtml += '<h4 class="lineup-title"><i class="fas fa-users"></i> Team Lineups</h4>';
+  lineupHtml += '<div class="lineup-container">';
+  
+  if (lineup.home) {
+    lineupHtml += `
+      <div class="lineup-team">
+        <h5>Home Team</h5>
+        <ul class="player-list">
+          ${lineup.home.map(player => `
+            <li class="player-item">
+              <span class="player-number">${player.number || '-'}</span>
+              <span class="player-name">${player.name}</span>
+              ${player.position ? `<span class="player-position">${player.position}</span>` : ''}
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `;
+  }
+  
+  if (lineup.away) {
+    lineupHtml += `
+      <div class="lineup-team">
+        <h5>Away Team</h5>
+        <ul class="player-list">
+          ${lineup.away.map(player => `
+            <li class="player-item">
+              <span class="player-number">${player.number || '-'}</span>
+              <span class="player-name">${player.name}</span>
+              ${player.position ? `<span class="player-position">${player.position}</span>` : ''}
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `;
+  }
+  
+  lineupHtml += '</div></div>';
+  return lineupHtml;
+}
 
-  const encodedUrl = encodeURIComponent(streamUrl);
-  const proxiedUrl = `${BASE_URL}/proxy-stream?url=${encodedUrl}`;
+// Function to fetch stream sources and play
+async function fetchAndPlayStream(matchData, videoElement) {
+  if (!matchData.sources || matchData.sources.length === 0) {
+    showStreamError("No streams available for this match.");
+    return;
+  }
 
-  if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(proxiedUrl);
-    hls.attachMedia(videoElement);
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      videoElement.play().catch(e => console.error("Playback failed:", e));
-    });
-    hls.on(Hls.Events.ERROR, (event, data) => {
-      console.error("HLS Error:", data);
-    });
-    window.hlsInstance = hls;
-  } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-    videoElement.src = proxiedUrl;
-    videoElement.addEventListener("loadedmetadata", () => {
-      videoElement.play().catch(e => console.error("Playback failed:", e));
-    });
-  } else {
-    videoElement.style.display = "none";
-    const errorElement = document.createElement('p');
-    errorElement.className = "error-message";
-    errorElement.textContent = "Your browser does not support HLS streaming.";
-    document.querySelector(".container")?.appendChild(errorElement);
+  // Try each source until one works
+  for (const source of matchData.sources) {
+    try {
+      const streams = await fetchStream(source.source, source.id);
+      
+      // streams is an array of stream objects
+      if (streams && Array.isArray(streams) && streams.length > 0) {
+        // Try to find an HD stream first, otherwise use the first available
+        const hdStream = streams.find(s => s.hd === true);
+        const selectedStream = hdStream || streams[0];
+        
+        console.log(`Loading stream #${selectedStream.streamNo} (${selectedStream.language}) - ${selectedStream.hd ? 'HD' : 'SD'}`);
+        
+        // Create iframe for embed URL
+        createStreamIframe(selectedStream.embedUrl, videoElement);
+        
+        // Show stream selector if multiple streams available
+        if (streams.length > 1) {
+          createStreamSelector(streams, videoElement);
+        }
+        
+        return;
+      }
+    } catch (err) {
+      console.error(`Failed to load stream from source ${source.source}:`, err);
+      continue;
+    }
+  }
+  
+  showStreamError("Unable to load any available streams. Please try again later.");
+}
+
+// Function to fetch stream data from API
+async function fetchStream(source, id) {
+  try {
+    const res = await fetch(`${STREAMED_API_BASE}/stream/${source}/${id}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const streams = await res.json();
+    // API returns an array of stream objects
+    return streams;
+  } catch (err) {
+    console.error("Error fetching stream:", err);
+    return null;
   }
 }
 
-function initMatchPage() {
+// Function to create stream selector for multiple streams
+function createStreamSelector(streams, videoElement) {
+  const container = videoElement?.parentElement || document.querySelector('.video-section');
+  
+  // Check if selector already exists
+  if (container.querySelector('.stream-selector')) return;
+  
+  const selector = document.createElement('div');
+  selector.className = 'stream-selector';
+  selector.innerHTML = `
+    <div class="stream-selector-header">
+      <i class="fas fa-tv"></i> Available Streams (${streams.length})
+    </div>
+    <div class="stream-options">
+      ${streams.map(stream => `
+        <button class="stream-option" data-embed-url="${stream.embedUrl}">
+          <span class="stream-number">#${stream.streamNo}</span>
+          <span class="stream-lang">${stream.language}</span>
+          ${stream.hd ? '<span class="stream-quality hd">HD</span>' : '<span class="stream-quality sd">SD</span>'}
+        </button>
+      `).join('')}
+    </div>
+  `;
+  
+  // Insert after the video player
+  const videoPlayer = container.querySelector('.stream-iframe') || videoElement;
+  if (videoPlayer && videoPlayer.nextSibling) {
+    container.insertBefore(selector, videoPlayer.nextSibling);
+  } else {
+    container.appendChild(selector);
+  }
+  
+  // Add click handlers for stream options
+  selector.querySelectorAll('.stream-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const embedUrl = btn.getAttribute('data-embed-url');
+      createStreamIframe(embedUrl, videoElement);
+      
+      // Update active state
+      selector.querySelectorAll('.stream-option').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  
+  // Set first option as active
+  const firstOption = selector.querySelector('.stream-option');
+  if (firstOption) {
+    firstOption.classList.add('active');
+  }
+}
+
+// Function to create stream iframe
+function createStreamIframe(embedUrl, videoElement) {
+  // Hide the video element
+  if (videoElement) {
+    videoElement.style.display = 'none';
+  }
+  
+  // Create iframe container
+  const container = videoElement?.parentElement || document.querySelector('.video-section');
+  
+  // Remove any existing iframe
+  const existingIframe = container.querySelector('.stream-iframe');
+  if (existingIframe) {
+    existingIframe.remove();
+  }
+  
+  const iframe = document.createElement('iframe');
+  iframe.className = 'stream-iframe video-player';
+  iframe.src = embedUrl;
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+  iframe.setAttribute('frameborder', '0');
+  
+  container.insertBefore(iframe, videoElement || container.firstChild);
+}
+
+// Function to show stream error
+function showStreamError(message) {
+  const videoElement = document.getElementById("video-player");
+  if (videoElement) {
+    videoElement.style.display = "none";
+  }
+  
+  const container = document.querySelector(".video-section") || document.querySelector(".container");
+  const errorElement = document.createElement('div');
+  errorElement.className = "stream-error-message";
+  errorElement.innerHTML = `
+    <i class="fas fa-exclamation-triangle"></i>
+    <p>${message}</p>
+  `;
+  container?.insertBefore(errorElement, container.firstChild);
+}
+
+// Initialize match page
+async function initMatchPage() {
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    const streamUrl = decodeURIComponent(urlParams.get("streamUrl") || "");
-    const home_name = decodeURIComponent(urlParams.get("home_name") || "");
-    const away_name = decodeURIComponent(urlParams.get("away_name") || "");
-    const competition_name = decodeURIComponent(urlParams.get("competition_name") || "");
-    const match_time = urlParams.get("start_time");
+    const matchId = urlParams.get("matchId");
 
-    if (!streamUrl) {
-      const errorElement = document.getElementById("match-title") || document.createElement('h1');
-      errorElement.textContent = "Error: Stream URL missing";
-      if (!errorElement.parentNode) {
-        document.body.prepend(errorElement);
+    if (!matchId) {
+      // Try to get match data from sessionStorage
+      const storedMatch = sessionStorage.getItem('currentMatch');
+      if (storedMatch) {
+        const matchData = JSON.parse(storedMatch);
+        renderMatchDetails(matchData);
+        await fetchAndPlayStream(matchData, document.getElementById("video-player"));
+      } else {
+        showError("No match selected. Please go back and select a match.");
       }
       return;
     }
 
-    const matchData = {
-      home_name,
-      away_name,
-      competition_name,
-      match_time,
-      status: "Live"
-    };
-
-    renderMatchDetails(matchData);
-    playStream(streamUrl, document.getElementById("video-player"));
+    // Get match data from sessionStorage
+    const storedMatch = sessionStorage.getItem('currentMatch');
+    if (storedMatch) {
+      const matchData = JSON.parse(storedMatch);
+      renderMatchDetails(matchData);
+      await fetchAndPlayStream(matchData, document.getElementById("video-player"));
+    } else {
+      showError("Match data not found. Please go back and select a match again.");
+    }
   } catch (e) {
     console.error("Initialization error:", e);
+    showError("An error occurred while loading the match.");
+  }
+}
+
+function showError(message) {
+  const titleElement = document.getElementById("match-title");
+  const detailsContainer = document.getElementById("match-details-container");
+  
+  if (titleElement) {
+    titleElement.textContent = "Error";
+  }
+  
+  if (detailsContainer) {
+    detailsContainer.innerHTML = `
+      <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>${message}</p>
+      </div>
+    `;
   }
 }
 

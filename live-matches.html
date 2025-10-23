@@ -133,6 +133,72 @@
   box-shadow: 0 5px 15px rgba(212, 32, 26, 0.3);
 }
 
+/* Team Display Styles */
+.teams-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--border-radius-sm);
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.team-badge {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 5px;
+}
+
+.team-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--light);
+  text-align: center;
+}
+
+.vs-separator {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
+}
+
+.team-placeholder {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  color: var(--gray);
+}
+
+.loading-message, .error-message, .no-matches {
+  text-align: center;
+  padding: 2rem;
+  color: var(--light-gray);
+  font-size: 1.1rem;
+}
+
+.error-message {
+  color: var(--primary);
+}
+
 @media (max-width: 768px) {
   .matches-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -141,6 +207,19 @@
   
   .match-card {
     padding: 1.25rem;
+  }
+
+  .teams-container {
+    gap: 0.5rem;
+  }
+
+  .team-badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .team-name {
+    font-size: 0.8rem;
   }
 }
 
@@ -156,6 +235,15 @@
   
   .match-header h4 {
     padding-right: 0;
+  }
+
+  .teams-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .vs-separator {
+    transform: rotate(90deg);
   }
 }
 </style>

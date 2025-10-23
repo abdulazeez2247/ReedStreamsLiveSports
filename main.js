@@ -1,96 +1,104 @@
-const BASE_URL = "https://reedstreams-backend.onrender.com/api/matches";
-const allowedSports = ["football", "baseball", "amfootball", "MMA"];
+// Streamed.pk API Base URL
+const STREAMED_API_BASE = "https://streamed.pk/api";
 
+// Sport icon mapping
 const sportIcons = {
   football: "fas fa-futbol",
-  amfootball: "fas fa-football-ball",
+  soccer: "fas fa-futbol",
+  basketball: "fas fa-basketball-ball",
   baseball: "fas fa-baseball-ball",
-  MMA: "fas fa-hand-fist",
+  hockey: "fas fa-hockey-puck",
+  tennis: "fas fa-table-tennis",
+  mma: "fas fa-hand-fist",
+  boxing: "fas fa-hand-fist",
+  cricket: "fas fa-cricket",
+  rugby: "fas fa-football-ball",
+  motorsport: "fas fa-flag-checkered",
+  racing: "fas fa-flag-checkered",
+  default: "fas fa-trophy"
 };
 
-const sportDisplayNames = {
-  football: "Soccer",
-  amfootball: "NFL",
-  baseball: "Baseball",
-  MMA: "MMA",
-};
-
-function capitalizeSportName(sport) {
-  if (!sport || typeof sport !== "string") return "Unknown Sport";
-  return sportDisplayNames[sport] || sport.charAt(0).toUpperCase() + sport.slice(1);
+// Function to get appropriate icon for a sport
+function getSportIcon(sportName) {
+  if (!sportName) return sportIcons.default;
+  const normalized = sportName.toLowerCase();
+  return sportIcons[normalized] || sportIcons.default;
 }
 
-// ======== RENDER EMPTY CARDS =========
-function renderEmptyCards() {
+// Function to capitalize sport name
+function capitalizeSportName(sport) {
+  if (!sport || typeof sport !== "string") return "Unknown Sport";
+  return sport.charAt(0).toUpperCase() + sport.slice(1);
+}
+
+// ======== FETCH SPORTS FROM STREAMED.PK API =========
+async function fetchSports() {
+  try {
+    const res = await fetch(`${STREAMED_API_BASE}/sports`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const sports = await res.json();
+    return Array.isArray(sports) ? sports : [];
+  } catch (err) {
+    console.error("Error fetching sports:", err);
+    return [];
+  }
+}
+
+// ======== RENDER SPORT CARDS =========
+async function renderSportCards() {
   const container = document.querySelector("#sports-container");
+  if (!container) return;
+  
+  container.innerHTML = '<div class="loading-message">Loading sports...</div>';
+
+  const sports = await fetchSports();
+
+  if (sports.length === 0) {
+    container.innerHTML = '<p class="error-message">Unable to load sports. Please try again later.</p>';
+    return;
+  }
+
   container.innerHTML = "";
 
-  allowedSports.forEach((sport) => {
-    const iconClass = sportIcons[sport] || "fas fa-trophy";
+  // Fetch match counts for each sport in parallel
+  const matchCountPromises = sports.map(sport => fetchMatchCountForSport(sport.id));
+  const matchCounts = await Promise.all(matchCountPromises);
+
+  sports.forEach((sport, index) => {
+    const iconClass = getSportIcon(sport.name);
+    const matchCount = matchCounts[index];
+    
     const card = document.createElement("div");
     card.className = "category-card";
-    card.dataset.sport = sport; // for easy updating later
+    card.dataset.sportId = sport.id;
+    card.dataset.sportName = sport.name;
 
     card.innerHTML = `
       <div class="category-icon"><i class="${iconClass}"></i></div>
-      <h3 class="category-name">${capitalizeSportName(sport)}</h3>
-      <div class="category-matches">Loading...</div>
+      <h3 class="category-name">${capitalizeSportName(sport.name)}</h3>
+      <div class="category-matches">${matchCount} Live ${matchCount === 1 ? 'Match' : 'Matches'}</div>
     `;
 
     card.addEventListener("click", () => {
-      window.location.href = `live-matches.html?sport=${sport}`;
+      window.location.href = `live-matches.html?sportId=${sport.id}&sportName=${encodeURIComponent(sport.name)}`;
     });
 
     container.appendChild(card);
   });
 }
 
-// ======== UPDATE COUNTS AFTER FETCH =========
-async function updateMatchCounts() {
-  const container = document.querySelector("#sports-container");
-
+// ======== FETCH MATCH COUNT FOR A SPORT =========
+async function fetchMatchCountForSport(sportId) {
   try {
-    const res = await fetch(`${BASE_URL}/streams`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const response = await res.json();
-
-    const data = Array.isArray(response.data?.streams)
-      ? response.data.streams
-      : [];
-
-    // Group LIVE matches by sport
-    const grouped = {};
-    data.forEach((match) => {
-      const sport = match?.sport_name?.toLowerCase();
-      if (
-        sport &&
-        allowedSports.includes(sport) &&
-        match.match_status?.toUpperCase() === "LIVE"
-      ) {
-        grouped[sport] = (grouped[sport] || []).concat(match);
-      }
-    });
-
-    // Update counts in existing cards
-    allowedSports.forEach((sport) => {
-      const count = grouped[sport]?.length || 0;
-      const card = container.querySelector(`[data-sport="${sport}"]`);
-      if (card) {
-        card.querySelector(".category-matches").textContent =
-          `${count} Live Matches`;
-      }
-    });
+    const res = await fetch(`${STREAMED_API_BASE}/matches/${sportId}`);
+    if (!res.ok) return 0;
+    const matches = await res.json();
+    return Array.isArray(matches) ? matches.length : 0;
   } catch (err) {
-    console.error("Error loading sports:", err);
-    // Optional: show an error on each card
-    allowedSports.forEach((sport) => {
-      const card = container.querySelector(`[data-sport="${sport}"]`);
-      if (card) {
-        card.querySelector(".category-matches").textContent =
-          "Failed to load";
-      }
-    });
+    console.error(`Error fetching match count for sport ${sportId}:`, err);
+    return 0;
   }
 }
-renderEmptyCards();
-updateMatchCounts();
+
+// Initialize on page load
+renderSportCards();

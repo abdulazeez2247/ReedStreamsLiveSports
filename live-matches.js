@@ -1,64 +1,77 @@
-// const BASE_URL = "http://localhost:7000/api/matches";
-const BASE_URL = "https://reedstreams-backend.onrender.com/api/matches";
+// Streamed.pk API Base URL
+const STREAMED_API_BASE = "https://streamed.pk/api";
 
 function getQueryParam(param) {
   return new URLSearchParams(window.location.search).get(param);
 }
 
-function formatMatchTime(match) {
+function formatMatchTime(dateString) {
   try {
-    if (match.raw_match_time) {
-      const date = new Date(match.raw_match_time * 1000);
-      return date.toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true
-      });
-    }
-    if (match.start_time) {
-      const date = new Date(match.start_time);
-      if (!isNaN(date)) {
-        return date.toLocaleString("en-US", {
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true
-        });
-      }
-    }
-    return "N/A";
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    if (isNaN(date)) return "N/A";
+    
+    return date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    });
   } catch {
     return "N/A";
   }
 }
 
-async function loadLiveMatches() {
-  const sport = getQueryParam("sport");
-  const matchContainer = document.querySelector("#match-list");
-  matchContainer.innerHTML = "Loading matches...";
+// Function to get team badge image URL
+function getTeamBadgeUrl(badgeId) {
+  if (!badgeId) return null;
+  return `${STREAMED_API_BASE}/images/badge/${badgeId}.webp`;
+}
 
-  if (!sport) {
-    matchContainer.innerHTML = `<p>No sport selected. Please go back and choose a sport.</p>`;
+// Function to create team badge HTML
+function createTeamBadgeHTML(team, side) {
+  if (!team) return `<div class="team-placeholder ${side}">?</div>`;
+  
+  const badgeUrl = getTeamBadgeUrl(team.badge);
+  
+  return `
+    <div class="team-info ${side}">
+      ${badgeUrl ? `<img src="${badgeUrl}" alt="${team.name || 'Team'}" class="team-badge" onerror="this.style.display='none'">` : ''}
+      <span class="team-name">${team.name || 'Unknown'}</span>
+    </div>
+  `;
+}
+
+async function loadLiveMatches() {
+  const sportId = getQueryParam("sportId");
+  const sportName = getQueryParam("sportName") || "Sport";
+  const matchContainer = document.querySelector("#match-list");
+  
+  matchContainer.innerHTML = '<div class="loading-message">Loading matches...</div>';
+
+  if (!sportId) {
+    matchContainer.innerHTML = `<p class="error-message">No sport selected. Please go back and choose a sport.</p>`;
     return;
   }
 
   try {
-    const res = await fetch(`${BASE_URL}/streams`);
-    const response = await res.json();
-    const data = Array.isArray(response.data?.streams) ? response.data.streams : [];
+    const res = await fetch(`${STREAMED_API_BASE}/matches/${sportId}`);
+    
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    
+    const matches = await res.json();
 
-    const matches = data.filter(
-      (m) => m.sport_name?.toLowerCase() === sport.toLowerCase() && m.match_status === "LIVE"
-    );
+    // Update page title
+    const pageTitle = document.querySelector("#page-title");
+    if (pageTitle) {
+      pageTitle.textContent = `${sportName.charAt(0).toUpperCase() + sportName.slice(1)} - Live Matches`;
+    }
 
-    document.querySelector("#page-title").textContent =
-      `${sport[0].toUpperCase() + sport.slice(1)} - Live Matches`;
-
-    if (matches.length === 0) {
-      matchContainer.innerHTML = `<p>No live matches currently for ${sport}.</p>`;
+    if (!Array.isArray(matches) || matches.length === 0) {
+      matchContainer.innerHTML = `<p class="no-matches">No live matches currently available for ${sportName}.</p>`;
       return;
     }
 
@@ -68,45 +81,47 @@ async function loadLiveMatches() {
     matchContainer.appendChild(matchesGrid);
 
     matches.forEach((match) => {
-      const startTime = formatMatchTime(match);
+      const startTime = formatMatchTime(match.date);
+      const homeTeam = match.teams?.home;
+      const awayTeam = match.teams?.away;
 
       const matchCard = document.createElement("div");
       matchCard.className = "match-card";
       matchCard.innerHTML = `
         <div class="match-header">
-          <h4>${match.competition_name || "N/A"}</h4>
-          <span class="live-status">${match.match_status}</span>
+          <h4>${match.title || "Match"}</h4>
+          <span class="live-status">LIVE</span>
         </div>
-        <p>${match.home_name || "Home"} vs ${match.away_name || "Away"}</p>
-        <p class="start-time">Started: ${startTime}</p>
-        <button class="watch-link"
-          data-stream-url="${encodeURIComponent(match.playurl2 || match.playurl1 || "")}"
-          data-home-name="${match.home_name || ""}"
-          data-away-name="${match.away_name || ""}"
-          data-competition-name="${match.competition_name || ""}"
-          data-start-time="${match.raw_match_time || match.start_time || ""}"
-        >Watch Now</button>
+        <div class="teams-container">
+          ${createTeamBadgeHTML(homeTeam, 'home')}
+          <span class="vs-separator">VS</span>
+          ${createTeamBadgeHTML(awayTeam, 'away')}
+        </div>
+        <p class="start-time">${startTime}</p>
+        <button class="watch-link" data-match-id="${match.id}" data-match-data='${JSON.stringify(match)}'>
+          <i class="fas fa-play-circle"></i> Watch Now
+        </button>
       `;
       matchesGrid.appendChild(matchCard);
     });
 
-    matchesGrid.addEventListener("click", (e) => {
+    // Add click handler for watch buttons
+    matchesGrid.addEventListener("click", async (e) => {
       const btn = e.target.closest(".watch-link");
       if (!btn) return;
 
-      const params = new URLSearchParams({
-        streamUrl: btn.getAttribute("data-stream-url"),
-        home_name: btn.getAttribute("data-home-name"),
-        away_name: btn.getAttribute("data-away-name"),
-        competition_name: btn.getAttribute("data-competition-name"),
-        start_time: btn.getAttribute("data-start-time")
-      });
-
-      window.location.href = `match.html?${params.toString()}`;
+      const matchData = JSON.parse(btn.getAttribute("data-match-data"));
+      
+      // Store match data in sessionStorage for the match page
+      sessionStorage.setItem('currentMatch', JSON.stringify(matchData));
+      
+      // Navigate to match page with match ID
+      window.location.href = `match.html?matchId=${matchData.id}`;
     });
+
   } catch (err) {
     console.error("Error fetching matches:", err);
-    matchContainer.innerHTML = "Failed to load matches.";
+    matchContainer.innerHTML = '<p class="error-message">Failed to load matches. Please try again later.</p>';
   }
 }
 
