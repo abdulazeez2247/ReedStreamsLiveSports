@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReedStreams - Your Home for Free Live Sports</title>
+    <title>Contact Us - ReedStreams</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -13,7 +13,7 @@
             --text-light: #ffffff;
             --text-muted: #a0aec0;
             --transition: all 0.3s ease;
-            --border-radius: 8px;
+            --border-radius: 12px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             --gradient: linear-gradient(135deg, rgba(13, 18, 29, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
         }
@@ -29,40 +29,36 @@
             background-color: var(--secondary-color);
             color: var(--text-light);
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            line-height: 1.6;
         }
 
-        .landing-section {
-            min-height: 100vh;
-            background: url('BG.jpg') no-repeat center center/cover;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .landing-section::before {
-            content: '';
-            position: absolute;
+        /* Transparent Header */
+        .header {
+            background: transparent;
+            padding: 1.5rem 3rem;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient);
-            z-index: 1;
+            right: 0;
+            z-index: 100;
+            transition: var(--transition);
         }
 
-        /* Transparent Top Bar */
-        .top-bar {
+        .header.scrolled {
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 3rem;
+            border-bottom: 1px solid rgba(141, 185, 2, 0.2);
+        }
+
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 3rem;
-            position: relative;
-            z-index: 10;
-            transition: var(--transition);
         }
 
         .logo {
@@ -140,103 +136,199 @@
             box-shadow: 0 6px 20px rgba(141, 185, 2, 0.4);
         }
 
-        /* Hero Content */
-        .hero-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 3rem;
-            max-width: 650px;
+        /* Contact Hero Section */
+        .contact-hero {
+            background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 0.9)), 
+                        url('https://getwallpapers.com/wallpaper/full/f/8/7/462009.jpg') no-repeat center center/cover;
+            padding: 12rem 2rem 6rem;
+            text-align: center;
             position: relative;
-            z-index: 2;
         }
 
-        .hero-title {
+        .contact-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-hero h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1.1;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #ffffff, #e0e0e0);
+            background: linear-gradient(to right, #ffffff, var(--primary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero-subtitle {
-            font-size: 1.3rem;
+        .contact-hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Contact Content Section */
+        .contact-section {
+            padding: 5rem 2rem;
+            background: 
+                linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0a0e17 100%),
+                radial-gradient(circle at 20% 80%, rgba(141, 185, 2, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
+            background-blend-mode: overlay, screen, screen;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 0%, rgba(141, 185, 2, 0.03) 50%, transparent 100%);
+            z-index: 0;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .contact-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .contact-description {
+            font-size: 1.1rem;
             color: var(--text-muted);
             margin-bottom: 2.5rem;
-            line-height: 1.6;
-            max-width: 500px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .primary-cta {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            padding: 1rem 2rem;
+        .email-container {
+            background: rgba(141, 185, 2, 0.1);
+            border: 2px solid rgba(141, 185, 2, 0.3);
             border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
+            padding: 2rem;
+            margin: 2rem 0;
             transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--box-shadow);
         }
 
-        .primary-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(141, 185, 2, 0.4);
+        .email-container:hover {
+            border-color: var(--primary-color);
+            background: rgba(141, 185, 2, 0.15);
+            transform: scale(1.02);
         }
 
-        .secondary-cta {
-            background-color: transparent;
-            color: var(--text-light);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
+        .email-label {
             font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: block;
         }
 
-        .secondary-cta:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Stats Section */
-        .stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 2rem;
+        .email-address {
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
         }
 
-        .stat-label {
+        .email-address:hover {
+            background: rgba(141, 185, 2, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .info-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .info-description {
             font-size: 0.9rem;
             color: var(--text-muted);
+        }
+
+        /* Gradient Accent */
+        .gradient-accent {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .accent-1 {
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            top: 10%;
+            left: 5%;
+        }
+
+        .accent-2 {
+            background: radial-gradient(circle, #3498db 0%, transparent 70%);
+            bottom: 10%;
+            right: 5%;
         }
 
         /* Footer Styles */
@@ -444,36 +536,38 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero-title {
-                font-size: 2.8rem;
-            }
-        }
-
         @media (max-width: 768px) {
-            .top-bar {
+            .header {
                 padding: 1rem 1.5rem;
+            }
+            
+            .header.scrolled {
+                padding: 0.8rem 1.5rem;
             }
             
             .nav-links {
                 display: none;
             }
             
-            .hero-content {
-                padding: 0 1.5rem;
+            .contact-hero {
+                padding: 10rem 1.5rem 4rem;
             }
             
-            .hero-title {
-                font-size: 2.2rem;
+            .contact-hero h1 {
+                font-size: 2.5rem;
             }
             
-            .cta-buttons {
+            .contact-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .email-address {
+                font-size: 1.4rem;
+            }
+            
+            .contact-info {
                 flex-direction: column;
-            }
-            
-            .stats {
-                flex-wrap: wrap;
-                gap: 1.5rem;
+                gap: 2rem;
             }
             
             .footer-main {
@@ -493,6 +587,14 @@
         }
 
         @media (max-width: 480px) {
+            .contact-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .email-address {
+                font-size: 1.2rem;
+            }
+            
             .footer-links {
                 flex-direction: column;
                 gap: 2rem;
@@ -503,40 +605,12 @@
                 justify-content: center;
             }
         }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fadeInUp {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
     </style>
 </head>
 <body>
-    <section class="landing-section">
-        <!-- Transparent Top Bar -->
-        <header class="top-bar">
+    <!-- Transparent Header -->
+    <header class="header">
+        <div class="header-content">
             <div class="logo">
                 <span class="logo-text">Reed</span>
                 <span class="logo-accent">Streams</span>
@@ -547,6 +621,7 @@
                     <li><a href="#">Live</a></li>
                     <li><a href="#">Upcoming</a></li>
                     <li><a href="#">Sports</a></li>
+                    <li><a href="#" style="color: var(--primary-color);">Contact</a></li>
                 </ul>
             </nav>
             
@@ -555,34 +630,57 @@
                     <i class="fas fa-play-circle"></i> Watch Now
                 </button>
             </div>
-        </header>
+        </div>
+    </header>
+
+    <!-- Contact Hero Section -->
+    <section class="contact-hero">
+        <div class="contact-hero-content">
+            <h1>Contact Us</h1>
+            <p>Get in touch with the ReedStreams team. We're here to help you with any questions or concerns.</p>
+        </div>
+    </section>
+
+    <!-- Contact Content Section -->
+    <section class="contact-section">
+        <!-- Gradient Accents -->
+        <div class="gradient-accent accent-1"></div>
+        <div class="gradient-accent accent-2"></div>
         
-        <!-- Hero Content -->
-        <div class="hero-content">
-            <h1 class="hero-title animate-fadeInUp">Welcome to ReedStreams</h1>
-            <p class="hero-subtitle animate-fadeInUp delay-1">Your Home for Free Live Sports. Stream your favorite games, matches, and tournaments in high definition without any subscription fees.</p>
-            
-            <div class="cta-buttons animate-fadeInUp delay-2">
-                <button class="primary-cta">
-                    <i class="fas fa-broadcast-tower"></i> Start Watching
-                </button>
-                <button class="secondary-cta">
-                    <i class="fas fa-list"></i> Browse Sports
-                </button>
-            </div>
-            
-            <div class="stats animate-fadeInUp delay-3">
-                <div class="stat-item">
-                    <span class="stat-value">23+</span>
-                    <span class="stat-label">Live Matches</span>
+        <div class="contact-container">
+            <div class="contact-card">
+                <i class="fas fa-envelope contact-icon"></i>
+                <h2 class="contact-title">Get In Touch</h2>
+                <p class="contact-description">
+                    Have questions about ReedStreams? Need support with your streaming experience? 
+                    Reach out to us directly via email and our team will get back to you as soon as possible.
+                </p>
+                
+                <div class="email-container">
+                    <span class="email-label">Email us at:</span>
+                    <a href="mailto:Reedstreams000@gmail.com" class="email-address">
+                        Reedstreams000<br/>@gmail.com
+                    </a>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">HD</span>
-                    <span class="stat-label">Quality Streams</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">24/7</span>
-                    <span class="stat-label">Available</span>
+                
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-clock info-icon"></i>
+                        <h3 class="info-title">Response Time</h3>
+                        <p class="info-description">Typically within 24 hours</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-headset info-icon"></i>
+                        <h3 class="info-title">Support</h3>
+                        <p class="info-description">Technical & account assistance</p>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-globe info-icon"></i>
+                        <h3 class="info-title">Availability</h3>
+                        <p class="info-description">Worldwide support</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -647,20 +745,49 @@
     </footer>
 
     <script>
-        // Add scroll effect to top bar
+        // Header scroll effect - transparent to solid
         window.addEventListener('scroll', function() {
-            const topBar = document.querySelector('.top-bar');
+            const header = document.querySelector('.header');
             if (window.scrollY > 50) {
-                topBar.style.background = 'rgba(10, 14, 23, 0.9)';
-                topBar.style.backdropFilter = 'blur(10px)';
-                topBar.style.padding = '1rem 3rem';
+                header.classList.add('scrolled');
             } else {
-                topBar.style.background = 'transparent';
-                topBar.style.backdropFilter = 'none';
-                topBar.style.padding = '1.5rem 3rem';
+                header.classList.remove('scrolled');
             }
         });
+
+        // Hide header on scroll down, show on scroll up
+        let lastScrollTop = 0;
+        const header = document.querySelector('.header');
+        const scrollThreshold = 50;
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down - hide header
+                    header.classList.add('header-hidden');
+                } else {
+                    // Scrolling up - show header
+                    header.classList.remove('header-hidden');
+                }
+                lastScrollTop = scrollTop;
+            }
+        });
+
+        // Email click animation
+        const emailLink = document.querySelector('.email-address');
+        emailLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Create a temporary animation effect
+            this.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                // In a real implementation, this would open the email client
+                window.location.href = 'mailto:Reedstreams000@gmail.com';
+            }, 300);
+        });
     </script>
-    <script src="hidebar.js"></script>
 </body>
 </html>
