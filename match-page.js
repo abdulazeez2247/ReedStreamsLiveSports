@@ -1,6 +1,37 @@
 // Streamed.pk API Base URL
 const STREAMED_API_BASE = "https://streamed.pk/api";
 
+// Function to check if match has started (current time >= match time)
+function hasMatchStarted(dateString) {
+  try {
+    if (!dateString) return false;
+    const matchTime = new Date(dateString);
+    const currentTime = new Date();
+    return matchTime <= currentTime;
+  } catch {
+    return false;
+  }
+}
+
+// Function to get time until match starts (for debugging/info)
+function getTimeUntilMatch(dateString) {
+  try {
+    if (!dateString) return "Unknown time";
+    const matchTime = new Date(dateString);
+    const currentTime = new Date();
+    const timeDiff = matchTime - currentTime;
+    
+    if (timeDiff <= 0) return "Match has started";
+    
+    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return `Starts in ${hours}h ${minutes}m`;
+  } catch {
+    return "Unknown time";
+  }
+}
+
 function formatMatchTime(dateString) {
   try {
     if (!dateString) return null;
@@ -31,6 +62,32 @@ function renderMatchDetails(matchData) {
   const titleElement = document.getElementById("match-title");
 
   if (!detailsContainer || !titleElement) return;
+
+  // Check if match has started
+  if (!hasMatchStarted(matchData.date)) {
+    const startTimeFormatted = formatMatchTime(matchData.date);
+    const timeUntilMatch = getTimeUntilMatch(matchData.date);
+    
+    detailsContainer.innerHTML = `
+      <div class="upcoming-match-message">
+        <i class="far fa-clock"></i>
+        <h3>Match Hasn't Started Yet</h3>
+        <p class="match-schedule">Scheduled: ${startTimeFormatted || 'Unknown time'}</p>
+        <p class="time-until">${timeUntilMatch}</p>
+        <div class="upcoming-actions">
+          <button onclick="window.history.back()" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Matches
+          </button>
+        </div>
+      </div>
+    `;
+    
+    titleElement.innerHTML = `
+      ${matchData.title || "Upcoming Match"}
+      <span class="upcoming-badge"><span><i class="far fa-clock"></i> UPCOMING</span></span>
+    `;
+    return;
+  }
 
   const homeTeam = matchData.teams?.home;
   const awayTeam = matchData.teams?.away;
@@ -125,6 +182,12 @@ function renderLineup(lineup) {
 
 // Function to fetch stream sources and play
 async function fetchAndPlayStream(matchData, videoElement) {
+  // Check if match has started before trying to play stream
+  if (!hasMatchStarted(matchData.date)) {
+    console.log("Match hasn't started yet, skipping stream load");
+    return;
+  }
+
   if (!matchData.sources || matchData.sources.length === 0) {
     showStreamError("No streams available for this match.");
     return;
@@ -317,6 +380,9 @@ function showError(message) {
       <div class="error-message">
         <i class="fas fa-exclamation-triangle"></i>
         <p>${message}</p>
+        <button onclick="window.history.back()" class="back-button">
+          <i class="fas fa-arrow-left"></i> Back to Matches
+        </button>
       </div>
     `;
   }

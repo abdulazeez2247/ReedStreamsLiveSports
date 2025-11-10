@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - ReedStreams</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="responsive.css">
     <style>
         :root {
             --primary-color: #8db902;
@@ -605,6 +606,9 @@
                 justify-content: center;
             }
         }
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -612,23 +616,27 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">
+                <a href="index.html">
                 <span class="logo-text">Reed</span>
                 <span class="logo-accent">Streams</span>
+            </a>
             </div>
             
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#">Live</a></li>
-                    <li><a href="#">Upcoming</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#" style="color: var(--primary-color);">Contact</a></li>
+                    <li><a href="sports.html">Live</a></li>
+                    <li><a href="upcoming.html">Upcoming</a></li>
+                    <li><a href="sports.html">Sports</a></li>
+                    <li><a href="contact.html" style="color: var(--primary-color);">Contact</a></li>
                 </ul>
             </nav>
             
             <div class="nav-actions">
+                <a href="sports.html">
                 <button class="watch-now-btn">
-                    <i class="fas fa-play-circle"></i> Watch Now
+                    <i class="fas fa-play-circle"></i>Sports
                 </button>
+            </a>
             </div>
         </div>
     </header>
@@ -703,23 +711,23 @@
                 <div class="footer-links">
                     <div class="footer-column">
                         <h3 class="footer-heading">Navigation</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-home"></i> Home</a>
-                        <a href="#" class="footer-link"><i class="fas fa-broadcast-tower"></i> Live Now</a>
-                        <a href="#" class="footer-link"><i class="fas fa-calendar-alt"></i> Upcoming</a>
+                        <a href="index.html" class="footer-link"><i class="fas fa-home"></i> Home</a>
+                        <a href="sports.html" class="footer-link"><i class="fas fa-broadcast-tower"></i> Live Now</a>
+                        <a href="upcoming.html" class="footer-link"><i class="fas fa-calendar-alt"></i> Upcoming</a>
                     </div>
                     
                     <div class="footer-column">
-                        <h3 class="footer-heading">Sports</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-futbol"></i> Football</a>
-                        <a href="#" class="footer-link"><i class="fas fa-basketball-ball"></i> Basketball</a>
-                        <a href="#" class="footer-link"><i class="fas fa-baseball-ball"></i> Baseball</a>
-                        <a href="#" class="footer-link"><i class="fas fa-hockey-puck"></i> Hockey</a>
+                        <h3 class="footer-heading">Quick Links</h3>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=football&sportName=Football" class="footer-link"><i class="fas fa-futbol"></i> Football</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=basketball&sportName=Basketball" class="footer-link"><i class="fas fa-basketball-ball"></i> Basketball</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=baseball&sportName=Baseball" class="footer-link"><i class="fas fa-baseball-ball"></i> Baseball</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=hockey&sportName=Hockey" class="footer-link"><i class="fas fa-hockey-puck"></i> Hockey</a>
                     </div>
                     
                     <div class="footer-column">
                         <h3 class="footer-heading">Support</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a>
-                        <a href="#" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
+                        <a href="FAQ.html" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a>
+                        <a href="COntact.html" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
                     </div>
                 </div>
             </div>
@@ -736,9 +744,9 @@
                 </div>
                 
                 <div class="footer-legal-links">
-                    <a href="#" class="footer-legal-link">Privacy Policy</a>
-                    <a href="#" class="footer-legal-link">Terms of Service</a>
-                    <a href="#" class="footer-legal-link">DMCA</a>
+                    <a href="privacypolicy.html" class="footer-legal-link">Privacy Policy</a>
+                    <a href="terms.html" class="footer-legal-link">Terms of Service</a>
+                    <a href="DMCA.html" class="footer-legal-link">DMCA</a>
                 </div>
             </div>
         </div>

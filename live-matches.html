@@ -3,653 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reedstreams - Free Live Sports Streaming</title>
+    <title>Live Matches - ReedStreams</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="live-matches.css">
+        <link rel="stylesheet" type="text/css" href="upcoming2.css">
+        <link rel="stylesheet" type="text/css" href="only.css">
+        <link rel="stylesheet" type="text/css" href="faq.css">
+        <link rel="stylesheet" type="text/css" href="scroll.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<style>
-  @media (max-width: 768px) {
-    #match-list {
-      margin-top: 8vh;
-          margin-left: auto;
-
-    }
-  }
-#match-list {
-    margin-top: 16vh;
-  padding: 0 var(--content-margin);
-  max-width: 1400px;
-}
-
-.highlight-match {
-    background-color: yellow;
-}
-
-.matches-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 20px;
-}
-
-.match-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  box-shadow: var(--box-shadow);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-
-.match-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--box-shadow-hover);
-  border-color: var(--primary);
-  background: var(--card-hover);
-}
-
-.match-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: var(--primary);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.match-card:hover::before {
-  transform: scaleX(1);
-}
-
-.match-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-
-.match-header h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--light);
-  margin: 0;
-  flex: 1;
-  padding-right: 0.5rem;
-}
-
-.live-status {
-  color: var(--primary);
-  font-weight: 700;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  background: rgba(212, 32, 26, 0.15);
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
-  white-space: nowrap;
-}
-
-/* Match Content */
-.match-card p {
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
-  color: var(--light-gray);
-  line-height: 1.5;
-}
-
-.start-time {
-  font-size: 0.85rem !important;
-  color: var(--gray) !important;
-}
-
-.watch-link {
-  display: inline-block;
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: var(--border-radius-sm);
-  background: var(--primary);
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  text-align: center;
-  transition: var(--transition);
-  text-decoration: none;
-  font-family: 'Rubik', sans-serif;
-  font-size: 0.95rem;
-}
-
-.watch-link:hover {
-  background: #b51a15;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(212, 32, 26, 0.3);
-}
-
-/* Team Display Styles */
-.teams-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 1rem 0;
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: var(--border-radius-sm);
-}
-
-.team-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  flex: 1;
-}
-
-.team-badge {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 5px;
-}
-
-.team-name {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--light);
-  text-align: center;
-}
-
-.vs-separator {
-  font-weight: 700;
-  color: var(--primary);
-  font-size: 1.1rem;
-  padding: 0 0.5rem;
-}
-
-.team-placeholder {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  font-size: 1.5rem;
-  color: var(--gray);
-}
-
-.loading-message, .error-message, .no-matches {
-  text-align: center;
-  padding: 2rem;
-  color: var(--light-gray);
-  font-size: 1.1rem;
-}
-
-.error-message {
-  color: var(--primary);
-}
-
-@media (max-width: 768px) {
-  .matches-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-  
-  .match-card {
-    padding: 1.25rem;
-  }
-
-  .teams-container {
-    gap: 0.5rem;
-  }
-
-  .team-badge {
-    width: 40px;
-    height: 40px;
-  }
-
-  .team-name {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .matches-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .match-header {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .match-header h4 {
-    padding-right: 0;
-  }
-
-  .teams-container {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .vs-separator {
-    transform: rotate(90deg);
-  }
-}
-</style>
-<style>
-    /* Mobile Menu Styles */
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    left: -350px;
-    width: 320px;
-    height: 100vh;
-    background: var(--card-bg);
-    z-index: 1000;
-    transition: left 0.3s ease;
-    overflow-y: auto;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.mobile-menu.active {
-    left: 0;
-}
-
-.mobile-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--card-border);
-}
-
-.mobile-menu-btn {
-    background: none;
-    border: none;
-    color: var(--light);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-}
-
-.mobile-search {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--card-border);
-}
-
-.mobile-menu-links {
-    padding: 1rem 0;
-}
-
-.mobile-menu-links a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    color: var(--light);
-    text-decoration: none;
-    transition: background 0.2s ease;
-}
-
-.mobile-menu-links a:hover,
-.mobile-menu-links a.active {
-    background: rgba(212, 32, 26, 0.1);
-    color: var(--primary);
-}
-
-.mobile-menu-links a i {
-    width: 20px;
-    text-align: center;
-}
-
-/* Overlay */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Clear search button */
-.clear-search {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--gray);
-    cursor: pointer;
-    padding: 5px;
-}
-
-.search-container {
-    position: relative;
-}
-
-/* Mobile responsiveness for header */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-    
-    .user-actions .search-container {
-        display: none;
-    }
-}
-
-@media (min-width: 769px) {
-    .mobile-menu-btn {
-        display: none;
-    }
-    
-    .mobile-menu {
-        display: none;
-    }
-}
-</style>
 <body>
-  <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
+    <header class="top-bar">
             <div class="logo">
-                <i class="fas fa-play-circle"></i>
-                <span>Reedstreams</span>
+                <a href="index.html">
+                <span class="logo-text">Reed</span>
+                <span class="logo-accent">Streams</span>
+            </a>
+            <!--
+            <a href="your-page.html" class="muted-nav-btn">
+    <span>Leagues We Cver ?</span>
+            -->
+</a>
             </div>
-            <button class="mobile-menu-btn" id="closeMenuBtn">
-                <i class="fas fa-times"></i>
+            <div class="nav-actions">
+              <a href="Sports.html">  <button class="watch-now-btn rolex">
+                    <i class="fas fa-play-circle"></i> Brows Sports ?
+                </button>
+            </a>
+            </div>
+
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
             </button>
-        </div>
+            
+        </header>      <!-- Transparent Top Bar -->
+ 
         
-        <div class="mobile-search search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search matches...">
+        <!-- Replace your existing mobile-nav with this -->
+<div class="mobile-nav">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">
+            <span class="logo-text">Reed</span>
+            <span class="logo-accent">Streams</span>
         </div>
-        
-        <div class="mobile-menu-links">
-            <a href="index.html" style="text-decoration: underline;" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=amfootball"><i class="fas fa-futbol"></i> NFL</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=football"><i class="fas fa-futbol"></i> FootBall</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=baseball"><i class="fas fa-baseball-ball"></i> Baseball</a>
-            <a href="channels/Sky-Sports-Cricket.html"><i class="fas fa-table-tennis"></i> Cricekt</a>
-            <a href="channels/Sky-Sports-Tennis.html"><i class="fas fa-flag-checkered"></i> Formula 1</a>
-        </div>
+        <button class="close-sidebar">✕</button>
     </div>
     
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div style="display: flex; align-items: center; gap: 1.5rem;">
-                <button class="mobile-menu-btn" id="openMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <a href="https://reedstreams.live/" class="logo">
-                    <i class="fas fa-play-circle"></i>
-                    <span>Reedstreams</span>
-                </a>
-            </div>
-            
-            <div class="nav-links">
-                <a href="./index.html" class="active"> Home</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=football"> Football</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=amfootball"> NFL</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=baseball"> Baseball</a>
-                <a href="channels/Sky-Sports-Cricket.html">Cricket</a>
-                <a href="channels/Sky-Sports-Tennis.html"> F1</a>
-            </div>
-            
-            <div class="user-actions">
-                <div class="search-container">
-                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Enter team name to search...">
-                </div>
-            </div>
-        </nav>
-    </header>
-
+    <div class="sidebar-content">
+        <ul class="mobile-nav-links">
+            <li><a href="sports.html"><i class="fas fa-broadcast-tower"></i> Live</a></li>
+            <li><a onclick="fuck()" href="none"><i class="fas fa-calendar-alt"></i> Upcoming</a></li>
+            <li><a href="FAQ.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+    </div>
     
-<div class="page-header">
-    <h1 id="page-title"></h1>
+    <div class="sidebar-footer">
+        <a href="Sports.html">
+            <button class="mobile-watch-btn">
+                <i class="fas fa-play-circle"></i> Browse Sports
+            </button>
+        </a>
+        <div class="sidebar-social">
+            <a onclick="socials()" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a onclick="socials()" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
 </div>
-<div id="match-list" class="match-list"></div>
+        
+        <!-- Overlay for mobile menu -->
+        <div class="overlay"></div>
+  
 
-  <div id="match-list" class="match-list"></div>
+        <!-- Sports Hero Section -->
+    <section class="sports-hero">
+        <div class="sports-hero-content">
+            <h1>All Sports</h1>
+            <p>Choose your favorite sport and dive into live matches, upcoming games, and premium streaming experience</p>
+        </div>
+    </section>
 
-  <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Reedstreams</h3>
-                <ul class="footer-links">
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=football">Football <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=amfootball">NFL <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=baseball">Baseball <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="channels/Sky-Sports-Tennis.html">F1 <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="channels/Sky-Sports-Cricket.html">Cricket <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="channels/Sky-Sports-F1.html">Tennis <i class="fas fa-chevron-right"></i></a></li>
-                </ul>
-            </div>
-            
-            
-            <div class="footer-column">
-                <h3>Legal</h3>
-                <ul class="footer-links">
-                    <li><a href="./Terms.html">Terms of Service <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="./PrivacyPolicy.html">Privacy Policy <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="./DMCA.html">DMCA <i class="fas fa-chevron-right"></i></a></li>
-                </ul>
-            </div>
+    <!-- Matches Section -->
+    <section class="matches-section">
+        <!-- Creative Title -->
+        <div class="creative-title">
+            <h2>Live Now</h2>
+            <p class="subtitle">Real-time matches streaming live across all sports</p>
+        </div>
+
+        <!-- Matches Grid -->
+        <div id="match-list" class="matches-grid">
+            <!-- Match cards will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <span class="logo-text">Reed</span>
+            <span class="logo-accent">Streams</span>
         </div>
         
-        <div class="footer-bottom">
-            <div>
-                © 2025 Reedstreams. All rights reserved. | 
-                <a href="./PrivacyPolicy.html">Privacy</a> | 
-                <a href="./Terms.html">Terms</a> | 
-            </div>
-            <div class="datetime">
-                <i class="far fa-clock"></i>
-                <span id="clock">Sunday, May 25, 2025 | 03:30:52 PM PKT</span>
-            </div>
+        <p class="footer-tagline">
+            Your gateway to live sports streaming. Experience the game like never before.
+        </p>
+        
+        <div class="footer-links">
+            <a href="sports.html" class="footer-link">Sports</a>
+            <a onclick="fuck()" class="footer-link">Upcoming</a>
+            <a href="faq.html" class="footer-link">FAQ</a>
         </div>
         
-        <div class="disclaimer">
-            Reedstreams does not host any of the live stream videos playing on this site. All videos are hosted on external streaming sites that are freely available online. Please contact video hosting providers or media posters for takedown or any DMCA complaints.
+        <div class="legal-notice">
+            <p class="legal-text">
+                <span class="legal-highlight">Notice:</span> We do not host any content. All streams are sourced from third-party providers.
+            </p>
         </div>
-    </footer>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script src="live-matches.js"></script>
-  <script>
-        // Mobile Menu Toggle
-        const mobileMenu = document.getElementById('mobileMenu');
-        const openMenuBtn = document.getElementById('openMenuBtn');
-        const closeMenuBtn = document.getElementById('closeMenuBtn');
-        const overlay = document.getElementById('overlay');
+        
+        <div class="copyright">
+            &copy; 2024 ReedStreams. All rights reserved.
+        </div>
+    </div>
+</footer>
+<script>
+// Streamed.pk API Base URL
+const STREAMED_API_BASE = "https://streamed.pk/api";
 
-        openMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+let allMatches = []; // Store all matches globally
 
-        closeMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        overlay.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Enhanced Search Functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            setupSearch();
-            setupTuneInButtons();
-            updateClock();
-            setInterval(updateClock, 1000);
-        });
-
-        function setupSearch() {
-            const searchInputs = document.querySelectorAll('.search-container input, .mobile-search input');
-            const categoryCards = document.querySelectorAll('.category-card');
-            const channelCards = document.querySelectorAll('.channel-card');
-
-            // Create search results title if it doesn't exist
-            let resultsTitle = document.getElementById('search-results-title');
-            if (!resultsTitle) {
-                resultsTitle = document.createElement('h2');
-                resultsTitle.id = 'search-results-title';
-                resultsTitle.style.display = 'none';
-                document.querySelector('.sports-categories').parentNode.insertBefore(resultsTitle, document.querySelector('.sports-categories'));
-            }
-
-            // Add clear buttons to search inputs
-            searchInputs.forEach(input => {
-                const container = input.closest('.search-container, .mobile-search');
-                const clearBtn = document.createElement('button');
-                clearBtn.innerHTML = '<i class="fas fa-times"></i>';
-                clearBtn.className = 'clear-search';
-                clearBtn.style.display = 'none';
-                container.appendChild(clearBtn);
-
-                input.addEventListener('input', (e) => {
-                    clearBtn.style.display = e.target.value ? 'block' : 'none';
-                    filterContent(e.target.value, categoryCards, channelCards, resultsTitle);
-                });
-
-                clearBtn.addEventListener('click', () => {
-                    input.value = '';
-                    clearBtn.style.display = 'none';
-                    filterContent('', categoryCards, channelCards, resultsTitle);
-                    input.focus();
-                });
-            });
+// Simple filter system
+function createFilterButtons() {
+    console.log('Creating filter buttons...');
+    
+    // Create buttons HTML with EXACT same styling
+    const buttonsHTML = `
+    <div class="filter-buttons" style="
+        display: flex; 
+        justify-content: center; 
+        gap: 0.5rem; 
+        margin: 2rem auto;
+        padding: 0 1rem;
+        max-width: 1200px;
+        flex-wrap: nowrap;
+    ">
+        <button class="filter-btn active" onclick="forceFilterMatches('all')">
+            All Matches
+        </button>
+        <button class="filter-btn" onclick="forceFilterMatches('live')">
+            Live
+        </button>
+        <button class="filter-btn" onclick="forceFilterMatches('upcoming')">
+            Upcoming
+        </button>
+    </div>
+    `;
+    
+    // Add the CSS for buttons and the sleek banner
+    const buttonStyles = `
+        .filter-buttons { 
+            display: flex; 
+            gap: 0.5rem; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            max-width: 1200px;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            min-width: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .filter-btn:not(.active) {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: white;
+        }
+        
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: -100%;
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+            transition: left 0.6s var(--transition);
+        }
+        
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(141,185,2,.4);
         }
 
-        function filterContent(query, categoryCards, channelCards, resultsTitle) {
-            const normalizedQuery = query.toLowerCase().trim();
-            let resultCount = 0;
+        /* --- SLEEK, MINIMALIST LINE BANNER STYLE --- */
+        .match-date-separator {
+            grid-column: 1 / -1; 
+            margin: 30px 0 20px 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* Space between lines and text */
+            position: relative;
+        }
 
-            // Reset all cards and remove highlights
-            categoryCards.forEach(card => {
-                card.style.display = 'block';
-                const nameEl = card.querySelector('.category-name');
-                nameEl.innerHTML = nameEl.textContent;
-            });
+        /* The horizontal lines on the sides */
+        .match-date-separator::before,
+        .match-date-separator::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: rgba(141,185,2, 0.4); /* Thin accent line */
+            max-width: 40%; 
+        }
 
-            channelCards.forEach(card => {
-                card.style.display = 'block';
-                const nameEl = card.querySelector('.channel-name');
-                nameEl.innerHTML = nameEl.textContent;
-            });
+        .match-date-separator h3 {
+            margin: 0;
+            padding: 0 10px; /* Padding for the text itself */
+            font-weight: 500; /* Medium weight */
+            font-size: 1.1em;
+            color: var(--text-color); 
+            display: flex;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-            if (normalizedQuery.length === 0) {
-                resultsTitle.style.display = 'none';
-                return;
-            }
+        /* Icon styling */
+        .match-date-separator i {
+            color: var(--primary-color); 
+            font-size: 1.1em;
+            margin-right: 5px;
+        }
+    `;
+    
+    const styleEl = document.createElement('style');
+    styleEl.textContent = buttonStyles;
+    document.head.appendChild(styleEl);
+    
+    // Insert buttons
+    const matchesGrid = document.getElementById('match-list');
+    if (matchesGrid) {
+        matchesGrid.insertAdjacentHTML('beforebegin', buttonsHTML);
+        console.log('Filter buttons added!');
+    }
+}
 
-            // Filter and highlight category cards
-            categoryCards.forEach(card => {
-                const nameEl = card.querySelector('.category-name');
-                const name = nameEl.textContent.toLowerCase();
+// NOTE: This function is preserved but is no longer used for filtering in the main flow.
+function shouldHideMatch(match) {
+    const homeTeam = match.teams?.home?.name || '';
+    const awayTeam = match.teams?.away?.name || '';
+    
+    // Hide matches where both teams are "???" or empty
+    if ((homeTeam === '???' || homeTeam === '' || !homeTeam) && 
+        (awayTeam === '???' || awayTeam === '' || !awayTeam)) {
+        return true;
+    }
+    
+    // Also check if the team abbreviations would be "???"
+    const homeAbbr = getTeamAbbr(homeTeam);
+    const awayAbbr = getTeamAbbr(awayTeam);
+    
+    if (homeAbbr === '???' && awayAbbr === '???') {
+        return true;
+    }
+    
+    return false;
+}
 
-                if (name.includes(normalizedQuery)) {
-                    resultCount++;
-                    highlightText(nameEl, normalizedQuery);
-                } else {
-                    card.style.display = 'none';
+// FORCEFUL FILTERING - Re-render matches based on filter
+function forceFilterMatches(filterType) {
+    console.log('Force filtering:', filterType);
+    
+    // Update button styles
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.textContent.includes(filterType) || (filterType === 'all' && btn.textContent.includes('All'))) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    
+    const now = new Date();
+    // Filter matches based only on time (live/upcoming/all)
+    let filteredMatches = allMatches.filter((match) => {
+        // --- MATCHES WITH "???" ARE NOT HIDDEN HERE ---
+        
+        const matchDate = new Date(match.date);
+        const isLive = isMatchLive(matchDate, now);
+        const isUpcoming = isMatchUpcoming(matchDate, now);
+        
+        if (filterType === 'all') return true;
+        if (filterType === 'live') return isLive;
+        if (filterType === 'upcoming') return isUpcoming;
+        
+        return false;
+    });
+
+    // Sort matches by date before rendering
+    filteredMatches.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    // --- USE THE DATE SEPARATOR RENDERER ---
+    renderMatchesWithSeparators(filteredMatches, 'match-list');
+}
+
+// Check if match is live (happening now or within last 4 hours)
+function isMatchLive(matchDate, now) {
+    const fourHoursAgo = new Date(now.getTime() - 4 * 60 * 60 * 1000);
+    return matchDate <= now && matchDate >= fourHoursAgo;
+}
+
+// Check if match is upcoming (in the future)
+function isMatchUpcoming(matchDate, now) {
+    return matchDate > now;
+}
+
+// Creates the match card element
+function createMatchCardElement(match) {
+    const now = new Date();
+    const matchDate = new Date(match.date);
+    const isLive = isMatchLive(matchDate, now);
+    
+    const {date, time} = formatMatchDateTime(match.date);
+    const homeTeam = match.teams?.home;
+    const awayTeam = match.teams?.away;
+    const homeBadgeUrl = getTeamBadgeUrl(homeTeam?.badge);
+    const awayBadgeUrl = getTeamBadgeUrl(awayTeam?.badge);
+
+    const matchCard = document.createElement("div");
+    matchCard.className = "match-card";
+    matchCard.dataset.matchId = match.id;
+    matchCard.dataset.matchData = JSON.stringify(match); 
+    
+    matchCard.innerHTML = `
+        ${isLive ? '<div class="live-tag">LIVE</div>' : ''}
+        <div class="teams-container">
+            <div class="team home">
+                <div class="team-badge-container">
+                    ${homeBadgeUrl ? `<img src="${homeBadgeUrl}" alt="${homeTeam?.name || 'Team'}" class="team-logo" onerror="this.style.display='none'">` : '<div class="team-placeholder">?</div>'}
+                </div>
+                <span class="team-abbr" title="${homeTeam?.name || 'Unknown'}">${getTeamAbbr(homeTeam?.name)}</span>
+            </div>
+            <div class="match-center">
+                ${match.competition ? `<div class="competition">${match.competition}</div>` : ''}
+                <div class="date">${date}</div>
+                <div class="vs-line"></div>
+                ${time ? `<div class="time">${time}</div>` : ''}
+            </div>
+            <div class="team away">
+                <div class="team-badge-container">
+                    ${awayBadgeUrl ? `<img src="${awayBadgeUrl}" alt="${awayTeam?.name || 'Team'}" class="team-logo" onerror="this.style.display='none'">` : '<div class="team-placeholder">?</div>'}
+                </div>
+                <span class="team-abbr" title="${awayTeam?.name || 'Unknown'}">${getTeamAbbr(awayTeam?.name)}</span>
+            </div>
+        </div>
+    `;
+    return matchCard;
+}
+
+// Attach click handlers to match cards
+function attachCardClickHandlers() {
+    const matchContainer = document.getElementById('match-list');
+    
+    // Remove previous listener to prevent duplication
+    matchContainer.onclick = null; 
+
+    matchContainer.addEventListener("click", (e) => {
+        const card = e.target.closest(".match-card");
+        if (!card) return;
+
+        const matchData = JSON.parse(card.dataset.matchData);
+        
+        // Store match data in sessionStorage for the match page
+        sessionStorage.setItem('currentMatch', JSON.stringify(matchData));
+        
+        // Navigate to match page with match ID
+        window.location.href = `match.html?matchId=${matchData.id}`;
+    });
+}
+
+// Formats the date and time for the card
+function formatMatchDateTime(dateString) {
+    try {
+        if (!dateString) return {date: "TBD", time: "TBD"};
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return {date: "TBD", time: "TBD"};
+        
+        const dateStr = date.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric"
+        });
+        const timeStr = date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+        });
+        
+        return {date: dateStr, time: timeStr};
+    } catch {
+        return {date: "TBD", time: "TBD"};
+    }
+}
+
+// Your existing match loading function
+async function loadLiveMatches() {
+    const sportId = getQueryParam("sportId");
+    const matchContainer = document.getElementById("match-list");
+    
+    matchContainer.innerHTML = '<div class="loading-message">Loading live matches...</div>';
+
+    try {
+        let apiUrl = `${STREAMED_API_BASE}/matches`;
+        if (sportId) {
+            apiUrl = `${STREAMED_API_BASE}/matches/${sportId}`;
+        }
+
+        const res = await fetch(apiUrl);
+        
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+        
+        const matches = await res.json();
+        
+        // Store all matches received
+        allMatches = matches;
+
+        if (!Array.isArray(allMatches) || allMatches.length === 0) {
+            matchContainer.innerHTML = `<div class="no-matches">No matches available. Check back later!</div>`;
+            
+            setTimeout(() => {
+                createFilterButtons();
+            }, 100);
+
+            return;
+        }
+
+        // Sort all matches for initial display (no hiding here)
+        allMatches.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // Use the new date separator renderer for the initial load
+        renderMatchesWithSeparators(allMatches, 'match-list');
+
+        // ATTACH CLICK HANDLERS after initial load
+        attachCardClickHandlers();
+
+        // ADD FILTER BUTTONS AFTER MATCHES ARE LOADED
+        setTimeout(() => {
+            createFilterButtons();
+        }, 100);
+
+    } catch (err) {
+        console.error("Error fetching matches:", err);
+        matchContainer.innerHTML = '<div class="error-message">Failed to load matches. Please try again later.</div>';
+    }
+}
+
+// Your existing helper functions
+function getQueryParam(param) {
+    return new URLSearchParams(window.location.search).get(param);
+}
+
+function getTeamBadgeUrl(badgeId) {
+    if (!badgeId) return null;
+    return `${STREAMED_API_BASE}/images/badge/${badgeId}.webp`;
+}
+
+function getTeamAbbr(name) {
+    if (!name || name === '???' || name.trim() === '') return '???';
+    // Use the first 10 characters or less for abbreviation
+    return name.substring(0, 10).toUpperCase();
+}
+
+// ========================================================================
+// === START OF DATE BANNER LOGIC (SLEEK LINE STYLE) ===
+// ========================================================================
+
+/**
+ * Returns a new Date object set to the beginning (midnight) of the given date.
+ */
+function normalizeDate(dateInput) {
+    const date = new Date(dateInput);
+    date.setHours(0, 0, 0, 0);
+    return date;
+}
+
+/**
+ * Creates the HTML element for the date separator banner.
+ * @returns {HTMLElement|null} The banner div element, or null if the match is today or TBD.
+ */
+function createDateSeparatorBanner(date, todayNormalized) {
+    
+    // Check for TBD or invalid date
+    if (isNaN(date.getTime())) return null;
+
+    const tomorrowNormalized = new Date(todayNormalized);
+    tomorrowNormalized.setDate(tomorrowNormalized.getDate() + 1);
+
+    let bannerText;
+    let iconClass;
+
+    // 1. Logic to check the date and set text/icon
+    if (date.getTime() === todayNormalized.getTime()) {
+        // PER REQUEST: Do not show the banner for today's matches
+        return null; 
+    } else if (date.getTime() === tomorrowNormalized.getTime()) {
+        bannerText = "TOMORROW'S MATCHES";
+        iconClass = "fas fa-calendar-day"; 
+    } else {
+        // Future matches
+        const dateString = date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        bannerText = `${dateString.toUpperCase()} MATCHES`;
+        iconClass = "fas fa-calendar-alt"; 
+    }
+    
+    // 2. Create the sleek HTML element
+    const banner = document.createElement('div');
+    banner.className = 'match-date-separator'; 
+    
+    // NOTE: This uses Font Awesome classes (fas) which must be available in your HTML
+    banner.innerHTML = `
+        <h3>
+            <i class="${iconClass}"></i>
+            <span>${bannerText}</span>
+        </h3>
+    `;
+    return banner;
+}
+
+/**
+ * Renders a list of matches, inserting a banner whenever the date changes.
+ */
+function renderMatchesWithSeparators(filteredMatches, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    // Clear the container before rendering
+    container.innerHTML = '';
+
+    const now = new Date();
+    const todayNormalized = normalizeDate(now);
+    let currentDateKey = null; // Stores the normalized time (in milliseconds) of the current date group
+
+    // Variable to track if we have passed the "today" group (required because we skip the "Today" banner)
+    let passedTodayGroup = false; 
+
+    filteredMatches.forEach(match => {
+        const matchDate = match.date;
+        if (!matchDate) return;
+
+        const matchDateNormalized = normalizeDate(matchDate);
+        const matchDateKey = matchDateNormalized.getTime();
+
+        // 1. Check for Date Change / Insert Banner
+        if (currentDateKey === null || matchDateKey > currentDateKey) {
+            
+            // Render the separator only if the new date is tomorrow or later, OR if we have already 
+            // rendered matches from the previous day (i.e., passed the 'today' group).
+            if (matchDateKey > todayNormalized.getTime() || passedTodayGroup) {
+                const banner = createDateSeparatorBanner(matchDateNormalized, todayNormalized);
+                if (banner) {
+                    container.appendChild(banner);
                 }
-            });
+            }
 
-            // Filter and highlight channel cards
-            channelCards.forEach(card => {
-                const nameEl = card.querySelector('.channel-name');
-                const name = nameEl.textContent.toLowerCase();
-
-                if (name.includes(normalizedQuery)) {
-                    resultCount++;
-                    highlightText(nameEl, normalizedQuery);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Update results title
-            if (resultCount > 0) {
-                resultsTitle.style.display = 'block';
-                resultsTitle.innerHTML = `Found ${resultCount} results for "${query}"`;
-                resultsTitle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } else {
-                resultsTitle.style.display = 'block';
-                resultsTitle.innerHTML = `No results found for "${query}"`;
+            // Update the current date tracker
+            currentDateKey = matchDateKey;
+            
+            // Mark today as handled if the current date is today's date
+            if (matchDateKey === todayNormalized.getTime()) {
+                 passedTodayGroup = true;
             }
         }
 
-        function highlightText(element, searchText) {
-            const text = element.textContent;
-            const regex = new RegExp(searchText, 'gi');
-            element.innerHTML = text.replace(regex, match => `<span class="highlight-match">${match}</span>`);
-        }
+        // 2. Render the actual match element
+        const matchElement = createMatchCardElement(match); 
+        container.appendChild(matchElement);
+    });
+    
+    if (filteredMatches.length === 0) {
+        container.innerHTML = `<div class="no-matches" style="grid-column: 1 / -1; text-align: center; padding: 20px;">No matches found matching the current filters.</div>`;
+    }
+    
+    // Re-attach handlers 
+    attachCardClickHandlers();
+}
 
-        function setupTuneInButtons() {
-            document.querySelectorAll('.btn-tune-in').forEach(button => {
-                button.addEventListener('click', () => {
-                    const url = button.getAttribute('data-url');
-                    if (url) {
-                        window.location.href = url;
-                    } else {
-                        console.warn('No data-url attribute found for Tune In button:', button);
-                    }
-                });
-            });
-        }
+// ========================================================================
+// === END OF DATE BANNER LOGIC ===
+// ========================================================================
 
-        function updateClock() {
-            const now = new Date();
-            const options = {
-                timeZone: 'Asia/Karachi',
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const dateTime = now.toLocaleString('en-US', options).replace(',', '');
-            const clockElement = document.getElementById('clock');
-            if (clockElement) {
-                clockElement.textContent = dateTime;
-            }
-        }
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    loadLiveMatches();
+});
+</script>
     </script>
+    <script>
+        // Fixed Header scroll effect
+window.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.top-bar');
+    
+    // Set initial state - transparent background
+    header.style.background = 'transparent';
+    header.style.backdropFilter = 'none';
+    header.style.position = 'relative';
+    
+    window.addEventListener('scroll', function() {
+        const scrollPosition = window.scrollY;
+        
+        if (scrollPosition > 50) {
+            header.style.background = 'rgba(10, 14, 23, 0.95)';
+            header.style.backdropFilter = 'blur(10px)';
+            
+            // Only apply fixed positioning on desktop
+            if (window.innerWidth > 768) {
+                header.style.position = 'fixed';
+                header.style.top = '0';
+                header.style.left = '0';
+                header.style.right = '0';
+                header.style.zIndex = '1000';
+                
+                // Add padding to body to prevent content jump
+                if (!document.body.style.paddingTop) {
+                    document.body.style.paddingTop = header.offsetHeight + 'px';
+                }
+            }
+        } else {
+            header.style.background = 'transparent';
+            header.style.backdropFilter = 'none';
+            
+            if (window.innerWidth > 768) {
+                header.style.position = 'relative';
+                // Remove the padding when header goes back to normal
+                document.body.style.paddingTop = '0';
+            }
+        }
+    });
+});
+
+// Reset on window resize
+window.addEventListener('resize', function() {
+    const header = document.querySelector('.top-bar');
+    const scrollPosition = window.scrollY;
+    
+    if (scrollPosition <= 50) {
+        header.style.background = 'transparent';
+        header.style.backdropFilter = 'none';
+        header.style.position = 'relative';
+        document.body.style.paddingTop = '0';
+    }
+});
+    </script>
+<script>
+// Header scroll effect - sticky with background
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.top-bar');
+    const scrollPosition = window.scrollY;
+    
+    if (scrollPosition > 50) {
+        header.style.background = 'rgba(10, 14, 23, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.style.left = '0';
+        header.style.right = '0';
+        header.style.zIndex = '1000';
+    } else {
+        header.style.background = 'transparent';
+        header.style.backdropFilter = 'none';
+        header.style.borderBottom = 'none';
+        header.style.position = 'relative';
+    }
+});
+</script>
+<script>
+    function fuck() {
+        alert("You can check all upcoming matches directly on the match page after selecting a sport. Thanks!")
+    }
+
+    function socials() {
+        alert("Coming Soon..")
+    }
+</script>
+        <script src="upcoming.js"></script>
+    <script src="scroll.js"></script>
+    <script src="fuck.js"></script>
+    <script src="faq.js"></script>
+    <script src="sidebar.js"></script>
 </body>
 </html>

@@ -3,936 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Match</title>
+    <title>Live Match - ReedStreams</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-
-        .container {
-            width: 100%;
-            max-width: 100%;
-            margin: 80px auto 20px;
-            padding: 0 15px;
-            box-sizing: border-box;
-        }
-
-        #match-title {
-            font-size: 1.4rem;
-            text-align: center;
-            margin-bottom: 15px;
-            color: var(--light);
-            position: relative;
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        #match-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--primary);
-        }
-
-        /* Live Indicator Badge */
-        .live-badge {
-            display: inline-flex;
-            align-items: center;
-            background: var(--primary);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .live-badge::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary);
-            opacity: 0.6;
-            animation: pulse 2s infinite;
-            border-radius: 50px;
-            z-index: 0;
-        }
-
-        .live-badge span {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .live-badge i {
-            font-size: 0.6rem;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Video Player Styles - INCREASED SIZE FOR DESKTOP */
-        .video-player {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16/9;
-            background-color: #000;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-        }
-
-        /* Match Details Container */
-        .match-details-container {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-top: 15px;
-            min-height: 100px;
-        }
-
-        .match-details-wrapper {
-            width: 100%;
-        }
-
-        /* Team Display Styles */
-        .match-teams-display {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: var(--border-radius);
-        }
-
-        .team-detail {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            flex: 1;
-        }
-
-        .team-badge-large {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .team-name-large {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--light);
-            text-align: center;
-            margin: 0;
-        }
-
-        .match-vs {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .vs-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            background: rgba(212, 32, 26, 0.1);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Match Info Section */
-        .match-info-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .match-info-section p {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 0.75rem 1.25rem;
-            border-radius: var(--border-radius-sm);
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--light-gray);
-        }
-
-        .match-info-section i {
-            color: var(--primary);
-        }
-
-        /* Lineup Section */
-        .lineup-section {
-            margin-top: 2rem;
-            border-top: 1px solid var(--card-border);
-            padding-top: 1.5rem;
-        }
-
-        .lineup-title {
-            font-size: 1.2rem;
-            color: var(--light);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .lineup-title i {
-            color: var(--primary);
-        }
-
-        .lineup-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .lineup-team h5 {
-            color: var(--primary);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .player-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .player-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: var(--border-radius-sm);
-            margin-bottom: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .player-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(5px);
-        }
-
-        .player-number {
-            font-weight: 700;
-            color: var(--primary);
-            min-width: 30px;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-
-        .player-name {
-            flex: 1;
-            color: var(--light);
-            font-weight: 500;
-        }
-
-        .player-position {
-            color: var(--gray);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-
-        /* Stream Error Message */
-        .stream-error-message {
-            background: rgba(212, 32, 26, 0.1);
-            border: 1px solid var(--primary);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .stream-error-message i {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .stream-error-message p {
-            color: var(--light);
-            font-size: 1.1rem;
-            margin: 0;
-        }
-
-        /* Stream Iframe */
-        .stream-iframe {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16/9;
-            border: none;
-            border-radius: 12px;
-        }
-
-        /* Stream Selector */
-        .stream-selector {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-
-        .stream-selector-header {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--light);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .stream-selector-header i {
-            color: var(--primary);
-        }
-
-        .stream-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .stream-option {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--light);
-            font-family: 'Rubik', sans-serif;
-        }
-
-        .stream-option:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .stream-option.active {
-            background: rgba(212, 32, 26, 0.15);
-            border-color: var(--primary);
-        }
-
-        .stream-number {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-
-        .stream-lang {
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .stream-quality {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .stream-quality.hd {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .stream-quality.sd {
-            background: #757575;
-            color: white;
-        }
-
-        /* Desktop Styles - UPDATED FOR LARGER STREAM */
-        @media (min-width: 769px) {
-            .container {
-                width: 85vw; /* Increased from 70vw to 85vw for larger stream */
-                max-width: 1400px; /* Increased max-width */
-                margin: 100px auto 40px;
-            }
-            
-            #match-title {
-                font-size: 1.8rem;
-            }
-            
-            .video-player {
-                border-radius: 16px;
-            }
-            
-            /* Larger video player on desktop */
-            .video-section {
-                flex: 1.4; /* Increased flex value for larger video area */
-            }
-            
-            .chat-section {
-                flex: 0 0 320px; /* Slightly reduced chat width to accommodate larger video */
-            }
-        }
-
-        /* Mobile Styles */
-        @media (max-width: 768px) {
-            .container {
-                margin:  auto ;
-                padding: 0 10px;
-            }
-            
-            #match-title {
-                font-size: 1.2rem;
-                margin-bottom: 12px;
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .match-details-container {
-                padding: 12px;
-                min-height: 80px;
-            }
-
-            .match-teams-display {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-
-            .team-badge-large {
-                width: 60px;
-                height: 60px;
-            }
-
-            .team-name-large {
-                font-size: 1rem;
-            }
-
-            .vs-text {
-                font-size: 1.2rem;
-                width: 50px;
-                height: 50px;
-                transform: rotate(90deg);
-            }
-
-            .lineup-container {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .match-info-section {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .match-info-section p {
-                justify-content: center;
-            }
-
-            .stream-options {
-                grid-template-columns: 1fr;
-            }
-
-            .stream-option {
-                padding: 0.6rem 0.8rem;
-            }
-        }
-
-        /* Fullscreen video adjustment */
-        .video-player:-webkit-full-screen {
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
-        }
-
-        .video-player:-moz-full-screen {
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
-        }
-
-        .video-player:-ms-fullscreen {
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
-        }
-
-        .video-player:fullscreen {
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
-        }
-
-        /* Lights Toggle Feature Styles - FIXED */
-        .lights-toggle-container {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .lights-toggle-btn {
-            background: #1a1a1a;
-            border: 1px solid #333333;
-            color: #ffffff;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .lights-toggle-btn:hover {
-            background: #ff6b00;
-            transform: translateY(-2px);
-        }
-
-        /* Dark mode styles - FIXED */
-        body.lights-off {
-            background: #000;
-            color: #fff;
-        }
-
-        body.lights-off header,
-        body.lights-off .about-section,
-        body.lights-off footer,
-        body.lights-off .mobile-menu,
-        body.lights-off .overlay {
-            display: none;
-        }
-
-        body.lights-off .container {
-            margin: 0 auto;
-            padding: 20px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        body.lights-off .lights-toggle-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            margin-bottom: 0;
-        }
-
-        body.lights-off .lights-toggle-btn {
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #333;
-            margin-bottom: 0;
-        }
-
-        body.lights-off .lights-toggle-btn:hover {
-            background: #ff6b00;
-        }
-
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            body.lights-off .container {
-                padding: 10px;
-            }
-            
-            body.lights-off .lights-toggle-container {
-                top: 10px;
-                right: 10px;
-            }
-            
-            body.lights-off .lights-toggle-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-        }
-
-        /* Chat Feature Styles - REMOVED TOGGLE ARROW */
-        .chat-container {
-            width: 100%;
-            margin-top: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .chat-header {
-            background: var(--primary);
-            color: white;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centered header text */
-        }
-
-        .chat-header h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* REMOVED CHAT TOGGLE BUTTON STYLES */
-        .chat-toggle {
-            display: none; /* Completely removed the toggle button */
-        }
-
-        #Wchat {
-            width: 100%;
-            height: 400px;
-            border: none;
-            display: block;
-        }
-
-        /* Desktop layout adjustments for chat */
-        @media (min-width: 992px) {
-            .content-with-chat {
-                display: flex;
-                gap: 20px;
-                align-items: flex-start;
-            }
-            
-            .video-section {
-                flex: 1.4; /* Increased for larger video */
-            }
-            
-            .chat-section {
-                flex: 0 0 320px; /* Adjusted to accommodate larger video */
-            }
-            
-            .chat-container {
-                margin-top: 0;
-                position: sticky;
-                top: 100px;
-            }
-        }
-
-        /* Mobile chat adjustments */
-        @media (max-width: 991px) {
-            .chat-container {
-                margin-top: 20px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="match.css">
+        <link rel="stylesheet" href="basic.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <head>
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"
+        rel="stylesheet"
+    />
+    </head>
 </head>
+<style>
+    a {
+            text-decoration: none;
+        }
+</style>
 <body>
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
+    <header class="top-bar">
             <div class="logo">
-                <i class="fas fa-play-circle"></i>
-                <span>Reedstreams</span>
+                <a href="index.html">
+                <span class="logo-text">Reed</span>
+                <span class="logo-accent">Streams</span>
+            </a>
+            <!--
+            <a href="your-page.html" class="muted-nav-btn">
+    <span>Leagues We Cver ?</span>
+            -->
+</a>
             </div>
-            <button class="mobile-menu-btn" id="closeMenuBtn">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="mobile-search search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search matches...">
-        </div>
-        
-        <div class="mobile-menu-links">
-            <a href="index.html" style="text-decoration: underline;" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=amfootball"><i class="fas fa-futbol"></i> NFL</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=football"><i class="fas fa-futbol"></i> FootBall</a>
-            <a href="https://reedstreams.live/live-matches.html?sport=baseball"><i class="fas fa-baseball-ball"></i> Baseball</a>
-            <a href="channels/Sky-Sports-Cricket.html"><i class="fas fa-table-tennis"></i> Cricekt</a>
-            <a href="channels/Sky-Sports-Tennis.html"><i class="fas fa-flag-checkered"></i> Formula 1</a>
-        </div>
-    </div>
-    
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div style="display: flex; align-items: center; gap: 1.5rem;">
-                <button class="mobile-menu-btn" id="openMenuBtn">
-                    <i class="fas fa-bars"></i>
+            <div class="nav-actions">
+              <a href="Sports.html">  <button class="watch-now-btn rolex">
+                    <i class="fas fa-play-circle"></i> Brows Sports ?
                 </button>
-                <a href="https://reedstreams.live/" class="logo">
-                    <i class="fas fa-play-circle"></i>
-                    <span>Reedstreams</span>
-                </a>
+            </a>
             </div>
+
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
             
-            <div class="nav-links">
-                <a href="./index.html" class="active"> Home</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=football"> Football</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=amfootball"> NFL</a>
-                <a href="https://reedstreams.live/live-matches.html?sport=baseball"> Baseball</a>
-                <a href="channels/Sky-Sports-Cricket.html">Cricket</a>
-                <a href="channels/Sky-Sports-Tennis.html"> F1</a>
-            </div>
-            
-            <div class="user-actions">
-                <div class="search-container">
-                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Enter team name to search...">
-                </div>
-            </div>
-        </nav>
-    </header>
-    
-    <div class="container">
-        <h1 id="match-title">Loading Match...</h1>
+        </header>      <!-- Transparent Top Bar -->
+ 
         
-        <!-- Content with Chat Layout -->
-        <div class="content-with-chat">
-            <div class="video-section">
-                <video id="video-player" class="video-player" controls autoplay></video>
-                <div id="match-details-container" class="match-details-container">
-                    Loading match details...
-                </div>
-            </div>
-            
-            <!-- Chat Section - REMOVED TOGGLE BUTTON -->
-            <div class="chat-section">
-                <div class="chat-container" id="chatContainer">
-                    <div class="chat-header">
-                        <h3><i class="fas fa-comments"></i> Live Chat</h3>
-                        <!-- REMOVED TOGGLE BUTTON -->
-                    </div>
-                    <iframe id="Wchat" src="http://reedstreamsv2.chatango.com/"></iframe>
-                </div>
-            </div>
+        <!-- Replace your existing mobile-nav with this -->
+<div class="mobile-nav">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">
+            <span class="logo-text">Reed</span>
+            <span class="logo-accent">Streams</span>
         </div>
+        <button class="close-sidebar">✕</button>
     </div>
     
-    <!-- About Section -->
-    <section class="about-section">
-        <div class="about-content">
-            <h2 class="about-title">Free Live Sports Streaming</h2>
-            <p class="about-text">
-                There are <span class="highlight">hundreds of sports</span> and millions of people play sport every day all around the world. Even more love to watch sport and here you can watch sport <span class="highlight">free online</span> on Reedstreams.
-            </p>
+    <div class="sidebar-content">
+        <ul class="mobile-nav-links">
+            <li><a href="sports.html"><i class="fas fa-broadcast-tower"></i> Live</a></li>
+            <li><a onclick="fuck()" href="none"><i class="fas fa-calendar-alt"></i> Upcoming</a></li>
+            <li><a href="FAQ.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
+    </div>
+    
+    <div class="sidebar-footer">
+        <a href="Sports.html">
+            <button class="mobile-watch-btn">
+                <i class="fas fa-play-circle"></i> Browse Sports
+            </button>
+        </a>
+        <div class="sidebar-social">
+            <a onclick="socials()" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a onclick="socials()" class="social-link"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</div>
+        
+        <!-- Overlay for mobile menu -->
+        <div class="overlay"></div>
+
+        <!---------------------------------------------------------------------------FUNCTIONALITY-------------------------------------------------------------------------------------->
+
+    <!-- Broadcast Container -->
+    <div class="broadcast-container">
+        <!-- Video Section -->
+        <div class="video-section">
+            <video id="video-player" class="video-player" controls autoplay></video>
+            <div id="match-details-container"></div>
+        </div>
+
+        <!-- Match Info -->
+        <div class="match-info">
+            <div class="match-title" id="match-title">
+                Loading Match...
+            </div>
             
-            <p class="about-text">
-                Let's start with football. We cover the <span class="highlight">NCAAF</span> so you get to see the next generation. And, of course we cover all the <span class="highlight">NFL</span>. Regular season? Check. Play-offs? Check. Bowls? Check. Superbowl? Check. And it's the same for <span class="highlight">MLB, NHL, NBA</span>, etc, etc. Think of a sport… we cover it. Have you ever wanted to watch a big game but you spent ages looking for a working stream? Or worse, that live sport streaming kept buffering or stopping? The search is over, you have arrived at your destination. <span class="highlight">Reliability and quality. Guaranteed.</span>
-            </p>
-            
-            <p class="about-text">
-                Soccer is played everywhere and now you can watch it anywhere. From north to south and east to west we collect the largest number of soccer streams from every league and competition. Let's do the check test again. <span class="highlight">EPL? Check. La Liga? Check. Champions League? Check.</span> Oh boy, this is going to be a very long check list because we just cover everything.
-            </p>
-            
-            <div class="about-points">
-                <div class="about-point">
-                    <div class="point-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3 class="point-title">Worldwide Coverage</h3>
-                    <p class="point-text">From ball sports to motorsports to combat sports, you can see it all on live streams. You are really going to need more time to watch everything we offer.</p>
+            <div class="teams-display">
+                <div class="team">
+                    <div class="team-logo" id="team1-logo"></div>
+                    <div class="team-name" id="team1-name">Home Team</div>
                 </div>
                 
-                <div class="about-point">
-                    <div class="point-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <h3 class="point-title">Updated Schedule</h3>
-                    <p class="point-text">The schedule is always being checked and updated. And most games have multiple links so you have lots of choices. Want to watch PPVs free? You got it.</p>
+                <div class="vs-separator">VS</div>
+                
+                <div class="team">
+                    <div class="team-logo" id="team2-logo"></div>
+                    <div class="team-name" id="team2-name">Away Team</div>
                 </div>
             </div>
+            
+            <div class="match-time" id="match-time">Loading time...</div>
         </div>
-    </section>
-
+    </div>
+    
+    <!---------------------------------------------------------------------------------------BS BELOW----------------------------------------------------------------------------------->
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Reedstreams</h3>
-                <ul class="footer-links">
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=football">Football <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=amfootball">NFL <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="https://reedstreams.live/live-matches.html?sport=baseball">Baseball <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="channels/Sky-Sports-Tennis.html">F1 <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="channels/Sky-Sports-Cricket.html">Cricket <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="channels/Sky-Sports-F1.html">Tennis <i class="fas fa-chevron-right"></i></a></li>
-                </ul>
-            </div>
-            
-            
-            <div class="footer-column">
-                <h3>Legal</h3>
-                <ul class="footer-links">
-                    <li><a href="./Terms.html">Terms of Service <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="./PrivacyPolicy.html">Privacy Policy <i class="fas fa-chevron-right"></i></a></li>
-                    <li><a href="./DMCA.html">DMCA <i class="fas fa-chevron-right"></i></a></li>
-                </ul>
-            </div>
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <span class="logo-text">Reed</span>
+            <span class="logo-accent">Streams</span>
         </div>
         
-        <div class="footer-bottom">
-            <div>
-                © 2025 Reedstreams. All rights reserved. | 
-                <a href="./PrivacyPolicy.html">Privacy</a> | 
-                <a href="./Terms.html">Terms</a> | 
-            </div>
-            <div class="datetime">
-                <i class="far fa-clock"></i>
-                <span id="clock">Sunday, May 25, 2025 | 03:30:52 PM PKT</span>
-            </div>
+        <p class="footer-tagline">
+            Your gateway to live sports streaming. Experience the game like never before.
+        </p>
+        
+        <div class="footer-links">
+            <a href="sports.html" class="footer-link">Sports</a>
+            <a onclick="fuck()" class="footer-link">Upcoming</a>
+            <a href="faq.html" class="footer-link">FAQ</a>
         </div>
         
-        <div class="disclaimer">
-            Reedstreams does not host any of the live stream videos playing on this site. All videos are hosted on external streaming sites that are freely available online. Please contact video hosting providers or media posters for takedown or any DMCA complaints.
+        <div class="legal-notice">
+            <p class="legal-text">
+                <span class="legal-highlight">Notice:</span> We do not host any content. All streams are sourced from third-party providers.
+            </p>
         </div>
-    </footer>
+        
+        <div class="copyright">
+            &copy; 2024 ReedStreams. All rights reserved.
+        </div>
+    </div>
+</footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="match-page.js"></script>
     <script>
-        // Mobile Menu Toggle
-        const mobileMenu = document.getElementById('mobileMenu');
-        const openMenuBtn = document.getElementById('openMenuBtn');
-        const closeMenuBtn = document.getElementById('closeMenuBtn');
-        const overlay = document.getElementById('overlay');
-
-        openMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         });
 
-        closeMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        overlay.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Enhanced Search Functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            // setupSearch(); - Not needed on match detail page
-            setupTuneInButtons();
-            updateClock();
-            setInterval(updateClock, 1000);
-            setupLightsToggle();
-            // REMOVED setupChatToggle() call since we removed the toggle feature
-        });
-
-        // Search functionality not needed on match detail page
-        // Removed setupSearch(), filterContent(), and highlightText() functions
-
-        function setupTuneInButtons() {
-            document.querySelectorAll('.btn-tune-in').forEach(button => {
-                button.addEventListener('click', () => {
-                    const url = button.getAttribute('data-url');
-                    if (url) {
-                        window.location.href = url;
-                    } else {
-                        console.warn('No data-url attribute found for Tune In button:', button);
-                    }
-                });
-            });
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const options = {
-                timeZone: 'Asia/Karachi',
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const dateTime = now.toLocaleString('en-US', options).replace(',', '');
-            const clockElement = document.getElementById('clock');
-            if (clockElement) {
-                clockElement.textContent = dateTime;
+        // Enhance match-page.js integration
+        function updateStats(matchData) {
+            // Update stats dynamically based on matchData
+            if (matchData && matchData.stats) {
+                document.getElementById('score').textContent = 
+                    `${matchData.stats?.score?.home || 0} - ${matchData.stats?.score?.away || 0}`;
+                document.getElementById('possession').textContent = 
+                    `${matchData.stats?.possession?.home || 50}% - ${matchData.stats?.possession?.away || 50}%`;
+                document.getElementById('time-elapsed').textContent = 
+                    matchData.stats?.time || '00:00';
             }
         }
 
-        // Lights Toggle Functionality - FIXED
-        function setupLightsToggle() {
-            const lightsToggle = document.getElementById('lights-toggle');
-            const body = document.body;
-            
-            if (lightsToggle) {
-                lightsToggle.addEventListener('click', function() {
-                    body.classList.toggle('lights-off');
-                    
-                    if (body.classList.contains('lights-off')) {
-                        this.innerHTML = '<i class="fas fa-lightbulb"></i><span>Turn Lights On</span>';
-                        // Hide other page elements when lights are off
-                        document.querySelector('header').style.display = 'none';
-                        document.querySelector('.about-section').style.display = 'none';
-                        document.querySelector('footer').style.display = 'none';
-                    } else {
-                        this.innerHTML = '<i class="fas fa-lightbulb"></i><span>Turn Lights Off</span>';
-                        // Show other page elements when lights are on
-                        document.querySelector('header').style.display = 'block';
-                        document.querySelector('.about-section').style.display = 'block';
-                        document.querySelector('footer').style.display = 'block';
-                    }
-                });
+        // Override match-page.js renderMatchDetails to match our UI
+        function renderMatchDetails(matchData) {
+            const titleElement = document.getElementById('match-title');
+            const team1Logo = document.getElementById('team1-logo');
+            const team2Logo = document.getElementById('team2-logo');
+            const team1Name = document.getElementById('team1-name');
+            const team2Name = document.getElementById('team2-name');
+            const matchTime = document.getElementById('match-time');
+
+            const homeTeam = matchData.teams?.home;
+            const awayTeam = matchData.teams?.away;
+            const startTimeFormatted = formatMatchTime(matchData.date);
+
+            titleElement.innerHTML = `
+                ${matchData.title || `${homeTeam?.name || 'Home'} vs ${awayTeam?.name || 'Away'}`}
+                <span class="live-indicator"><span class="live-pulse"></span> LIVE</span>
+            `;
+            team1Name.textContent = homeTeam?.name || 'Home Team';
+            team2Name.textContent = awayTeam?.name || 'Away Team';
+            matchTime.textContent = startTimeFormatted || 'Live';
+
+            if (homeTeam?.badge) {
+                team1Logo.innerHTML = `<img src="${getTeamBadgeUrl(homeTeam.badge)}" alt="${homeTeam.name}" onerror="this.style.display='none'">`;
             }
+            if (awayTeam?.badge) {
+                team2Logo.innerHTML = `<img src="${getTeamBadgeUrl(awayTeam.badge)}" alt="${awayTeam.name}" onerror="this.style.display='none'">`;
+            }
+
+            updateStats(matchData);
         }
 
-        // REMOVED setupChatToggle() function since we removed the toggle feature
+        // Simulate live stats updates
+        setInterval(() => {
+            const storedMatch = sessionStorage.getItem('currentMatch');
+            if (storedMatch) {
+                const matchData = JSON.parse(storedMatch);
+                // Simulate random updates (replace with real API updates in production)
+                matchData.stats = matchData.stats || {};
+                if (Math.random() > 0.7) {
+                    matchData.stats.possession = {
+                        home: Math.floor(Math.random() * 20) + 50,
+                        away: Math.floor(Math.random() * 20) + 30
+                    };
+                    matchData.stats.possession.away = 100 - matchData.stats.possession.home;
+                }
+                if (Math.random() > 0.95) {
+                    matchData.stats.score = matchData.stats.score || { home: 0, away: 0 };
+                    if (Math.random() > 0.5) {
+                        matchData.stats.score.home++;
+                    } else {
+                        matchData.stats.score.away++;
+                    }
+                }
+                updateStats(matchData);
+            }
+        }, 5000);
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+    // Fixed Header scroll effect - CORRECTED
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.top-bar');
+    const scrollPosition = window.scrollY;
+    
+    if (scrollPosition > 50) {
+        header.style.background = 'rgba(10, 14, 23, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+        
+        // Only apply fixed positioning on desktop
+        if (window.innerWidth > 768) {
+            header.style.position = 'fixed';
+            header.style.top = '0';
+            header.style.left = '0';
+            header.style.right = '0';
+            header.style.zIndex = '100';
+            
+            // Add padding to body to prevent content jump
+            document.body.style.paddingTop = header.offsetHeight + 'px';
+        }
+    } else {
+        header.style.background = 'transparent';
+        header.style.backdropFilter = 'none';
+        
+        if (window.innerWidth > 768) {
+            header.style.position = 'relative';
+            // Remove the padding when header goes back to normal
+            document.body.style.paddingTop = '0';
+        }
+    }
+});
+
+</script>
+<script>
+// Header scroll effect - sticky with background
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.top-bar');
+    const scrollPosition = window.scrollY;
+    
+    if (scrollPosition > 50) {
+        header.style.background = 'rgba(10, 14, 23, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.style.left = '0';
+        header.style.right = '0';
+        header.style.zIndex = '1000';
+    } else {
+        header.style.background = 'transparent';
+        header.style.backdropFilter = 'none';
+        header.style.borderBottom = 'none';
+        header.style.position = 'relative';
+    }
+});
+</script>
+<script>
+    // Toggle match counts visibility
+function setupMatchCountsToggle() {
+    const matchToggle = document.getElementById('matchToggle');
+    const matchCounts = document.getElementById('matchCounts');
+    const closeMatches = document.getElementById('closeMatches');
+
+    matchToggle.addEventListener('click', function() {
+        matchCounts.classList.toggle('active');
+    });
+
+    closeMatches.addEventListener('click', function() {
+        matchCounts.classList.remove('active');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!matchCounts.contains(event.target) && !matchToggle.contains(event.target)) {
+            matchCounts.classList.remove('active');
+        }
+    });
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', function() {
+    loadAllSportsWithCounts();
+    setInterval(loadAllSportsWithCounts, 30000);
+    setupMatchCountsToggle();
+});
+</script>
+<script>
+            // Update your existing mobile menu JavaScript
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const mobileNav = document.querySelector('.mobile-nav');
+const overlay = document.querySelector('.overlay');
+const closeSidebar = document.querySelector('.close-sidebar');
+const body = document.body;
+
+function toggleMobileMenu() {
+    mobileNav.classList.toggle('active');
+    overlay.classList.toggle('active');
+    body.classList.toggle('sidebar-open');
+}
+
+mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+overlay.addEventListener('click', toggleMobileMenu);
+closeSidebar.addEventListener('click', toggleMobileMenu);
+
+// Close mobile menu when clicking on a link
+const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+mobileNavLinks.forEach(link => {
+    link.addEventListener('click', toggleMobileMenu);
+});
+    </script>
+   <script>
+      // Page load animation
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        document.getElementById('pageLoader').classList.add('fade-out');
+        document.body.classList.add('oaded');
+    }, 1000);
+});
+    </script> 
+    <script>
+    function fuck() {
+        alert("You can check all upcoming matches directly on the match page after selecting a sport. Thanks!")
+    }
+
+    function socials() {
+        alert("Coming Soon..")
+    }
+</script>
 </body>
 </html>

@@ -3,259 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - ReedStreams</title>
+    <title>Sleek FAQ Section</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #8db902;
-            --secondary-color: #0a0e17;
-            --accent-color: #1a2332;
-            --text-light: #ffffff;
-            --text-muted: #a0aec0;
-            --transition: all 0.3s ease;
-            --border-radius: 8px;
-            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --gradient: linear-gradient(135deg, rgba(13, 18, 29, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
+            --primary: #8db902;
+            --dark: #0a0e17;
+            --darker: #070a10;
+            --light: #ffffff;
+            --gray: #a0aec0;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-            overflow-x: hidden;
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .faq-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), #c3ef00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .faq-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .faq-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
             line-height: 1.6;
         }
 
-        /* Transparent Header */
-        .header {
-            background: transparent;
-            padding: 1.5rem 3rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            transition: var(--transition);
-        }
-
-        .header.scrolled {
-            background: rgba(10, 14, 23, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 3rem;
-            border-bottom: 1px solid rgba(141, 185, 2, 0.2);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo-text {
-            color: var(--text-light);
-        }
-
-        .logo-accent {
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: var(--transition);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .watch-now-btn {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(141, 185, 2, 0.3);
-        }
-
-        .watch-now-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(141, 185, 2, 0.4);
-        }
-
-        /* FAQ Hero Section */
-        .faq-hero {
-            background: linear-gradient(rgba(10, 14, 23, 0.9), rgba(10, 14, 23, 0.9)), 
-                        url('https://wallpaperaccess.com/full/301514.jpg') no-repeat center center/cover;
-            padding: 10rem 2rem 6rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .faq-hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #ffffff, var(--primary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .faq-hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .search-box {
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-light);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .search-box i {
-            position: absolute;
-            right: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        /* FAQ Content */
-        .faq-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .faq-categories {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .category-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .category-btn.active, .category-btn:hover {
-            background: var(--primary-color);
-            color: var(--secondary-color);
-        }
-
-        .faq-section {
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         .faq-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
+            background: rgba(26, 35, 50, 0.6);
+            border-radius: 12px;
             margin-bottom: 1rem;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
+            position: relative;
         }
 
-        .faq-item:hover {
+        .faq-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.4s ease;
+        }
+
+        .faq-item.active {
             border-color: rgba(141, 185, 2, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-item.active::before {
+            transform: scaleY(1);
         }
 
         .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
+            cursor: pointer;
             transition: var(--transition);
         }
 
@@ -263,536 +118,225 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
+        .faq-question span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--light);
+            flex: 1;
+            padding-right: 1rem;
+        }
+
         .faq-icon {
-            color: var(--primary-color);
+            width: 24px;
+            height: 24px;
+            position: relative;
+            flex-shrink: 0;
             transition: var(--transition);
+        }
+
+        .faq-icon::before,
+        .faq-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .faq-icon::before {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .faq-icon::after {
+            width: 2px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .faq-answer {
-            padding: 0 1.5rem;
             max-height: 0;
             overflow: hidden;
-            transition: var(--transition);
-            color: var(--text-muted);
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--gray);
+            line-height: 1.7;
+            font-size: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Active states */
+        .faq-item.active .faq-icon::after {
+            transform: translateX(-50%) rotate(90deg);
+            opacity: 0;
         }
 
         .faq-item.active .faq-answer {
-            padding: 0 1.5rem 1.5rem;
-            max-height: 500px;
+            max-height: 300px;
         }
 
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
+        .faq-item.active .faq-answer-content {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.15s;
         }
 
-        /* Contact Section */
-        .contact-section {
-            background-image: url('https://wallpaperaccess.com/download/nfl-301514');
-
-            padding: 4rem 2rem;
-            text-align: center;
-            border-radius: var(--border-radius);
-            margin-top: 3rem;
-        }
-
-        .contact-section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .contact-section p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        .contact-btn {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(141, 185, 2, 0.3);
-        }
-
-        /* Footer Styles */
-        .footer {
-            background: linear-gradient(to bottom, #0a0e17, #070a12);
-            padding: 3rem 0 1.5rem;
-            border-top: 1px solid rgba(141, 185, 2, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-        }
-
-        .footer-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .footer-brand {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .footer-tagline {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            max-width: 400px;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .footer-heading {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-heading::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 30px;
-            height: 2px;
-            background-color: var(--primary-color);
-        }
-
-        .footer-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-link:hover {
-            color: var(--primary-color);
-            transform: translateX(5px);
-        }
-
-        .legal-notice {
-            background: rgba(141, 185, 2, 0.1);
-            border: 1px solid rgba(141, 185, 2, 0.2);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: 1rem;
-            position: relative;
-        }
-
-        .legal-notice::before {
-            content: '⚠️';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--secondary-color);
-            padding: 0 10px;
-            font-size: 1.2rem;
-        }
-
-        .legal-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .legal-highlight {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .copyright {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-legal-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-legal-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .footer-legal-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .footer-legal-link:hover {
-            color: var(--primary-color);
-        }
-
-        .footer-legal-link:hover::after {
-            width: 100%;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background: var(--primary-color);
-            color: var(--secondary-color);
-            transform: translateY(-3px);
-        }
-
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                padding: 1rem 1.5rem;
+            body {
+                padding: 1.5rem;
             }
             
-            .header.scrolled {
-                padding: 0.8rem 1.5rem;
+            .faq-title {
+                font-size: 2rem;
             }
             
-            .nav-links {
-                display: none;
+            .faq-subtitle {
+                font-size: 1rem;
             }
             
-            .faq-hero {
-                padding: 8rem 1.5rem 4rem;
+            .faq-question {
+                padding: 1.25rem 1.5rem;
             }
             
-            .faq-hero h1 {
-                font-size: 2.5rem;
+            .faq-question span {
+                font-size: 1rem;
             }
             
-            .faq-container {
-                padding: 2rem 1.5rem;
-            }
-            
-            .footer-main {
-                flex-direction: column;
-                gap: 2.5rem;
-            }
-            
-            .footer-links {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
+            .faq-answer-content {
+                padding: 0 1.5rem 1.25rem;
             }
         }
 
         @media (max-width: 480px) {
-            .faq-hero h1 {
-                font-size: 2rem;
+            body {
+                padding: 1rem;
             }
             
-            .faq-categories {
-                flex-direction: column;
-                align-items: center;
+            .faq-title {
+                font-size: 1.75rem;
             }
             
-            .footer-links {
-                flex-direction: column;
-                gap: 2rem;
+            .faq-question {
+                padding: 1rem 1.25rem;
             }
             
-            .footer-legal-links {
-                flex-wrap: wrap;
-                justify-content: center;
+            .faq-question span {
+                font-size: 0.95rem;
+            }
+            
+            .faq-answer-content {
+                padding: 0 1.25rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Transparent Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-text">Reed</span>
-                <span class="logo-accent">Streams</span>
-            </div>
-            
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#">Live</a></li>
-                    <li><a href="#">Upcoming</a></li>
-                    <li><a href="#">Popular</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#" style="color: var(--primary-color);">FAQ</a></li>
-                </ul>
-            </nav>
-            
-            <div class="nav-actions">
-                <button class="watch-now-btn">
-                    <i class="fas fa-play-circle"></i> Watch Now
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- FAQ Hero Section -->
-    <section class="faq-hero">
-        <div class="faq-hero-content">
-            <h1>Frequently Asked Questions</h1>
-            <p>Find answers to common questions about ReedStreams and how to get the most out of your streaming experience.</p>
-        </div>
-    </section>
-
-    <!-- FAQ Content -->
     <div class="faq-container">
-        <div class="faq-section">
-            <h2 class="section-title"><i class="fas fa-rocket"></i> Getting Started</h2>
-            
-            <div class="faq-item">
+        <div class="faq-header">
+            <h1 class="faq-title">Frequently Asked Questions</h1>
+            <p class="faq-subtitle">Find answers to common questions about ReedStreams and how to get the most out of our platform.</p>
+        </div>
+
+        <div class="faq-items">
+            <div class="faq-item active">
                 <div class="faq-question">
                     <span>What is ReedStreams?</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
+                    <div class="faq-icon"></div>
                 </div>
                 <div class="faq-answer">
-                    <p>ReedStreams is a free sports streaming platform where you can watch live matches from different sports and check upcoming schedules. We make it easy for fans to stay connected to their favorite games.</p>
+                    <div class="faq-answer-content">
+                        <p>ReedStreams is a free sports streaming platform where you can watch live matches from different sports and check upcoming schedules. We make it easy for fans to stay connected to their favorite games.</p>
+                    </div>
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question">
-                    <span> Do I need to sign up or create an account?</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
+                    <span>Do I need to sign up or create an account?</span>
+                    <div class="faq-icon"></div>
                 </div>
                 <div class="faq-answer">
-                    <p>No. ReedStreams does not require any signup or login. You can access live matches and schedules directly without creating an account.</p>
+                    <div class="faq-answer-content">
+                        <p>No. ReedStreams does not require any signup or login. You can access live matches and schedules directly without creating an account.</p>
+                    </div>
                 </div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question">
                     <span>Which sports can I watch on ReedStreams?</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
+                    <div class="faq-icon"></div>
                 </div>
                 <div class="faq-answer">
-                    <p>You can watch a wide range of sports including Soccer, Basketball, NFL, MMA, Hockey, Baseball, and more. We update our sports list regularly so you never miss the action.</p>
+                    <div class="faq-answer-content">
+                        <p>You can watch a wide range of sports including Soccer, Basketball, NFL, MMA, Hockey, Baseball, and more. We update our sports list regularly so you never miss the action.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span> Are the matches shown live?</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
+                    <span>Are the matches shown live?</span>
+                    <div class="faq-icon"></div>
                 </div>
                 <div class="faq-answer">
-                    <p>Yes. ReedStreams provides live matches as they happen. You can also check the schedule page to see upcoming games and plan ahead.</p>
+                    <div class="faq-answer-content">
+                        <p>Yes. ReedStreams provides live matches as they happen. You can also check the schedule page to see upcoming games and plan ahead.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-question">
                     <span>Can I watch on mobile devices?</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
+                    <div class="faq-icon"></div>
                 </div>
                 <div class="faq-answer">
-                    <p>Yes. ReedStreams is fully responsive and works on smartphones, tablets, and desktops, so you can enjoy sports on the go.</p>
+                    <div class="faq-answer-content">
+                        <p>Yes. ReedStreams is fully responsive and works on smartphones, tablets, and desktops, so you can enjoy sports on the go.</p>
+                    </div>
                 </div>
             </div>
         </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-main">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <span class="logo-text">Reed</span>
-                        <span class="logo-accent">Streams</span>
-                    </div>
-                    <p class="footer-tagline">
-                        Your ultimate destination for free live sports streaming. Experience the thrill of the game without the subscription fees.
-                    </p>
-                </div>
-                
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h3 class="footer-heading">Navigation</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-home"></i> Home</a>
-                        <a href="#" class="footer-link"><i class="fas fa-broadcast-tower"></i> Live Now</a>
-                        <a href="#" class="footer-link"><i class="fas fa-calendar-alt"></i> Upcoming</a>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3 class="footer-heading">Sports</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-futbol"></i> Football</a>
-                        <a href="#" class="footer-link"><i class="fas fa-basketball-ball"></i> Basketball</a>
-                        <a href="#" class="footer-link"><i class="fas fa-baseball-ball"></i> Baseball</a>
-                        <a href="#" class="footer-link"><i class="fas fa-hockey-puck"></i> Hockey</a>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3 class="footer-heading">Support</h3>
-                        <a href="#" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a>
-                        <a href="#" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="legal-notice">
-                <p class="legal-text">
-                    <span class="legal-highlight">Important Notice:</span> ReedStreams does not host any of the streams displayed on this platform. All streams are sourced from third-party providers. For any takedown requests, please contact the content hosts directly.
-                </p>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
-                    © 2025 ReedStreams. All rights reserved.
-                </div>
-                
-                <div class="footer-legal-links">
-                    <a href="#" class="footer-legal-link">Privacy Policy</a>
-                    <a href="#" class="footer-legal-link">Terms of Service</a>
-                    <a href="#" class="footer-legal-link">DMCA</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // FAQ Accordion Functionality
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentNode;
-                item.classList.toggle('active');
-            });
-        });
-
-        // Category Filtering
-        document.querySelectorAll('.category-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                // Add active class to clicked button
-                button.classList.add('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            // Keep first FAQ open by default
+            if (faqItems.length > 0) {
+                faqItems[0].classList.add('active');
+            }
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
                 
-                // In a real implementation, this would filter the FAQ items
-                // For this demo, we'll just show a simple alert
-                if(button.textContent !== 'All Questions') {
-                    alert(`Filtering by: ${button.textContent}`);
-                }
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
             });
-        });
-
-        // Search Functionality
-        const searchInput = document.querySelector('.search-box input');
-        searchInput.addEventListener('keyup', (e) => {
-            if(e.key === 'Enter') {
-                const query = searchInput.value.trim();
-                if(query) {
-                    alert(`Searching for: ${query}`);
-                    // In a real implementation, this would filter FAQ items
-                }
-            }
-        });
-
-        // Header scroll effect - transparent to solid
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
         });
     </script>
-    <script src="hidebar.js"></script>
 </body>
 </html>

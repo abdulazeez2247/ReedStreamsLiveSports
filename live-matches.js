@@ -5,6 +5,11 @@ function getQueryParam(param) {
   return new URLSearchParams(window.location.search).get(param);
 }
 
+// Global variable to store the current sport name.
+// This is set immediately when the script loads to ensure it's available 
+// before any DOM events (like the filter's DOMContentLoaded) fire.
+let currentSportName = (getQueryParam("sportName") || "Sport").trim();
+
 function formatMatchTime(dateString) {
   try {
     if (!dateString) return "N/A";
@@ -45,7 +50,7 @@ function createTeamBadgeHTML(team, side) {
 
 async function loadLiveMatches() {
   const sportId = getQueryParam("sportId");
-  const sportName = getQueryParam("sportName") || "Sport";
+  const sportName = currentSportName || "Sport"; // Use the global variable
   const matchContainer = document.querySelector("#match-list");
   
   matchContainer.innerHTML = '<div class="loading-message">Loading matches...</div>';
@@ -189,7 +194,7 @@ function filterContent(query, categoryCards, channelCards, matchList, resultsTit
     const matchCards = matchList.querySelectorAll(':scope > *'); // Direct children of #match-list
     matchCards.forEach(card => {
         card.style.display = 'block';
-        const textElements = cardamom.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span'); // Common text elements
+        const textElements = card.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span'); // Common text elements
         textElements.forEach(el => {
             el.innerHTML = el.textContent;
         });
@@ -260,3 +265,265 @@ function highlightText(element, searchText) {
     const regex = new RegExp(searchText, 'gi');
     element.innerHTML = text.replace(regex, match => `<span class="highlight-match">${match}</span>`);
 }
+
+/**
+ * Helper function to check if the current sport is NFL/American Football.
+ * We check for both 'nfl' and 'american football' for maximum compatibility.
+ */
+function isNflOrAmericanFootball() {
+    const lowerCaseName = currentSportName.toLowerCase();
+    // Check if name is 'american football' OR includes 'nfl' 
+    return lowerCaseName === 'american football' || lowerCaseName.includes('nfl');
+}
+
+
+// AGGRESSIVE MATCH FILTER - GUARANTEED TO WORK
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Aggressive filter loaded - waiting for matches...');
+    
+    // Wait longer for matches to load and use multiple attempts
+    let attempts = 0;
+    const maxAttempts = 5;
+    
+    const checkMatches = setInterval(() => {
+        attempts++;
+        const matchCards = document.querySelectorAll('.match-card');
+        
+        // Skip interval logic entirely if NFL/American Football is detected.
+        if (isNflOrAmericanFootball()) {
+             console.log('American Football sport detected. Stopping aggressive filter checks.');
+             clearInterval(checkMatches);
+             // Ensure all matches are visible (should already be the case by default)
+             matchCards.forEach(card => card.style.display = 'block');
+             addFilterToggle(); // Add toggle but it will be disabled/show info inside the function
+             return;
+        }
+
+        if (matchCards.length > 0 || attempts >= maxAttempts) {
+            clearInterval(checkMatches);
+            console.log(`Found ${matchCards.length} match cards, applying filter...`);
+            applyAggressiveFilter();
+            addFilterToggle();
+        }
+    }, 1000);
+});
+
+function applyAggressiveFilter() {
+    // ----------------------------------------------------
+    // NFL/American Football Check: Disable filter if sport is American Football
+    // ----------------------------------------------------
+    if (isNflOrAmericanFootball()) {
+        console.log('American Football sport detected. Aggressive filter is DISABLED.');
+        const matchCards = document.querySelectorAll('.match-card');
+        matchCards.forEach(card => {
+            card.style.display = 'block'; // Ensure all cards are visible
+        });
+        return 0; 
+    }
+    // ----------------------------------------------------
+
+    const matchCards = document.querySelectorAll('.match-card');
+    const now = new Date();
+    let hiddenCount = 0;
+    
+    console.log('Applying aggressive 15-minute filter...');
+    
+    matchCards.forEach((card, index) => {
+        const startTimeElement = card.querySelector('.start-time');
+        const liveStatusElement = card.querySelector('.live-status');
+        
+        // Always show LIVE matches
+        if (liveStatusElement && liveStatusElement.textContent.includes('LIVE')) {
+            console.log(`Card ${index}: LIVE match - SHOWING`);
+            card.style.display = 'block';
+            card.dataset.matchStatus = 'live';
+            return;
+        }
+        
+        if (!startTimeElement) {
+            console.log(`Card ${index}: No time element - SHOWING`);
+            card.style.display = 'block';
+            card.dataset.matchStatus = 'unknown';
+            return;
+        }
+        
+        const timeText = startTimeElement.textContent.trim();
+        console.log(`Card ${index}: Time text: "${timeText}"`);
+        
+        const matchTime = parseTimeText(timeText);
+        
+        if (!matchTime) {
+            console.log(`Card ${index}: Could not parse time - SHOWING`);
+            card.style.display = 'block';
+            card.dataset.matchStatus = 'unknown';
+            return;
+        }
+        
+        const timeDiff = (matchTime - now) / (1000 * 60); // Difference in minutes
+        
+        console.log(`Card ${index}: Time difference: ${timeDiff.toFixed(1)} minutes`);
+        
+        // AGGRESSIVE FILTER: Only show if starting within 15 minutes or already started
+        if (timeDiff <= 15) {
+            console.log(`Card ${index}: Within 15 minutes - SHOWING`);
+            card.style.display = 'block';
+            card.dataset.matchStatus = timeDiff > 0 ? 'starting-soon' : 'live';
+            
+            // Update status badge if starting soon
+            if (timeDiff > 0 && timeDiff <= 15 && liveStatusElement) {
+                liveStatusElement.textContent = 'SOON';
+                liveStatusElement.style.background = 'rgba(255, 193, 7, 0.2)';
+                liveStatusElement.style.color = '#ffc107';
+            }
+        } else {
+            console.log(`Card ${index}: More than 15 minutes away - HIDING`);
+            card.style.display = 'none';
+            card.dataset.matchStatus = 'upcoming';
+            hiddenCount++;
+        }
+    });
+    
+    console.log(`Filter complete: ${hiddenCount} matches hidden`);
+    return hiddenCount;
+}
+
+function parseTimeText(timeText) {
+    console.log('Parsing time:', timeText);
+    
+    // Handle common time formats
+    const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+    if (!timeMatch) {
+        console.log('No time match found');
+        return null;
+    }
+    
+    let hours = parseInt(timeMatch[1]);
+    const minutes = parseInt(timeMatch[2]);
+    const period = timeMatch[3] ? timeMatch[3].toUpperCase() : '';
+    
+    console.log(`Parsed: ${hours}:${minutes} ${period}`);
+    
+    // Convert to 24-hour format
+    if (period === 'PM' && hours < 12) {
+        hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+        hours = 0;
+    }
+    
+    const now = new Date();
+    const matchTime = new Date();
+    matchTime.setHours(hours, minutes, 0, 0);
+    
+    // If the time appears to be in the past, assume it's for tomorrow
+    if (matchTime < now) {
+        matchTime.setDate(matchTime.getDate() + 1);
+        console.log('Time appears to be in past, assuming tomorrow');
+    }
+    
+    console.log('Final match time:', matchTime.toString());
+    return matchTime;
+}
+
+function addFilterToggle() {
+    // ----------------------------------------------------
+    // NFL/American Football Check: Disable filter toggle if sport is American Football
+    // ----------------------------------------------------
+    if (isNflOrAmericanFootball()) {
+        console.log('American Football sport detected. Filter toggle is DISABLED.');
+        // Display a message that filtering is off
+        const matchList = document.getElementById('match-list');
+        if (matchList && !document.getElementById('nflFilterInfo')) {
+             matchList.insertAdjacentHTML('beforebegin', `
+                <div id="nflFilterInfo" style="
+                    margin: 1rem 0;
+                    padding: 1rem;
+                    background: rgba(141, 185, 2, 0.1);
+                    border: 1px solid rgba(141, 185, 2, 0.3);
+                    border-radius: 8px;
+                    text-align: center;
+                    color: #8db902;
+                    font-weight: bold;
+                ">
+                    Aggressive filter is disabled for American Football. All upcoming matches are shown.
+                </div>
+            `);
+        }
+        return; 
+    }
+    // ----------------------------------------------------
+
+    if (document.getElementById('aggressiveFilterToggle')) return;
+    
+    const toggleHTML = `
+        <div class="aggressive-filter-container" id="aggressiveFilterToggle" style="
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(212, 32, 26, 0.1);
+            border: 1px solid rgba(212, 32, 26, 0.3);
+            border-radius: 8px;
+            text-align: center;
+        ">
+            <button id="toggleFilterBtn" style="
+                background: #d4201a;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: bold;
+                margin-bottom: 8px;
+            ">
+                <i class="fas fa-eye"></i> Show All Matches
+            </button>
+            <div style="font-size: 12px; color: #666;">
+                Currently showing only LIVE and matches starting within 15 minutes
+            </div>
+        </div>
+    `;
+    
+    const matchList = document.getElementById('match-list');
+    if (matchList) {
+        matchList.insertAdjacentHTML('beforebegin', toggleHTML);
+        
+        let showAll = false;
+        const toggleBtn = document.getElementById('toggleFilterBtn');
+        
+        toggleBtn.addEventListener('click', function() {
+            showAll = !showAll;
+            
+            if (showAll) {
+                // Show all matches
+                document.querySelectorAll('.match-card').forEach(card => {
+                    card.style.display = 'block';
+                });
+                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Upcoming Matches';
+                toggleBtn.style.background = '#6c757d';
+            } else {
+                // Apply aggressive filter
+                applyAggressiveFilter();
+                toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Show All Matches';
+                toggleBtn.style.background = '#d4201a';
+            }
+        });
+    }
+}
+
+// Force re-apply filter every 30 seconds to catch new matches
+setInterval(() => {
+    // Only re-apply if the filter is active and NOT for NFL/American Football
+    if (!isNflOrAmericanFootball() &&
+        (!document.getElementById('toggleFilterBtn') || 
+        document.getElementById('toggleFilterBtn').innerHTML.includes('Show All'))) {
+        applyAggressiveFilter();
+    }
+}, 30000);
+
+// Also re-apply when page visibility changes (user comes back to tab)
+document.addEventListener('visibilitychange', function() {
+    // Only re-apply if not NFL/American Football
+    if (!document.hidden && !isNflOrAmericanFootball()) {
+        setTimeout(applyAggressiveFilter, 1000);
+    }
+});
+
+console.log('Aggressive match filter initialized successfully!');

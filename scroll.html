@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReedStreams - Featured Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8db902;
+            --secondary-color: #0a0e17;
+            --accent-color: #1a2332;
+            --text-light: #ffffff;
+            --text-muted: #a0aec0;
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Featured Section - Redesigned */
+        .featured-section {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #8db902, #c3ef00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 10;
+            padding-top: 2rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #a0aec0;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Full Screen Carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            height: 100%;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2rem;
+            min-width: 100%;
+            position: relative;
+        }
+
+        /* Full Background Image */
+        .carousel-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        .carousel-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 14, 23, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
+            z-index: 2;
+        }
+
+        /* Content Container */
+        .carousel-content-container {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Square Image */
+        .carousel-image {
+            width: 40vh;
+            height: 40vh;
+            border-radius: 15px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-item:hover .carousel-image {
+            transform: scale(1.03);
+        }
+
+        .carousel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        /* Content Area */
+        .carousel-content {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        .carousel-heading {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .carousel-description {
+            color: #a0aec0;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            font-weight: 400;
+            max-width: 500px;
+        }
+
+        /* Modern Button */
+        .carousel-button {
+            background: linear-gradient(135deg, #8db902, #c3ef00);
+            color: #0a0e17;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .carousel-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(141, 185, 2, 0.4);
+        }
+
+        .carousel-button:hover::before {
+            left: 100%;
+        }
+
+        /* Navigation Buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(141, 185, 2, 0.9);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: #0a0e17;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(141, 185, 2, 0.3);
+        }
+
+        .nav-button:hover {
+            background: #8db902;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 15px 35px rgba(141, 185, 2, 0.5);
+        }
+
+        .prev-btn {
+            left: 2rem;
+        }
+
+        .next-btn {
+            right: 2rem;
+        }
+
+        /* Indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .indicator.active {
+            background: #8db902;
+            transform: scale(1.3);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px #8db902;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .carousel-content-container {
+                gap: 2rem;
+            }
+            
+            .carousel-heading {
+                font-size: 1.8rem;
+            }
+            
+            .carousel-image {
+                width: 35vh;
+                height: 35vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .featured-section {
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .carousel-container {
+                height: auto;
+                min-height: 60vh;
+            }
+            
+            .carousel-item {
+                flex-direction: column;
+                height: auto;
+                gap: 2rem;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .carousel-content-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .carousel-image {
+                width: 40vw;
+                height: 40vw;
+            }
+            
+            .carousel-content {
+                padding: 0.5rem;
+            }
+            
+            .carousel-heading {
+                font-size: 1.8rem;
+            }
+            
+            .carousel-description {
+                font-size: 1rem;
+            }
+            
+            .nav-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+            
+            .prev-btn {
+                left: 1rem;
+            }
+            
+            .next-btn {
+                right: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .carousel-image {
+                width: 60vw;
+                height: 60vw;
+            }
+            
+            .carousel-heading {
+                font-size: 1.5rem;
+            }
+            
+            .carousel-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .nav-button {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Featured Content Section -->
+    <section class="featured-section">
+        <h2 class="section-title">Featured Content</h2>
+        <p class="section-subtitle">Discover the most exciting sports events and highlights</p>
+        
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+                <!-- Item 1 -->
+                <div class="carousel-item">
+                    <div class="carousel-bg" style="background-image: url('https://images.unsplash.com/photo-1556056504-5c7696c4c28d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2076&q=80')"></div>
+                    <div class="carousel-content-container">
+                        <div class="carousel-image">
+                            <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Football Match">
+                            <div class="image-overlay">Football • Live Matches</div>
+                        </div>
+                        <div class="carousel-content">
+                            <h3 class="carousel-heading">Live Football Matches</h3>
+                            <p class="carousel-description">Watch the biggest football leagues live with HD streaming. Never miss a goal with our real-time coverage and multiple camera angles.</p>
+                            <a href="sports.html?category=football">
+                                <button class="carousel-button">
+                                    <i class="fas fa-play-circle" style="margin-right: 8px;"></i>
+                                    Watch Live
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="carousel-item">
+                    <div class="carousel-bg" style="background-image: url('https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2090&q=80')"></div>
+                    <div class="carousel-content-container">
+                        <div class="carousel-image">
+                            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2090&q=80" alt="Basketball Game">
+                            <div class="image-overlay">Basketball • Highlights</div>
+                        </div>
+                        <div class="carousel-content">
+                            <h3 class="carousel-heading">Basketball Highlights</h3>
+                            <p class="carousel-description">Catch all the NBA action with our exclusive highlights and full game replays. Experience the thrill of every dunk and three-pointer.</p>
+                            <a href="sports.html?category=basketball">
+                                <button class="carousel-button">
+                                    <i class="fas fa-film" style="margin-right: 8px;"></i>
+                                    View Highlights
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="carousel-item">
+                    <div class="carousel-bg" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+                    <div class="carousel-content-container">
+                        <div class="carousel-image">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Sports Schedule">
+                            <div class="image-overlay">Events • Schedule</div>
+                        </div>
+                        <div class="carousel-content">
+                            <h3 class="carousel-heading">Upcoming Events</h3>
+                            <p class="carousel-description">Stay updated with our calendar of upcoming sports events. Set reminders so you never miss your favorite teams in action.</p>
+                            <a href="upcoming.html">
+                                <button class="carousel-button">
+                                    <i class="fas fa-calendar-alt" style="margin-right: 8px;"></i>
+                                    View Schedule
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-button prev-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-button next-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="carousel-indicators">
+                <div class="indicator active" data-index="0"></div>
+                <div class="indicator" data-index="1"></div>
+                <div class="indicator" data-index="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('carousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            let currentIndex = 0;
+            const totalItems = document.querySelectorAll('.carousel-item').length;
+            let autoScrollInterval;
+            let isTransitioning = false;
+            
+            // Function to update carousel position
+            function updateCarousel() {
+                if (isTransitioning) return;
+                
+                isTransitioning = true;
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentIndex);
+                });
+                
+                // Reset transitioning flag after animation completes
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 800);
+            }
+            
+            // Next slide function
+            function nextSlide() {
+                if (isTransitioning) return;
+                currentIndex = (currentIndex + 1) % totalItems;
+                updateCarousel();
+            }
+            
+            // Previous slide function
+            function prevSlide() {
+                if (isTransitioning) return;
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                updateCarousel();
+            }
+            
+            // Set up auto-scroll
+            function startAutoScroll() {
+                autoScrollInterval = setInterval(nextSlide, 5000);
+            }
+            
+            // Stop auto-scroll on user interaction
+            function stopAutoScroll() {
+                clearInterval(autoScrollInterval);
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', function() {
+                stopAutoScroll();
+                nextSlide();
+                startAutoScroll();
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                stopAutoScroll();
+                prevSlide();
+                startAutoScroll();
+            });
+            
+            // Indicator clicks
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    if (isTransitioning) return;
+                    stopAutoScroll();
+                    currentIndex = parseInt(this.getAttribute('data-index'));
+                    updateCarousel();
+                    startAutoScroll();
+                });
+            });
+            
+            // Pause auto-scroll on hover
+            carousel.addEventListener('mouseenter', stopAutoScroll);
+            carousel.addEventListener('mouseleave', startAutoScroll);
+            
+            // Touch/swipe support for mobile
+            let startX = 0;
+            let endX = 0;
+            
+            carousel.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+            });
+            
+            carousel.addEventListener('touchend', function(e) {
+                endX = e.changedTouches[0].clientX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = startX - endX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        stopAutoScroll();
+                        nextSlide();
+                        startAutoScroll();
+                    } else {
+                        // Swipe right - previous slide
+                        stopAutoScroll();
+                        prevSlide();
+                        startAutoScroll();
+                    }
+                }
+            }
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    stopAutoScroll();
+                    prevSlide();
+                    startAutoScroll();
+                } else if (e.key === 'ArrowRight') {
+                    stopAutoScroll();
+                    nextSlide();
+                    startAutoScroll();
+                }
+            });
+            
+            // Initialize
+            updateCarousel();
+            startAutoScroll();
+        });
+    </script>
+</body>
+</html>

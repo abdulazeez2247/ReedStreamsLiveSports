@@ -39,26 +39,20 @@ class ScrollHideHeader {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollDelta = scrollTop - this.lastScrollTop;
         const isMobile = window.innerWidth < this.mobileBreakpoint;
-        
-        // Clear any existing timeout
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
         
-        // Don't hide on mobile or at very top
         if (isMobile || scrollTop < 100) {
             this.showHeader();
             return;
         }
         
         if (scrollDelta > this.scrollThreshold && !this.isHidden) {
-            // Scrolling down - hide header
             this.hideHeader();
         } else if (scrollDelta < -this.scrollThreshold && this.isHidden) {
-            // Scrolling up - show header immediately
             this.showHeader();
         } else if (scrollDelta === 0 && this.isHidden) {
-            // Stop scrolling - show header after delay
             this.timeout = setTimeout(() => {
                 this.showHeader();
             }, this.hideDelay);
@@ -78,11 +72,10 @@ class ScrollHideHeader {
     }
 }
 
-// Initialize the scroll hide functionality
 document.addEventListener('DOMContentLoaded', function() {
     new ScrollHideHeader({
-        scrollThreshold: 50,    // pixels to scroll before hiding
-        hideDelay: 1000,        // ms to wait before showing when stopped
-        mobileBreakpoint: 768   // don't hide on mobile
+        scrollThreshold: 50, 
+        hideDelay: 1000,     
+        mobileBreakpoint: 768
     });
 });

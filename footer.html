@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReedStreams - Footer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8db902;
+            --secondary-color: #0a0e17;
+            --accent-color: #1a2332;
+            --text-light: #ffffff;
+            --text-muted: #a0aec0;
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Footer Section */
+        .footer {
+            height: 100vh;
+            background: 
+                linear-gradient(rgba(10, 14, 23, 0.9), rgba(10, 14, 23, 0.85)),
+                radial-gradient(circle at 20% 80%, rgba(141, 185, 2, 0.15) 0%, transparent 50%),
+                url('https://images.unsplash.com/photo-1459865264687-595d652de67e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(10, 14, 23, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .logo-text { 
+            color: var(--text-light); 
+        }
+
+        .logo-accent { 
+            color: var(--primary-color); 
+        }
+
+        .footer-tagline {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        .legal-notice {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .legal-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .legal-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .footer-logo {
+                font-size: 2.5rem;
+            }
+            
+            .footer-tagline {
+                font-size: 1.1rem;
+            }
+            
+            .footer-links {
+                gap: 2rem;
+            }
+            
+            .footer-link {
+                font-size: 1rem;
+            }
+            
+            .legal-notice {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-logo {
+                font-size: 2rem;
+            }
+            
+            .footer-tagline {
+                font-size: 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .legal-notice {
+                padding: 1rem;
+            }
+            
+            .legal-text {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">Reed</span>
+                <span class="logo-accent">Streams</span>
+            </div>
+            
+            <p class="footer-tagline">
+                Your gateway to live sports streaming. Experience the game like never before.
+            </p>
+            
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">Home</a>
+                <a href="sports.html" class="footer-link">Sports</a>
+                <a href="upcoming.html" class="footer-link">Upcoming</a>
+            </div>
+            
+            <div class="legal-notice">
+                <p class="legal-text">
+                    <span class="legal-highlight">Notice:</span> We do not host any content. All streams are sourced from third-party providers. 
+                    For takedown requests, please contact the content providers directly.
+                </p>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 ReedStreams. All rights reserved.
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </footer>
+</body>
+</html>
