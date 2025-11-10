@@ -563,7 +563,7 @@
 }
 
 /* GRADUAL PULL BASED ON SCREEN SIZE */
-@media (max-width: 1024px) { .matches-section { margin-top: -1rem; } }
-@media (max-width: 768px)  { .matches-section { margin-top: -1rem; } }
-@media (max-width: 480px)  { .matches-section { margin-top: -1rem; } }
-@media (max-width: 360px)  { .matches-section { margin-top: -1rem; } }
+@media (max-width: 1024px) { .matches-section { margin-top: -0.5rem; } }
+@media (max-width: 768px)  { .matches-section { margin-top: -0.5rem; } }
+@media (max-width: 480px)  { .matches-section { margin-top: -0.5rem; } }
+@media (max-width: 360px)  { .matches-section { margin-top: -0.5rem; } }
