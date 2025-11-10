@@ -14,10 +14,10 @@
 }
 
 /* ==============================================================
-   MATCHES SECTION
+   MATCHES SECTION - REMOVED TOP PADDING FOR MOBILE
    ============================================================== */
 .matches-section {
-    padding: 8vh 0 2rem;
+    padding: 2rem 0 1rem; /* Reduced top padding for all devices */
     background:
         linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0a0e17 100%),
         radial-gradient(circle at 20% 80%, rgba(141,185,2,.15) 0%, transparent 50%),
@@ -274,11 +274,11 @@
 }
 
 /* ==============================================================
-   RESPONSIVE – FULLY COVERED
+   RESPONSIVE – REMOVED ALL TOP PADDING/MARGIN FOR MOBILE
    ============================================================== */
 @media (max-width: 300px) {
-    .matches-section { padding: 3vh 0.2rem 0.5rem; padding-top: -10vh; }
-    .section-header { margin: 1vh 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
+    .matches-section { padding: 0.5rem 0.2rem 0.5rem; } /* REMOVED top padding */
+    .section-header { margin: 0.5rem 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
     #section-title { font-size: 1.4rem; }
     .select-sports-btn, .all-upcoming-btn { padding: 0.35rem 0.6rem; font-size: 0.6rem; min-width: 85px; }
     .match-card { min-width: 230px; height: 115px; padding: 0.45rem; }
@@ -288,40 +288,31 @@
     .match-date { font-size: 0.55rem; }
     .upcoming-badge { margin-top: -12px; padding: 0.15rem 0.5rem; font-size: 0.65rem; min-width: 70px; }
     .mobile-scrolling-row { gap: 0.6rem; padding: 0.2rem 0.3rem; }
-    .section-subtitle1 {
-    margin-bottom: 5vh;
-}
 }
 
 @media (max-width: 360px) {
-    .matches-section { padding: 3vh 0.3rem 0.6rem; padding-top: -10vh; }
-    .section-header { margin: 1.5vh 0.5rem 0.6rem; gap: 0.6rem; }
+    .matches-section { padding: 0.6rem 0.3rem 0.6rem; } /* REMOVED top padding */
+    .section-header { margin: 0.6rem 0.5rem 0.6rem; gap: 0.6rem; }
     #section-title { font-size: 1.5rem; }
     .select-sports-btn, .all-upcoming-btn { padding: 0.4rem 0.7rem; font-size: 0.65rem; min-width: 95px; }
     .match-card { min-width: 250px; height: 120px; padding: 0.5rem; }
     .team-logo { width: 50px; height: 50px; }
     .mobile-scrolling-row { gap: 0.8rem; }
-    .section-subtitle1 {
-    margin-bottom: 5vh;
-}
 }
 
 @media (max-width: 480px) {
-    .matches-section { padding: 3vh 0.5rem 0.8rem; padding-top: -10vh; }
-    .section-header { margin: 2vh 1rem 0.8rem; gap: 0.8rem; }
+    .matches-section { padding: 0.8rem 0.5rem 0.8rem; } /* REMOVED top padding */
+    .section-header { margin: 0.8rem 1rem 0.8rem; gap: 0.8rem; }
     #section-title { font-size: 1.7rem; }
     .select-sports-btn, .all-upcoming-btn { padding: 0.45rem 0.8rem; font-size: 0.7rem; min-width: 105px; }
     .match-card { min-width: 270px; height: 125px; padding: 0.6rem; }
     .team-logo { width: 55px; height: 55px; }
     .mobile-scrolling-row { gap: 1rem; }
-    .section-subtitle1 {
-    margin-bottom: 5vh;
-}
 }
 
 @media (max-width: 768px) {
-    .matches-section { padding: 4vh 0.5rem 1rem; padding-top: -10vh; }
-    .section-header { margin: 2vh 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
+    .matches-section { padding: 1rem 0.5rem 1rem; } /* REMOVED top padding */
+    .section-header { margin: 1rem 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
     #section-title { font-size: 1.9rem; }
     .select-sports-btn, .all-upcoming-btn { padding: 0.5rem 0.9rem; font-size: 0.75rem; min-width: 115px; }
     .match-card { min-width: 280px; height: 130px; padding: 0.7rem; }
@@ -329,14 +320,11 @@
     .mobile-scrolling-row { gap: 1rem; }
     .mobile-scrolling-container { display: block; }
     .desktop-scrolling-container { display: none; }
-    .section-subtitle1 {
-    margin-bottom: 5vh;
-}
 }
 
 @media (max-width: 1024px) {
-    .matches-section { padding: 4vh 0.5rem 1rem; }
-    .section-header { margin: 2vh 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
+    .matches-section { padding: 1rem 0.5rem 1rem; } /* REMOVED top padding */
+    .section-header { margin: 1rem 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
     #section-title { font-size: 2rem; }
     .match-card { min-width: 280px; height: 130px; padding: 0.7rem; }
     .mobile-scrolling-container { display: block; }
@@ -346,7 +334,7 @@
 @media (min-width: 1025px) {
     .mobile-scrolling-container { display: none; }
     .desktop-scrolling-container { display: block; }
-    .matches-section { padding: 7vh 2rem 2rem; }
+    .matches-section { padding: 2rem 2rem 2rem; } /* Keep some padding for desktop */
     .section-header { margin: 0 2rem 0.8rem; }
 }
 
@@ -365,18 +353,18 @@
 .ri-live-line::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
 .ri-live-line::before { width:45px; height:45px; border:2px solid var(--primary-color); border-radius:50%; opacity:0; animation:pulse-ring 2.2s ease-out infinite; }
 .ri-live-line::after { width:35px; height:35px; background:radial-gradient(circle,var(--primary-color),rgba(141,185,2,.3)); border-radius:50%; opacity:.4; animation:pulse-glow 2.2s ease-in-out infinite; }
+
 /* ==============================================================
-   MOBILE RESPONSIVE – PICK PUSSY & BOOBS WALI GIRLFRIEND KE LIYE
+   MOBILE RESPONSIVE – REMOVED ALL TOP SPACING
    ============================================================== */
 @media (max-width: 300px) {
-    .matches-section { padding: 3vh 0.2rem 0.5rem; }
-    .section-header { margin: 1vh 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
+    .matches-section { padding: 0.5rem 0.2rem 0.5rem; }
+    .section-header { margin: 0.5rem 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
     #section-title { font-size: 1.4rem; }
     .select-sports-btn, .all-upcoming-btn { padding: 0.35rem 0.6rem; font-size: 0.6rem; min-width: 85px; }
     .match-card { min-width: 220px; height: 110px; padding: 0.4rem; margin-bottom: 6px; }
     .team-logo { width: 40px; height: 40px; }
     .team-name { font-size: 0.65rem; }
-    .header-buttons { margin-top:-5vh; }
     .match-time { font-size: 0.88rem; }
     .match-date { font-size: 0.52rem; }
     .upcoming-badge { margin-top: -8px; padding: 0.14rem 0.45rem; font-size: 0.6rem; min-width: 60px; }
@@ -387,7 +375,6 @@
     .match-card { min-width: 240px; height: 115px; padding: 0.48rem; }
     .team-logo { width: 42px; height: 42px; }
     .team-name { font-size: 0.68rem; }
-    .header-buttons { margin-top:-5vh; }
     .match-time { font-size: 0.98rem; }
     .upcoming-badge { margin-top: -9px; font-size: 0.62rem; padding: 0.16rem 0.48rem; min-width: 62px; }
 }
@@ -400,7 +387,6 @@
         border-radius: 10px;
         margin-bottom: 8px;
     }
-    .header-buttons { margin-top:-5vh; }
     .team-logo {
         width: 48px;
         height: 48px;
@@ -435,6 +421,7 @@
         gap: 0.9rem;
     }
 }
+
 /* ==============================================================
    SCROLLING - UNIFIED FOR MOBILE AND DESKTOP
    ============================================================== */
@@ -471,81 +458,12 @@
 }
 
 /* ==============================================================
-   RESPONSIVE - UPDATED FOR UNIFIED SCROLLING
-   ============================================================== */
-@media (max-width: 300px) {
-    .matches-section { padding: 3vh 0.2rem 0.5rem; }
-    .section-header { margin: 1vh 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
-    #section-title { font-size: 1.4rem; }
-    .select-sports-btn, .all-upcoming-btn { padding: 0.35rem 0.6rem; font-size: 0.6rem; min-width: 85px; }
-    .match-card { min-width: 230px; height: 115px; padding: 0.45rem; }
-    .team-logo { width: 45px; height: 45px; }
-    .team-name { font-size: 0.7rem; }
-    .match-time { font-size: 0.9rem; }
-    .match-date { font-size: 0.55rem; }
-    .upcoming-badge { margin-top: -12px; padding: 0.15rem 0.5rem; font-size: 0.65rem; min-width: 70px; }
-    .mobile-scrolling-row, .desktop-scrolling-row { gap: 0.6rem; }
-}
-
-@media (max-width: 360px) {
-    .matches-section { padding: 3vh 0.3rem 0.6rem; }
-    .section-header { margin: 1.5vh 0.5rem 0.6rem; gap: 0.6rem; }
-    #section-title { font-size: 1.5rem; }
-    .select-sports-btn, .all-upcoming-btn { padding: 0.4rem 0.7rem; font-size: 0.65rem; min-width: 95px; }
-    .match-card { min-width: 250px; height: 120px; padding: 0.5rem; }
-    .team-logo { width: 50px; height: 50px; }
-    .mobile-scrolling-row, .desktop-scrolling-row { gap: 0.8rem; }
-}
-
-@media (max-width: 480px) {
-    .matches-section { padding: 3vh 0.5rem 0.8rem; }
-    .section-header { margin: 2vh 1rem 0.8rem; gap: 0.8rem; }
-    #section-title { font-size: 1.7rem; }
-    .select-sports-btn, .all-upcoming-btn { padding: 0.45rem 0.8rem; font-size: 0.7rem; min-width: 105px; }
-    .match-card { min-width: 270px; height: 125px; padding: 0.6rem; }
-    .team-logo { width: 55px; height: 55px; }
-    .mobile-scrolling-row, .desktop-scrolling-row { gap: 1rem; }
-}
-
-@media (max-width: 768px) {
-    .matches-section { padding: 4vh 0.5rem 1rem; }
-    .section-header { margin: 2vh 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
-    #section-title { font-size: 1.9rem; }
-    .select-sports-btn, .all-upcoming-btn { padding: 0.5rem 0.9rem; font-size: 0.75rem; min-width: 115px; }
-    .match-card { min-width: 280px; height: 130px; padding: 0.7rem; }
-    .team-logo { width: 60px; height: 60px; }
-    .mobile-scrolling-row, .desktop-scrolling-row { gap: 1rem; }
-    .mobile-scrolling-container { display: block; }
-    .desktop-scrolling-container { display: none; }
-}
-
-@media (max-width: 1024px) {
-    .matches-section { padding: 4vh 0.5rem 1rem; }
-    .section-header { margin: 2vh 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
-    #section-title { font-size: 2rem; }
-    .match-card { min-width: 280px; height: 130px; padding: 0.7rem; }
-    .mobile-scrolling-container { display: block; }
-    .desktop-scrolling-container { display: none; }
-}
-
-@media (min-width: 1025px) {
-    .mobile-scrolling-container { display: none; }
-    .desktop-scrolling-container { display: block; }
-    .matches-section { padding: 7vh 2rem 2rem; }
-    .section-header { margin: 0 2rem 0.8rem; }
-}
-/* ==============================================================
    SMOOTH TRANSITION TO FEATURED SECTION
    ============================================================== */
 
 /* Remove the bottom gradient from matches section */
 .matches-section::after {
     display: none;
-}
-
-/* Reduce bottom padding for smooth transition */
-.matches-section {
-    padding: 8vh 0 1rem; /* Reduced from 2rem to 1rem */
 }
 
 /* ==============================================================
@@ -586,7 +504,7 @@
 /* Keep your existing responsive sizes */
 @media (max-width: 768px) {
     .section-header {
-        margin: 2vh 1rem 1rem;
+        margin: 1rem 1rem 1rem;
     }
     
     #section-title {
@@ -596,7 +514,7 @@
 
 @media (max-width: 480px) {
     .section-header {
-        margin: 2vh 0.5rem 0.8rem;
+        margin: 0.8rem 0.5rem 0.8rem;
     }
     
     #section-title {
@@ -606,7 +524,7 @@
 
 @media (max-width: 360px) {
     .section-header {
-        margin: 1.5vh 0.3rem 0.6rem;
+        margin: 0.6rem 0.3rem 0.6rem;
     }
     
     #section-title {
@@ -616,7 +534,7 @@
 
 @media (max-width: 300px) {
     .section-header {
-        margin: 1vh 0.2rem 0.5rem;
+        margin: 0.5rem 0.2rem 0.5rem;
     }
     
     #section-title {
