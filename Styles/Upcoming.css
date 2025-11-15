@@ -1,0 +1,569 @@
+/* ==============================================================
+   ROOT VARIABLES – PRESERVED
+   ============================================================== */
+:root {
+    --primary-color: #8db902;
+    --secondary-color: #0a0e17;
+    --accent-color: #1a2332;
+    --text-light: #ffffff;
+    --text-muted: #a0aec0;
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --gradient: linear-gradient(135deg, rgba(13, 18, 29, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
+}
+
+/* ==============================================================
+   MATCHES SECTION - REMOVED TOP PADDING FOR MOBILE
+   ============================================================== */
+.matches-section {
+    padding: 2rem 0 1rem; /* Reduced top padding for all devices */
+    background:
+        linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0a0e17 100%),
+        radial-gradient(circle at 20% 80%, rgba(141,185,2,.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(52,152,219,.1) 0%, transparent 50%);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+.matches-section::before,
+.matches-section::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 60px;
+    pointer-events: none;
+    z-index: 1;
+}
+.matches-section::before { top:0; background:linear-gradient(to top,transparent,#0a0e17); }
+.matches-section::after  { bottom:0; background:linear-gradient(to bottom,transparent,#0a0e17); }
+
+/* ==============================================================
+   HEADER – NO -5vh JUGAD
+   ============================================================== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1.5rem 0.5rem;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+#section-title {
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    line-height: 1.1;
+}
+
+#section-title .fa-video,
+#section-title .ri-live-line {
+    color: var(--primary-color);
+    font-size: 1.7rem;
+    animation: clean-pulse 3s ease-in-out infinite;
+}
+@keyframes clean-pulse {
+    0%,100% { transform:scale(1); filter:drop-shadow(0 0 8px rgba(141,185,2,.4)); }
+    50%     { transform:scale(1.15); filter:drop-shadow(0 0 16px rgba(141,185,2,.7)); }
+}
+
+/* Buttons */
+.header-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.select-sports-btn,
+.all-upcoming-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    min-width: 100px;
+    position: relative;
+    overflow: hidden;
+}
+.select-sports-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+}
+.select-sports-btn::before,
+.all-upcoming-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+    transition: left 0.6s var(--transition);
+}
+.select-sports-btn:hover::before,
+.all-upcoming-btn:hover::before { left: 100%; }
+.select-sports-btn:hover,
+.all-upcoming-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(141,185,2,.4);
+}
+.all-upcoming-btn {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: white;
+}
+
+/* ==============================================================
+   MATCH CARD – TERA ORIGINAL, NO CHANGE
+   ============================================================== */
+.match-card {
+    background: #121921;
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 1.2rem;
+    min-width: 370px;
+    height: 200px;
+    flex-shrink: 0;
+    position: relative;
+    margin-bottom: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+}
+.match-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 18px solid var(--primary-color);
+    transition: opacity 0.3s var(--transition);
+    opacity: 0;
+    z-index: 1;
+}
+.match-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.1rem;
+}
+
+/* UPCOMING BADGE – TERA JUGAD, CENTERED, GLOW */
+.upcoming-badge {
+    background: var(--primary-color);
+    color: var(--text-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    margin-top: -20px;
+    font-weight: 1000;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    box-shadow: 0 -5px 0 5px var(--primary-color);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 2;
+    min-width: 85px;
+    white-space: nowrap;
+    animation: badge-glow 2.5s ease-in-out infinite;
+}
+@keyframes badge-glow {
+    0%,100% { box-shadow: 0 -5px 0 5px var(--primary-color), 0 0 8px rgba(141,185,2,.4); }
+    50%     { box-shadow: 0 -5px 0 5px var(--primary-color), 0 0 16px rgba(141,185,2,.8); }
+}
+
+/* Teams */
+.teams-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0 0.1rem;
+}
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: transform 0.3s var(--transition);
+}
+.team-logo {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.1rem;
+    position: relative;
+    overflow: hidden;
+}
+.team-logo img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+    transition: transform 0.3s var(--transition);
+}
+.team-name {
+    font-weight: 800;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+.match-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    justify-content: center;
+}
+.match-time {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-light);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.match-date {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ==============================================================
+   SCROLLING
+   ============================================================== */
+.mobile-scrolling-container,
+.desktop-scrolling-container {
+    padding: 0.3rem 0;
+    overflow: hidden;
+}
+.mobile-scrolling-row {
+    display: flex;
+    gap: 1.8rem;
+    padding: 0 0.5rem;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.2s ease-out;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+.mobile-scrolling-row:active { cursor: grabbing; }
+.mobile-scrolling-row::-webkit-scrollbar { display: none; }
+
+.desktop-scrolling-row {
+    display: flex;
+    gap: 1.8rem;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+/* ==============================================================
+   RESPONSIVE – REMOVED ALL TOP PADDING/MARGIN FOR MOBILE
+   ============================================================== */
+@media (max-width: 300px) {
+    .matches-section { padding: 0.5rem 0.2rem 0.5rem; } /* REMOVED top padding */
+    .section-header { margin: 0.5rem 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
+    #section-title { font-size: 1.4rem; }
+    .select-sports-btn, .all-upcoming-btn { padding: 0.35rem 0.6rem; font-size: 0.6rem; min-width: 85px; }
+    .match-card { min-width: 230px; height: 115px; padding: 0.45rem; }
+    .team-logo { width: 45px; height: 45px; }
+    .team-name { font-size: 0.7rem; }
+    .match-time { font-size: 0.9rem; }
+    .match-date { font-size: 0.55rem; }
+    .upcoming-badge { margin-top: -12px; padding: 0.15rem 0.5rem; font-size: 0.65rem; min-width: 70px; }
+    .mobile-scrolling-row { gap: 0.6rem; padding: 0.2rem 0.3rem; }
+}
+
+@media (max-width: 360px) {
+    .matches-section { padding: 0.6rem 0.3rem 0.6rem; } /* REMOVED top padding */
+    .section-header { margin: 0.6rem 0.5rem 0.6rem; gap: 0.6rem; }
+    #section-title { font-size: 1.5rem; }
+    .select-sports-btn, .all-upcoming-btn { padding: 0.4rem 0.7rem; font-size: 0.65rem; min-width: 95px; }
+    .match-card { min-width: 250px; height: 120px; padding: 0.5rem; }
+    .team-logo { width: 50px; height: 50px; }
+    .mobile-scrolling-row { gap: 0.8rem; }
+}
+
+@media (max-width: 480px) {
+    .matches-section { padding: 0.8rem 0.5rem 0.8rem; } /* REMOVED top padding */
+    .section-header { margin: 0.8rem 1rem 0.8rem; gap: 0.8rem; }
+    #section-title { font-size: 1.7rem; }
+    .select-sports-btn, .all-upcoming-btn { padding: 0.45rem 0.8rem; font-size: 0.7rem; min-width: 105px; }
+    .match-card { min-width: 270px; height: 125px; padding: 0.6rem; }
+    .team-logo { width: 55px; height: 55px; }
+    .mobile-scrolling-row { gap: 1rem; }
+}
+
+@media (max-width: 768px) {
+    .matches-section { padding: 1rem 0.5rem 1rem; } /* REMOVED top padding */
+    .section-header { margin: 1rem 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
+    #section-title { font-size: 1.9rem; }
+    .select-sports-btn, .all-upcoming-btn { padding: 0.5rem 0.9rem; font-size: 0.75rem; min-width: 115px; }
+    .match-card { min-width: 280px; height: 130px; padding: 0.7rem; }
+    .team-logo { width: 60px; height: 60px; }
+    .mobile-scrolling-row { gap: 1rem; }
+    .mobile-scrolling-container { display: block; }
+    .desktop-scrolling-container { display: none; }
+}
+
+@media (max-width: 1024px) {
+    .matches-section { padding: 1rem 0.5rem 1rem; } /* REMOVED top padding */
+    .section-header { margin: 1rem 1rem 1rem; flex-direction: column; text-align: center; gap: 1rem; }
+    #section-title { font-size: 2rem; }
+    .match-card { min-width: 280px; height: 130px; padding: 0.7rem; }
+    .mobile-scrolling-container { display: block; }
+    .desktop-scrolling-container { display: none; }
+}
+
+@media (min-width: 1025px) {
+    .mobile-scrolling-container { display: none; }
+    .desktop-scrolling-container { display: block; }
+    .matches-section { padding: 2rem 2rem 2rem; } /* Keep some padding for desktop */
+    .section-header { margin: 0 2rem 0.8rem; }
+}
+
+/* ==============================================================
+   LIVE ICONS – KEPT
+   ============================================================== */
+.ri-live-line {
+    color: var(--primary-color);
+    animation: realistic-pulse 2.2s ease-in-out infinite, subtle-flicker 3.5s ease-in-out infinite;
+    position: relative;
+    display: inline-block;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(141,185,2,.5);
+}
+.ri-live-line::before,
+.ri-live-line::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.ri-live-line::before { width:45px; height:45px; border:2px solid var(--primary-color); border-radius:50%; opacity:0; animation:pulse-ring 2.2s ease-out infinite; }
+.ri-live-line::after { width:35px; height:35px; background:radial-gradient(circle,var(--primary-color),rgba(141,185,2,.3)); border-radius:50%; opacity:.4; animation:pulse-glow 2.2s ease-in-out infinite; }
+
+/* ==============================================================
+   MOBILE RESPONSIVE – REMOVED ALL TOP SPACING
+   ============================================================== */
+@media (max-width: 300px) {
+    .matches-section { padding: 0.5rem 0.2rem 0.5rem; }
+    .section-header { margin: 0.5rem 0.3rem 0.5rem; flex-direction: column; text-align: center; gap: 0.5rem; }
+    #section-title { font-size: 1.4rem; }
+    .select-sports-btn, .all-upcoming-btn { padding: 0.35rem 0.6rem; font-size: 0.6rem; min-width: 85px; }
+    .match-card { min-width: 220px; height: 110px; padding: 0.4rem; margin-bottom: 6px; }
+    .team-logo { width: 40px; height: 40px; }
+    .team-name { font-size: 0.65rem; }
+    .match-time { font-size: 0.88rem; }
+    .match-date { font-size: 0.52rem; }
+    .upcoming-badge { margin-top: -8px; padding: 0.14rem 0.45rem; font-size: 0.6rem; min-width: 60px; }
+    .mobile-scrolling-row { gap: 0.5rem; }
+}
+
+@media (max-width: 360px) {
+    .match-card { min-width: 240px; height: 115px; padding: 0.48rem; }
+    .team-logo { width: 42px; height: 42px; }
+    .team-name { font-size: 0.68rem; }
+    .match-time { font-size: 0.98rem; }
+    .upcoming-badge { margin-top: -9px; font-size: 0.62rem; padding: 0.16rem 0.48rem; min-width: 62px; }
+}
+
+@media (max-width: 480px) {
+    .match-card {
+        min-width: 260px;
+        height: 122px;
+        padding: 0.55rem;
+        border-radius: 10px;
+        margin-bottom: 8px;
+    }
+    .team-logo {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 0.15rem;
+    }
+    .team-logo img {
+        max-width: 85%;
+        max-height: 85%;
+    }
+    .teams-container {
+        margin-bottom: 0.4rem;
+        gap: 0.3rem;
+    }
+    .team-name {
+        font-size: 0.72rem;
+        letter-spacing: 0.3px;
+    }
+    .match-time {
+        font-size: 1.05rem;
+    }
+    .match-date {
+        font-size: 0.58rem;
+    }
+    .upcoming-badge {
+        margin-top: -10px;
+        padding: 0.18rem 0.55rem;
+        font-size: 0.66rem;
+        min-width: 68px;
+        border-radius: 2.5px;
+    }
+    .mobile-scrolling-row {
+        gap: 0.9rem;
+    }
+}
+
+/* ==============================================================
+   SCROLLING - UNIFIED FOR MOBILE AND DESKTOP
+   ============================================================== */
+.mobile-scrolling-container,
+.desktop-scrolling-container {
+    padding: 0.3rem 0;
+    overflow: hidden;
+}
+
+/* Hide the mobile scrolling row visuals but keep structure */
+.mobile-scrolling-row {
+    display: flex;
+    gap: 1.8rem;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+    overflow: visible;
+}
+
+.desktop-scrolling-row {
+    display: flex;
+    gap: 1.8rem;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+/* Remove mobile-specific touch/drag styles */
+.mobile-scrolling-row {
+    cursor: default;
+    user-select: auto;
+}
+
+.mobile-scrolling-row:active { 
+    cursor: default; 
+}
+
+/* ==============================================================
+   SMOOTH TRANSITION TO FEATURED SECTION
+   ============================================================== */
+
+/* Remove the bottom gradient from matches section */
+.matches-section::after {
+    display: none;
+}
+
+/* ==============================================================
+   HEADER – KEEP LAPTOP LAYOUT, CENTER MOBILE TITLE
+   ============================================================== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1.5rem 0.5rem;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+/* Mobile devices - center the title properly */
+@media (max-width: 1024px) {
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    #section-title {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        order: -1; /* Ensure title comes first */
+    }
+    
+    .header-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+/* Keep your existing responsive sizes */
+@media (max-width: 768px) {
+    .section-header {
+        margin: 1rem 1rem 1rem;
+    }
+    
+    #section-title {
+        font-size: 1.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-header {
+        margin: 0.8rem 0.5rem 0.8rem;
+    }
+    
+    #section-title {
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .section-header {
+        margin: 0.6rem 0.3rem 0.6rem;
+    }
+    
+    #section-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 300px) {
+    .section-header {
+        margin: 0.5rem 0.2rem 0.5rem;
+    }
+    
+    #section-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* Laptop/Desktop (1025px and above) - keep original layout */
+@media (min-width: 1025px) {
+    .section-header {
+        justify-content: space-between; /* Title left, buttons right */
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    #section-title {
+        width: auto;
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    .header-buttons {
+        justify-content: flex-end;
+        width: auto;
+    }
+}
+
+/* GRADUAL PULL BASED ON SCREEN SIZE */
+@media (max-width: 1024px) { .matches-section { margin-top: -0.5rem; } }
+@media (max-width: 768px)  { .matches-section { margin-top: -0.5rem; } }
+@media (max-width: 480px)  { .matches-section { margin-top: -0.5rem; } }
+@media (max-width: 360px)  { .matches-section { margin-top: -0.5rem; } }

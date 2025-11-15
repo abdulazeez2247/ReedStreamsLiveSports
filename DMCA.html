@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMCA Policy - ReedStreams</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="Styles/responsive.css">
+
+    <style>
+        :root {
+            --primary-color: #8db902;
+            --secondary-color: #0a0e17;
+            --accent-color: #1a2332;
+            --text-light: #ffffff;
+            --text-muted: #a0aec0;
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --gradient: linear-gradient(135deg, rgba(13, 18, 29, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Transparent Header */
+        .header {
+            background: transparent;
+            padding: 1.5rem 3rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 3rem;
+            border-bottom: 1px solid rgba(141, 185, 2, 0.2);
+        }
+
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text {
+            color: var(--text-light);
+        }
+
+        .logo-accent {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .watch-now-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(141, 185, 2, 0.3);
+        }
+
+        .watch-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(141, 185, 2, 0.4);
+        }
+
+        /* DMCA Hero Section */
+        .dmca-hero {
+            background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 0.9)), 
+                        url('https://getwallpapers.com/wallpaper/full/5/6/0/461507.jpg') no-repeat center center/cover;
+            padding: 12rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .dmca-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dmca-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dmca-hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* DMCA Content Section */
+        .dmca-section {
+            padding: 5rem 2rem;
+            background: 
+                linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0a0e17 100%),
+                radial-gradient(circle at 20% 80%, rgba(141, 185, 2, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
+            background-blend-mode: overlay, screen, screen;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dmca-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 0%, rgba(141, 185, 2, 0.03) 50%, transparent 100%);
+            z-index: 0;
+        }
+
+        .dmca-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dmca-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .dmca-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .last-updated {
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .dmca-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .policy-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .policy-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-number {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-content {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .notice-box {
+            background: rgba(141, 185, 2, 0.1);
+            border: 1px solid rgba(141, 185, 2, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .notice-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .requirements-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .requirements-list li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .requirements-list li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .contact-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        .legal-box {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .legal-title {
+            color: #e74c3c;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: rgba(141, 185, 2, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Gradient Accent */
+        .gradient-accent {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .accent-1 {
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            top: 10%;
+            left: 5%;
+        }
+
+        .accent-2 {
+            background: radial-gradient(circle, #3498db 0%, transparent 70%);
+            bottom: 10%;
+            right: 5%;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(to bottom, #0a0e17, #070a12);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(141, 185, 2, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-heading {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .legal-notice {
+            background: rgba(141, 185, 2, 0.1);
+            border: 1px solid rgba(141, 185, 2, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .legal-notice::before {
+            content: '⚠️';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--secondary-color);
+            padding: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .legal-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .legal-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-legal-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .footer-legal-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .footer-legal-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-legal-link:hover::after {
+            width: 100%;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .header.scrolled {
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .dmca-hero {
+                padding: 10rem 1.5rem 4rem;
+            }
+            
+            .dmca-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .dmca-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-main {
+                flex-direction: column;
+                gap: 2.5rem;
+            }
+            
+            .footer-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dmca-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .footer-legal-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Transparent Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                <span class="logo-text">Reed</span>
+                <span class="logo-accent">Streams</span>
+            </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="sports.html">Live</a></li>
+                    <li><a href="upcoming.html">Upcoming</a></li>
+                    <li><a href="sports.html">Sports</a></li>
+                    <li><a href="" style="color: var(--primary-color);">DMCA</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="sports.html">
+                <button class="watch-now-btn">
+                    <i class="fas fa-play-circle"></i>Sports
+                </button>
+            </a>
+            </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- DMCA Hero Section -->
+    <section class="dmca-hero">
+        <div class="dmca-hero-content">
+            <h1>DMCA Policy</h1>
+            <p>Digital Millennium Copyright Act compliance and copyright infringement procedures</p>
+        </div>
+    </section>
+
+    <!-- DMCA Content Section -->
+    <section class="dmca-section">
+        <!-- Gradient Accents -->
+        <div class="gradient-accent accent-1"></div>
+        <div class="gradient-accent accent-2"></div>
+        
+        <div class="dmca-container">
+            <div class="dmca-card">
+                <div class="last-updated">Last Updated: OCT 19, 2025</div>
+                
+                <div class="dmca-content">
+                    <!-- Section 1: DMCA Compliance -->
+                    <div class="policy-section">
+                        <div class="section-header">
+                            <div class="section-number">1</div>
+                            <div>
+                                <h2 class="section-title">DMCA Compliance</h2>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <p>Reedstreams ("we," "us," or "our") respects the intellectual property rights of others and complies with the provisions of the Digital Millennium Copyright Act (DMCA). This DMCA Policy outlines our procedures for handling copyright infringement claims related to our website (the "Service").</p>
+                            <p>Reedstreams does not host, upload, or store any streaming content on our servers. Our Service acts solely as an aggregator of links to live sports streams hosted by third-party providers. All videos and streams accessible through our Service are hosted on external platforms that are freely available online. As such, we do not control the content, quality, or availability of these streams.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Submitting a DMCA Takedown Notice -->
+                    <div class="policy-section">
+                        <div class="section-header">
+                            <div class="section-number">2</div>
+                            <div>
+                                <h2 class="section-title">Submitting a DMCA Takedown Notice</h2>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <p>If you believe that content linked through Reedstreams infringes your copyright, we encourage you to contact the third-party hosting provider directly, as they are responsible for the content. However, if you wish to submit a DMCA takedown notice to Reedstreams to remove a link to allegedly infringing content, please provide a written notification containing the following information, as required by 17 U.S.C. § 512(c)(3):</p>
+                            
+                            <ul class="requirements-list">
+                                <li>A physical or electronic signature of the copyright owner or a person authorized to act on their behalf.</li>
+                                <li>Identification of the copyrighted work claimed to have been infringed, or, if multiple works are covered, a representative list of such works.</li>
+                                <li>Identification of the material claimed to be infringing, including the specific URL(s) of the link(s) on Reedstreams, to enable us to locate the material.</li>
+                                <li>Your contact information, including your name, address, telephone number, and email address.</li>
+                                <li>A statement that you have a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law.</li>
+                                <li>A statement, made under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf.</li>
+                            </ul>
+                            
+                            <div class="notice-box">
+                                <div class="notice-title">Send DMCA Notices To</div>
+                                <p>Please send your DMCA takedown notice to our designated agent at: <a href="mailto:Reedstreams000@gmail.com" class="contact-link">Reedstreams000@gmail.com</a></p>
+                            </div>
+                            
+                            <p>Upon receiving a valid DMCA notice, we will promptly remove or disable access to the identified link(s) and notify the third-party provider, if applicable. Please note that we may not have control over the actual content hosted by third-party platforms.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Counter-Notification -->
+                    <div class="policy-section">
+                        <div class="section-header">
+                            <div class="section-number">3</div>
+                            <div>
+                                <h2 class="section-title">Counter-Notification</h2>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <p>If you believe that a link was removed or disabled as a result of a DMCA takedown notice in error, you may submit a counter-notification in accordance with 17 U.S.C. § 512(g). Your counter-notification must include:</p>
+                            
+                            <ul class="requirements-list">
+                                <li>Your physical or electronic signature.</li>
+                                <li>Identification of the material that was removed or disabled, including the URL(s) where it appeared on Reedstreams.</li>
+                                <li>A statement, under penalty of perjury, that you have a good-faith belief that the material was removed or disabled as a result of mistake or misidentification.</li>
+                                <li>Your name, address, telephone number, and email address.</li>
+                                <li>A statement that you consent to the jurisdiction of the federal district court for the judicial district in which your address is located (or Delaware, USA if you are outside the U.S.), and that you will accept service of process from the person who submitted the original DMCA notice.</li>
+                            </ul>
+                            
+                            <div class="notice-box">
+                                <div class="notice-title">Send Counter-Notifications To</div>
+                                <p>Please send your counter-notification to: <a href="mailto:Reedstreams000@gmail.com" class="contact-link">Reedstreams000@gmail.com</a></p>
+                            </div>
+                            
+                            <p>Upon receiving a valid counter-notification, we may restore the removed link(s) within 10-14 business days, unless the original complainant notifies us of a court action seeking to restrain the restoration.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Repeat Infringers -->
+                    <div class="policy-section">
+                        <div class="section-header">
+                            <div class="section-number">4</div>
+                            <div>
+                                <h2 class="section-title">Repeat Infringers</h2>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <p>Reedstreams reserves the right to terminate access to our Service for users or third-party providers who are repeat infringers of copyright, as determined in our sole discretion.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Limitations -->
+                    <div class="policy-section">
+                        <div class="section-header">
+                            <div class="section-number">5</div>
+                            <div>
+                                <h2 class="section-title">Limitations</h2>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <p>Reedstreams is not responsible for the content hosted by third-party providers. We act only as a conduit for linking to external streams and cannot guarantee the legality or accuracy of such content. Any disputes regarding the content itself should be directed to the hosting provider.</p>
+                        </div>
+                    </div>
+
+                    <!-- Disclaimer -->
+                    <div class="legal-box">
+                        <div class="legal-title">Disclaimer</div>
+                        <p>Reedstreams does not host any streaming content. All streams are provided by external third-party services. We are not responsible for the content, quality, or legality of the streams linked on our platform. For copyright concerns, please contact the third-party hosting provider directly or submit a DMCA notice as outlined above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-text">Reed</span>
+                        <span class="logo-accent">Streams</span>
+                    </div>
+                    <p class="footer-tagline">
+                        Your ultimate destination for free live sports streaming. Experience the thrill of the game without the subscription fees.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3 class="footer-heading">Navigation</h3>
+                        <a href="index.html" class="footer-link"><i class="fas fa-home"></i> Home</a>
+                        <a href="sports.html" class="footer-link"><i class="fas fa-broadcast-tower"></i> Live Now</a>
+                        <a href="upcoming.html" class="footer-link"><i class="fas fa-calendar-alt"></i> Upcoming</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-heading">Quick Links</h3>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=football&sportName=Football" class="footer-link"><i class="fas fa-futbol"></i> Football</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=basketball&sportName=Basketball" class="footer-link"><i class="fas fa-basketball-ball"></i> Basketball</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=baseball&sportName=Baseball" class="footer-link"><i class="fas fa-baseball-ball"></i> Baseball</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=hockey&sportName=Hockey" class="footer-link"><i class="fas fa-hockey-puck"></i> Hockey</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-heading">Support</h3>
+                        <a href="FAQ.html" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a>
+                        <a href="COntact.html" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legal-notice">
+                <p class="legal-text">
+                    <span class="legal-highlight">Important Notice:</span> ReedStreams does not host any of the streams displayed on this platform. All streams are sourced from third-party providers. For any takedown requests, please contact the content hosts directly.
+                </p>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    © 2025 ReedStreams. All rights reserved.
+                </div>
+                
+                <div class="footer-legal-links">
+                    <a href="privacypolicy.html" class="footer-legal-link">Privacy Policy</a>
+                    <a href="terms.html" class="footer-legal-link">Terms of Service</a>
+                    <a href="DMCA.html" class="footer-legal-link">DMCA</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect - transparent to solid
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Hide header on scroll down, show on scroll up
+        let lastScrollTop = 0;
+        const header = document.querySelector('.header');
+        const scrollThreshold = 50;
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down - hide header
+                    header.classList.add('header-hidden');
+                } else {
+                    // Scrolling up - show header
+                    header.classList.remove('header-hidden');
+                }
+                lastScrollTop = scrollTop;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Matches - ReedStreams</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8db902;
+            --secondary-color: #0a0e17;
+            --accent-color: #1a2332;
+            --text-light: #ffffff;
+            --text-muted: #a0aec0;
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --gradient: linear-gradient(135deg, rgba(13, 18, 29, 0.85) 0%, rgba(26, 35, 50, 0.75) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Transparent Header */
+        .header {
+            background: transparent;
+            padding: 1.5rem 3rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 3rem;
+            border-bottom: 1px solid rgba(141, 185, 2, 0.2);
+        }
+
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text {
+            color: var(--text-light);
+        }
+
+        .logo-accent {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .watch-now-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(141, 185, 2, 0.3);
+        }
+
+        .watch-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(141, 185, 2, 0.4);
+        }
+
+        /* Mobile First - Upcoming Hero Section */
+        .upcoming-hero {
+            background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 0.9)), 
+                        url('https://th.bing.com/th/id/R.f346ed80789bacc3c2e709fc6ce284b3?rik=0ETTUcjut1VHQA&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fwp1827614.jpg&ehk=fAoQAv2jwTyzxdKdGUcoykHpciBgq64ah4Ex9kaNDmM%3d&risl=&pid=ImgRaw&r=0') no-repeat center center/cover;
+            padding: 12rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .live-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .upcoming-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 0.8rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            border-color: var(--primary-color);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Matches Section */
+        .matches-section {
+            padding: 5rem 2rem;
+            background: 
+                linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0a0e17 100%),
+                radial-gradient(circle at 20% 80%, rgba(141, 185, 2, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
+            background-blend-mode: overlay, screen, screen;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matches-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 0%, rgba(141, 185, 2, 0.03) 50%, transparent 100%);
+            z-index: 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Mobile Scrolling Cards - Premium Version */
+        .mobile-scrolling-container {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-scrolling-row {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 1rem;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.2s ease-out;
+            overflow-x: auto;
+        }
+
+        .mobile-scrolling-row:active {
+            cursor: grabbing;
+        }
+
+        .mobile-scrolling-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Desktop Scrolling Cards */
+        .desktop-scrolling-container {
+            display: none;
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 2rem 0;
+        }
+
+        .desktop-scrolling-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .desktop-scrolling-row-1 {
+            animation: scrollLeft 40s linear infinite;
+        }
+
+        .desktop-scrolling-row-2 {
+            animation: scrollRight 45s linear infinite;
+        }
+
+        .desktop-scrolling-row:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-250px * 8));
+            }
+        }
+
+        @keyframes scrollRight {
+            0% {
+                transform: translateX(calc(-250px * 8));
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Match Card Design - Adjusted for Pixel Perfect Match with Team Requests */
+        .match-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--primary-color); /* Smooth green border */
+            border-radius: 20px;
+            padding: 0.5rem;
+            transition: var(--transition);
+            backdrop-filter: blur(100px);
+            background-color: rgba(0, 0, 0, 0.3);
+            min-width: 240px;
+            height: 160px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid var(--primary-color);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .match-card:hover::before {
+            opacity: 1;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .upcoming-badge {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-top: -10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            box-shadow: 0px -20px 0px 23px var(--primary-color); /* Extends background 50px to the right */
+        }
+
+        .live-badge {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .teams-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+        }
+
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .match-card:hover .team-logo {
+            transform: scale(1.1);
+        }
+
+        .team-name {
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .match-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+        }
+
+        .match-time {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .match-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            text-align: center;
+        }
+
+        /* Gradient Accent */
+        .gradient-accent {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .accent-1 {
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            top: 10%;
+            left: 5%;
+        }
+
+        .accent-2 {
+            background: radial-gradient(circle, #3498db 0%, transparent 70%);
+            bottom: 10%;
+            right: 5%;
+        }
+
+        /* Scroll Indicator for Mobile */
+        .scroll-indicator {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .scroll-indicator i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(to bottom, #0a0e17, #070a12);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(141, 185, 2, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-heading {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .legal-notice {
+            background: rgba(141, 185, 2, 0.1);
+            border: 1px solid rgba(141, 185, 2, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-muted);
+        }
+
+        .legal-text {
+            font-size: 0.9rem;
+        }
+
+        .legal-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-legal-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-legal-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-legal-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .header.scrolled {
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .upcoming-hero {
+                padding: 10rem 1.5rem 4rem;
+            }
+            
+            .upcoming-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 200px;
+            }
+            
+            .match-card {
+                min-width: 200px;
+                height: 160px;
+                padding: 0.8rem;
+            }
+            
+            .team-logo {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .scroll-indicator {
+                display: block;
+            }
+            
+            .footer-main {
+                flex-direction: column;
+                gap: 2.5rem;
+            }
+            
+            .footer-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-scrolling-container {
+                display: none;
+            }
+            
+            .desktop-scrolling-container {
+                display: block;
+            }
+            
+            .scroll-indicator {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .upcoming-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .match-card {
+                min-width: 180px;
+                height: 140px;
+                padding: 0.7rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .footer-legal-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Transparent Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                <span class="logo-text">Reed</span>
+                <span class="logo-accent">Streams</span>
+            </a>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showTab('live')">Live</a></li>
+                    <li><a href="#" style="color: var(--primary-color);">Upcoming</a></li>
+                    <li><a href="#">Sports</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="watch-now-btn">
+                    <i class="fas fa-play-circle"></i>Sports
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Upcoming Hero Section -->
+    <section class="upcoming-hero">
+        <div class="upcoming-hero-content">
+            <h1>Click and Watch now</h1>
+            <p class="hero-subtitle">Experience our premium HD content here.</p>
+            
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('upcoming')">Upcoming</button>
+                <button class="tab-btn" onclick="showTab('live')">Live</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matches Section -->
+    <section class="matches-section">
+        <!-- Gradient Accents -->
+        <div class="gradient-accent accent-1"></div>
+        <div class="gradient-accent accent-2"></div>
+        
+        <div class="section-header">
+            <h2 class="section-title" id="section-title">Upcoming Matches</h2>
+            <p class="section-subtitle">Don't miss these exciting matches coming soon</p>
+        </div>
+
+        <!-- Mobile Scrolling Layout - Row 1 -->
+        <div class="mobile-scrolling-container">
+            <div class="mobile-scrolling-row" id="mobile-scrolling-row-1">
+                <!-- Match cards will be populated by JavaScript -->
+            </div>
+            
+        </div>
+
+        <!-- Mobile Scrolling Layout - Row 2 -->
+        <div class="mobile-scrolling-container">
+            <div class="mobile-scrolling-row" id="mobile-scrolling-row-2">
+                <!-- Match cards will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Desktop Scrolling Layout -->
+        <div class="desktop-scrolling-container">
+            <div class="desktop-scrolling-row desktop-scrolling-row-1" id="desktop-scrolling-row-1">
+                <!-- Match cards will be populated by JavaScript -->
+            </div>
+            <div class="desktop-scrolling-row desktop-scrolling-row-2" id="desktop-scrolling-row-2">
+                <!-- Match cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-text">Reed</span>
+                        <span class="logo-accent">Streams</span>
+                    </div>
+                    <p class="footer-tagline">
+                        Your ultimate destination for free live sports streaming. Experience the thrill of the game without the subscription fees.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3 class="footer-heading">Navigation</h3>
+                        <a href="index.html" class="footer-link"><i class="fas fa-home"></i> Home</a>
+                        <a href="sports.html" class="footer-link"><i class="fas fa-broadcast-tower"></i> Live Now</a>
+                        <a href="upcoming.html" class="footer-link"><i class="fas fa-calendar-alt"></i> Upcoming</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-heading">Quick Links</h3>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=football&sportName=Football" class="footer-link"><i class="fas fa-futbol"></i> Football</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=basketball&sportName=Basketball" class="footer-link"><i class="fas fa-basketball-ball"></i> Basketball</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=baseball&sportName=Baseball" class="footer-link"><i class="fas fa-baseball-ball"></i> Baseball</a>
+                        <a href="https://reedstreams.live/live-matches.html?sportId=hockey&sportName=Hockey" class="footer-link"><i class="fas fa-hockey-puck"></i> Hockey</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-heading">Support</h3>
+                        <a href="FAQ.html" class="footer-link"><i class="fas fa-question-circle"></i> FAQ</a>
+                        <a href="COntact.html" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legal-notice">
+                <p class="legal-text">
+                    <span class="legal-highlight">Important Notice:</span> ReedStreams does not host any of the streams displayed on this platform. All streams are sourced from third-party providers. For any takedown requests, please contact the content hosts directly.
+                </p>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    © 2025 ReedStreams. All rights reserved.
+                </div>
+                
+                <div class="footer-legal-links">
+                    <a href="privacypolicy.html" class="footer-legal-link">Privacy Policy</a>
+                    <a href="terms.html" class="footer-legal-link">Terms of Service</a>
+                    <a href="DMCA.html" class="footer-legal-link">DMCA</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Header scroll effect - transparent to solid
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Hide header on scroll down, show on scroll up
+        let lastScrollTop = 0;
+        const header = document.querySelector('.header');
+        const scrollThreshold = 50;
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down - hide header
+                    header.classList.add('header-hidden');
+                } else {
+                    // Scrolling up - show header
+                    header.classList.remove('header-hidden');
+                }
+                lastScrollTop = scrollTop;
+            }
+        });
+
+        // Tab switching functionality
+        function showTab(tab) {
+            const upcomingBtn = document.querySelector('.tab-btn:nth-child(1)');
+            const liveBtn = document.querySelector('.tab-btn:nth-child(2)');
+            const sectionTitle = document.getElementById('section-title');
+            
+            if (tab === 'upcoming') {
+                upcomingBtn.classList.add('active');
+                liveBtn.classList.remove('active');
+                sectionTitle.textContent = 'Upcoming Matches';
+                generateMatches('upcoming');
+            } else {
+                liveBtn.classList.add('active');
+                upcomingBtn.classList.remove('active');
+                sectionTitle.textContent = 'Live Matches';
+                generateMatches('live');
+            }
+        }
+
+        // Mobile drag scrolling functionality
+        function setupMobileScrolling() {
+            const mobileRows = document.querySelectorAll('.mobile-scrolling-row');
+            
+            mobileRows.forEach(row => {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                
+                row.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    row.style.cursor = 'grabbing';
+                    startX = e.pageX - row.offsetLeft;
+                    scrollLeft = row.scrollLeft;
+                });
+                
+                row.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    row.style.cursor = 'grab';
+                });
+                
+                row.addEventListener('mouseup', () => {
+                    isDown = false;
+                    row.style.cursor = 'grab';
+                });
+                
+                row.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - row.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    row.scrollLeft = scrollLeft - walk;
+                });
+                
+                // Touch events for mobile
+                row.addEventListener('touchstart', (e) => {
+                    isDown = true;
+                    startX = e.touches[0].pageX - row.offsetLeft;
+                    scrollLeft = row.scrollLeft;
+                });
+                
+                row.addEventListener('touchend', () => {
+                    isDown = false;
+                });
+                
+                row.addEventListener('touchmove', (e) => {
+                    if (!isDown) return;
+                    const x = e.touches[0].pageX - row.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    row.scrollLeft = scrollLeft - walk;
+                });
+            });
+        }
+
+        // Desktop drag scrolling functionality
+        function setupDesktopScrolling() {
+            const desktopRows = document.querySelectorAll('.desktop-scrolling-row');
+            
+            desktopRows.forEach(row => {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                
+                row.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    row.style.cursor = 'grabbing';
+                    startX = e.pageX - row.offsetLeft;
+                    scrollLeft = row.scrollLeft;
+                });
+                
+                row.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    row.style.cursor = 'default';
+                });
+                
+                row.addEventListener('mouseup', () => {
+                    isDown = false;
+                    row.style.cursor = 'default';
+                });
+                
+                row.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - row.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    row.scrollLeft = scrollLeft - walk;
+                });
+            });
+        }
+
+        // Generate match cards
+        function generateMatches(type) {
+            const mobileScrollingRow1 = document.getElementById('mobile-scrolling-row-1');
+            const mobileScrollingRow2 = document.getElementById('mobile-scrolling-row-2');
+            const desktopScrollingRow1 = document.getElementById('desktop-scrolling-row-1');
+            const desktopScrollingRow2 = document.getElementById('desktop-scrolling-row-2');
+            
+            // Clear existing content
+            mobileScrollingRow1.innerHTML = '';
+            mobileScrollingRow2.innerHTML = '';
+            desktopScrollingRow1.innerHTML = '';
+            desktopScrollingRow2.innerHTML = '';
+            
+            // Sample match data with placeholder image URLs
+            const matches = [
+                { team1: 'SBA', team2: 'BOY', date: 'Thu, October 23', time: '17:00hs', logo1: 'https://assets.nunchee.com/out/663e77558f3b977371bc211f/original/square/25.png', logo2: 'https://assets.nunchee.com/out/67b3863a88ce21802deacd8c/original/square/25.webp' },
+                { team1: 'ALI', team2: 'SCL', date: 'October 23', time: '18:00hs', logo1: '', logo2: 'https://via.placeholder.com/50' },
+                { team1: 'UNI', team2: 'BIN', date: 'Fri, July 25', time: '16:00hs', logo1: 'https://assets.nunchee.com/out/633350d2fea216433c98dcf8/original/square/25.png', logo2: 'https://assets.nunchee.com/out/655e32c92a9d5c4facb11f27/original/square/25.png' },
+                { team1: 'UTC', team2: 'CUS', date: 'Fri, July 25', time: '16:00hs', logo1: 'https://assets.nunchee.com/out/663e7746e29055bd226e8056/original/square/25.png0', logo2: 'https://assets.nunchee.com/out/663e7763c2e2b7b5bb8349d8/original/square/25.png' },
+                { team1: 'CAG', team2: 'SCL', date: 'Sun, October 26', time: '09:00hs', logo1: 'https://assets.nunchee.com/out/65e0dd08ffdfd4001d4acc28/original/square/25.png', logo2: 'https://assets.nunchee.com/out/65e0dcf9ffdfd4001d4acc0d/original/square/25.png' },
+                { team1: 'LCH', team2: 'UTC', date: 'Sun, October 26', time: '11:15hs', logo1: 'https://assets.nunchee.com/out/65e0dd01d7158f00248870b9/original/square/25.png', logo2: 'https://assets.nunchee.com/out/6894e05afe52bdaf931ec436/original/square/25.webp' },
+                { team1: 'AUN', team2: 'ADT', date: 'Sun, October 26', time: '13:30hs', logo1: 'https://assets.nunchee.com/out/65e0dcf2d7158f00248870a9/original/square/25.png', logo2: 'https://assets.nunchee.com/out/65e0dcf5878f81001c9e8c7e/original/square/25.png' },
+                { team1: 'ADT', team2: 'UNI', date: 'Sun, October 26', time: '13:30hs', logo1: 'https://assets.nunchee.com/out/63d978be8df6657354bf1530/original/square/25.png', logo2: 'https://assets.nunchee.com/out/65e0dceed7158f00248870a5/original/square/25.png' }
+            ];
+            
+            // Generate match cards for mobile scrolling (both rows)
+            matches.forEach((match, index) => {
+                const matchCard = createMatchCard(match, type);
+                if (index < 4) {
+                    mobileScrollingRow1.appendChild(matchCard.cloneNode(true));
+                } else {
+                    mobileScrollingRow2.appendChild(matchCard.cloneNode(true));
+                }
+            });
+            
+            // Generate match cards for desktop scrolling (duplicate for infinite effect)
+            for (let i = 0; i < 2; i++) {
+                matches.forEach(match => {
+                    const matchCard1 = createMatchCard(match, type);
+                    const matchCard2 = createMatchCard(match, type);
+                    desktopScrollingRow1.appendChild(matchCard1);
+                    desktopScrollingRow2.appendChild(matchCard2);
+                });
+            }
+            
+            // Setup scrolling after cards are generated
+            setupMobileScrolling();
+            setupDesktopScrolling();
+        }
+
+        // Create individual match card
+        function createMatchCard(match, type) {
+            const card = document.createElement('div');
+            card.className = 'match-card';
+            
+            card.innerHTML = `
+                <div class="match-header">
+                    <span class="${type === 'live' ? 'live-badge' : 'upcoming-badge'}">${type === 'live' ? 'LIVE' : 'UPCOMING'}</span>
+                </div>
+                <div class="teams-container">
+                    <div class="team">
+                        <div class="team-logo"><img src="${match.logo1}" alt="${match.team1} logo" style="width: 50px; height: 50px;"></div>
+                        <span class="team-name">${match.team1}</span>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-time">${match.time}</div>
+                        <div class="match-date">${match.date}</div>
+                    </div>
+                    <div class="team">
+                        <div class="team-logo"><img src="${match.logo2}" alt="${match.team2} logo" style="width: 50px; height: 50px;"></div>
+                        <span class="team-name">${match.team2}</span>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Initialize with upcoming matches
+        document.addEventListener('DOMContentLoaded', function() {
+            generateMatches('upcoming');
+        });
+    </script>
+
+    
+</body>
+</html>

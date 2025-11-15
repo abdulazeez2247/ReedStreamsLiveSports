@@ -1,0 +1,10 @@
+{
+  "name": "ReedStreams",
+  "short_name": "ReedStreams", 
+  "description": "Your Home for Free Live Sports Streaming",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#8db902",
+  "orientation": "portrait-primary"
+}
