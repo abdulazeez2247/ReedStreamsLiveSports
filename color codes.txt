@@ -1,3 +1,0 @@
-base green #8db902
-base black #010101
-light black #181f29
