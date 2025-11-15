@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReedStreams - Under Maintenance</title>
+    <link rel="stylesheet" type="text/css" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base styles from your CSS variables */
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .maintenance-container {
+            background: var(--accent-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--box-shadow);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .logo-text {
+            color: var(--text-light);
+        }
+
+        .logo-accent {
+            color: var(--primary-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted, #a0aec0);
+        }
+
+        .spinner {
+            margin-top: 25px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="logo">
+            <span class="logo-text">Reed</span>
+            <span class="logo-accent">Streams</span>
+        </div>
+        
+        <i class="fas fa-tools spinner"></i>
+        
+        <h1>Site Under Maintenance</h1>
+        
+        <p>
+            We're performing critical updates to enhance streaming stability and source options. This is a temporary process to ensure you get the best experience.
+        </p>
+        
+        <p style="margin-top: 20px; font-weight: 600;">
+            We expect to be back online shortly. Thank you for your patience!
+        </p>
+    </div>
+</body>
+</html>
