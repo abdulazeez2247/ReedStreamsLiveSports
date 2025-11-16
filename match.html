@@ -34,7 +34,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            margin-bottom: 10vh; /* Your margin from bottom */
+            margin-bottom: 10vh;
             /* COMPLETELY HIDDEN when not active */
             display: none;
         }
@@ -139,7 +139,7 @@
             background: transparent;
         }
         
-        /* Floating Chat Toggle */
+        /* Floating Chat Toggle - FIXED FOR MOBILE */
         .chat-toggle {
             position: fixed;
             bottom: 15px;
@@ -184,29 +184,44 @@
             animation: pulse 2s infinite;
         }
         
-        /* Mobile Optimizations */
+        /* Mobile Optimizations - FIXED */
         @media (max-width: 768px) {
             .chat-wrapper {
                 bottom: 10px;
                 right: 10px;
+                left: auto; /* Reset left positioning */
             }
 
             .broadcast-container {
-                margin: 10vh auto !important; /* Your mobile margin */
+                margin: 10vh auto !important;
             }
             
             .chat-container {
                 width: calc(100vw - 40px);
                 max-width: 350px;
                 height: 380px;
+                right: 10px;
+                left: auto;
             }
             
             .chat-toggle {
                 bottom: 10px;
-                left: 10px;
-                right: auto;
+                right: 10px; /* Keep on right for mobile too */
+                left: auto;
                 width: 52px;
                 height: 52px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                width: calc(100vw - 30px);
+                height: 350px;
+            }
+            
+            .chat-toggle {
+                width: 50px;
+                height: 50px;
             }
         }
     </style>
@@ -309,7 +324,6 @@
                     </div>
                 </div>
                 <div class="chat-controls">
-                    <!-- Only close button, no minimize -->
                     <button class="chat-btn" id="chatClose" title="Close">
                         <i class="fas fa-times"></i>
                     </button>
@@ -317,7 +331,6 @@
             </div>
             
             <div class="chat-content">
-                <!-- Direct Chatango iframe like your maintenance page -->
                 <iframe 
                     id="chatango-frame"
                     src="https://reedstreamslive.chatango.com/" 
@@ -378,21 +391,21 @@
         // Chat state
         let isChatOpen = false;
         
-        // Toggle chat visibility - COMPLETELY SHOW/HIDE
+        // Toggle chat visibility
         chatToggle.addEventListener('click', function() {
             isChatOpen = !isChatOpen;
             
             if (isChatOpen) {
-                chatContainer.classList.add('active'); // SHOW
+                chatContainer.classList.add('active');
                 notificationBadge.style.display = 'none';
             } else {
-                chatContainer.classList.remove('active'); // HIDE
+                chatContainer.classList.remove('active');
             }
         });
         
-        // Close chat completely - HIDE IT
+        // Close chat completely
         chatClose.addEventListener('click', function() {
-            chatContainer.classList.remove('active'); // HIDE
+            chatContainer.classList.remove('active');
             isChatOpen = false;
         });
         
@@ -403,6 +416,12 @@
                 notificationBadge.style.display = 'flex';
             }
         }, 5000);
+
+        // Debug function to check if elements exist
+        console.log('Chat elements loaded:');
+        console.log('Chat Container:', chatContainer);
+        console.log('Chat Toggle:', chatToggle);
+        console.log('Chat Close:', chatClose);
     </script>
     
     <!-- Rest of your existing scripts -->
