@@ -34,19 +34,13 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            opacity: 0;
-            margin-bottom: 10vh;
-            transform: translateY(20px) scale(0.95);
+            margin-bottom: 10vh; /* Your margin from bottom */
+            /* COMPLETELY HIDDEN when not active */
+            display: none;
         }
         
         .chat-container.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        .chat-container.minimized {
-            display: none;
+            display: flex; /* SHOW when active */
         }
         
         /* Sleek Chat Header */
@@ -198,8 +192,8 @@
             }
 
             .broadcast-container {
-            margin: 10vh auto !important; /* Restore the 10vh margin */
-        }
+                margin: 10vh auto !important; /* Your mobile margin */
+            }
             
             .chat-container {
                 width: calc(100vw - 40px);
@@ -315,9 +309,7 @@
                     </div>
                 </div>
                 <div class="chat-controls">
-                    <button class="chat-btn" id="chatMinimize" title="Minimize">
-                        <i class="fas fa-minus"></i>
-                    </button>
+                    <!-- Only close button, no minimize -->
                     <button class="chat-btn" id="chatClose" title="Close">
                         <i class="fas fa-times"></i>
                     </button>
@@ -381,33 +373,26 @@
         const chatContainer = document.getElementById('chatContainer');
         const chatToggle = document.getElementById('chatToggle');
         const chatClose = document.getElementById('chatClose');
-        const chatMinimize = document.getElementById('chatMinimize');
         const notificationBadge = document.getElementById('notificationBadge');
         
         // Chat state
         let isChatOpen = false;
         
-        // Toggle chat visibility
+        // Toggle chat visibility - COMPLETELY SHOW/HIDE
         chatToggle.addEventListener('click', function() {
             isChatOpen = !isChatOpen;
             
             if (isChatOpen) {
-                chatContainer.classList.add('active');
+                chatContainer.classList.add('active'); // SHOW
                 notificationBadge.style.display = 'none';
             } else {
-                chatContainer.classList.remove('active');
+                chatContainer.classList.remove('active'); // HIDE
             }
         });
         
-        // Close chat completely
+        // Close chat completely - HIDE IT
         chatClose.addEventListener('click', function() {
-            chatContainer.classList.remove('active');
-            isChatOpen = false;
-        });
-        
-        // Minimize chat
-        chatMinimize.addEventListener('click', function() {
-            chatContainer.classList.remove('active');
+            chatContainer.classList.remove('active'); // HIDE
             isChatOpen = false;
         });
         
